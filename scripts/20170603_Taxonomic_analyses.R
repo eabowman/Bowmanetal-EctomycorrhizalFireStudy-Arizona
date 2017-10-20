@@ -14,11 +14,11 @@ library(ggplot2)
 # set up paths to directories----
 #-----------------------------------------------------------------------------------------
 #--path to directory where the climate data downloaded from BIOCLIM site is stored
-dat.dir <- "~/Documents/PhD/3_EM_Fire_effect/data/"
-fig.dir <- '~/Documents/PhD/3_EM_Fire_effect/figures/'
-res.dir <- "~/Documents/PhD/3_EM_Fire_effect/results/"
+dat.dir <- "~/Documents/PhD/2_EM_Fire_effect/data/"
+fig.dir <- '~/Documents/PhD/2_EM_Fire_effect/figures/'
+res.dir <- "~/Documents/PhD/2_EM_Fire_effect/results/"
 
-source('~/Documents/PhD/3_EM_Fire_effect/scripts/functions.R')
+source('~/Documents/PhD/2_EM_Fire_effect/scripts/functions.R')
 
 #-----------------------------------------------------------------------------------------
 # Load data----
