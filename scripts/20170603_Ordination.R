@@ -14,9 +14,9 @@ library(ggplot2);library (tidyr);library (vegan);library (dplyr)
 # set up paths to directories----
 #-----------------------------------------------------------------------------------------
 #--path to directory where the climate data downloaded from BIOCLIM site is stored
-dat.dir <- "~/Documents/PhD/3_EM_Fire_effect/data/"
-fig.dir <- '~/Documents/PhD/3_EM_Fire_effect/figures/'
-res.dir <- "~/Documents/PhD/3_EM_Fire_effect/results/"
+dat.dir <- "~/Documents/PhD/2_EM_Fire_effect/data/"
+fig.dir <- '~/Documents/PhD/2_EM_Fire_effect/figures/'
+res.dir <- "~/Documents/PhD/2_EM_Fire_effect/results/"
 
 #-----------------------------------------------------------------------------------------
 # Load data and clean up----
@@ -78,16 +78,16 @@ colnames(permanova.res) <- "test"
 # Jaccard based dissimilarity index----
 #=========================================================================================
 
-#--comment to not remove outlier (NF19)
-stsp.matrix <- stsp.matrix[!stsp.matrix$Tree %in% c('NF19'),]
+#--comment to not remove outlier (LB056)
+stsp.matrix <- stsp.matrix[!stsp.matrix$Tree %in% c('LB056'),]
 
 #--isolate otu data
 comm.matrix <- stsp.matrix[11:length(stsp.matrix)]
 
 #--comment to include singletons
-comm.matrix <- comm.matrix[colSums(comm.matrix) > 1]
+comm.matrix <- comm.matrix[colSums(comm.matrix) > 4]
 comm.matrix <- comm.matrix[rowSums(comm.matrix) > 0, ] # remove rows with sums of 0
-stsp.matrix <- stsp.matrix[row.names(comm.matrix),]
+jaccard.matrix <- stsp.matrix[row.names(comm.matrix),]
 
 #--distance matrix using jaccard index
 comm.dist.jaccard <- vegdist(comm.matrix, method = "jaccard", binary = TRUE)
@@ -113,8 +113,9 @@ plot(jaccard.otu, display = "sites", type = "n", cex.lab = 1.5,
      cex.axis = 1.5, yaxt = "n")
 axis (2, at = seq (-0.4, 0.4, by = 0.2), cex.axis = 1.5, las = 2)
 # colors for points
-color.vec <- data.frame (color = rep (NA, nrow(stsp.matrix)),
-                         p.group = paste(stsp.matrix$Range, stsp.matrix$Burn_status))
+color.vec <- data.frame(color = rep(NA, nrow(jaccard.matrix)),
+                         p.group = paste(jaccard.matrix$Range,
+                                         jaccard.matrix$Burn_status))
 color.vec[color.vec$p.group == 'santa.catalina burned', 'color'] <- 'black'
 color.vec[color.vec$p.group == 'pinaleno burned', 'color'] <- 'black'
 color.vec[color.vec$p.group == 'santa.catalina unburned', 'color'] <- 'green4'
@@ -127,8 +128,8 @@ color.vec[color.vec$p.group == 'pinaleno unburned', 'shape'] <- 6
 
 #ordipointlabel(jaccard.otu, display = "sites")
 #--isolate points for pinaleno mts.
-pinaleno <- row.names(stsp.matrix[stsp.matrix$Range == 'pinaleno',])
-santa.catalina <- row.names(stsp.matrix[stsp.matrix$Range == 'santa.catalina',])
+pinaleno <- row.names(jaccard.matrix[jaccard.matrix$Range == 'pinaleno',])
+santa.catalina <- row.names(jaccard.matrix[jaccard.matrix$Range == 'santa.catalina',])
 
 #--isolate points using rows isolated above
 points(jaccard.otu$points[pinaleno,1:2], display = "sites", cex = 1.5,
@@ -151,7 +152,7 @@ points(jaccard.otu$points[santa.catalina,1:2], display = "sites", cex = 1.5,
        bg = color.vec[color.vec$p.group == 'santa.catalina burned' |
                         color.vec$p.group == 'santa.catalina unburned',
                       'color'])
-legend("bottomright", legend = levels(color.vec$p.group), bty = "n",
+legend("topleft", legend = levels(color.vec$p.group), bty = "n",
        col = c('black','green4','black','green4'),
        pch = c(6,6,20,20),
        pt.bg =  c('black','green4','black','green4'), cex = 1)
@@ -165,6 +166,7 @@ ordihull(jaccard.otu, groups = color.vec$p.group,
 #--a multivariate analogue of Levene's test for homogeneity of variance
 betadisper <- betadisper(comm.dist.jaccard, group = color.vec$p.group)
 jaccard.betadisper <- anova(betadisper)
+jaccard.betadisper
 
 #--add Betadisper results to table
 anosim.res[which(anosim.res$anosim.res =="jaccard"), "F.betadisper"] <-
@@ -188,7 +190,7 @@ anosim.res[which(anosim.res$anosim.res =="jaccard"), "p"] <- jaccard.anosim$sign
 #<< PERMANOVA >>--------------------------------------------------------------------------
 #--adonis
 jaccard.adonis <- adonis(formula = comm.dist.jaccard ~ Burn_status * po4.p.ppm *
-                  temp.warmest.quarter, data = stsp.matrix, permutations = 1000)
+                  temp.warmest.quarter, data = jaccard.matrix, permutations = 1000)
 jaccard.adonis
 
 #--add results to data.frame
@@ -237,7 +239,7 @@ comm.matrix <- stsp.matrix[11:length(stsp.matrix)]
 #--comment to include singletons
 comm.matrix <- comm.matrix[colSums(comm.matrix) > 1]
 comm.matrix <- comm.matrix[rowSums(comm.matrix) > 0, ] # remove rows with sums of 0
-stsp.matrix <- stsp.matrix[row.names(comm.matrix),]
+morisita.matrix <- stsp.matrix[row.names(comm.matrix),]
 
 #--distance matrix using jaccard index
 comm.dist.morisita <- vegdist(comm.matrix, method = "horn", binary = F)
@@ -259,8 +261,9 @@ plot(morisita.otu, display = "sites", type = "n", cex.lab = 1.5,
      cex.axis = 1.5, yaxt = "n")
 axis (2, at = seq (-0.4, 0.4, by = 0.2), cex.axis = 1.5, las = 2)
 # colors for points
-color.vec <- data.frame (color = rep (NA, nrow(stsp.matrix)),
-                         p.group = paste(stsp.matrix$Range, stsp.matrix$Burn_status))
+color.vec <- data.frame (color = rep (NA, nrow(morisita.matrix)),
+                         p.group = paste(morisita.matrix$Range,
+                                         morisita.matrix$Burn_status))
 color.vec[color.vec$p.group == 'santa.catalina burned', 'color'] <- 'black'
 color.vec[color.vec$p.group == 'pinaleno burned', 'color'] <- 'black'
 color.vec[color.vec$p.group == 'santa.catalina unburned', 'color'] <- 'green4'
@@ -274,8 +277,8 @@ color.vec[color.vec$p.group == 'pinaleno unburned', 'shape'] <- 6
 #ordipointlabel(morisita.otu, display = "sites")
 
 #--isolate points for pinaleno mts.
-pinaleno <- row.names(stsp.matrix[stsp.matrix$Range == 'pinaleno',])
-santa.catalina <- row.names(stsp.matrix[stsp.matrix$Range == 'santa.catalina',])
+pinaleno <- row.names(morisita.matrix[morisita.matrix$Range == 'pinaleno',])
+santa.catalina <- row.names(morisita.matrix[morisita.matrix$Range == 'santa.catalina',])
 #--isolate points using rows isolated above
 points(morisita.otu$points[pinaleno,1:2], display = "sites", cex = 1.5,
        pch = color.vec[color.vec$p.group == 'pinaleno burned' | 
@@ -297,10 +300,10 @@ points(morisita.otu$points[santa.catalina,1:2], display = "sites", cex = 1.5,
        bg = color.vec[color.vec$p.group == 'santa.catalina burned' |
                         color.vec$p.group == 'santa.catalina unburned',
                       'color'])
-legend("bottomright", legend = levels(color.vec$p.group), bty = "n",
-       col = c('black','green4','black','green4'),
-       pch = c(6,6,20,20),
-       pt.bg =  c('black','green4','black','green4'), cex = 1)
+# legend("bottomright", legend = levels(color.vec$p.group), bty = "n",
+#        col = c('black','green4','black','green4'),
+#        pch = c(6,6,20,20),
+#        pt.bg =  c('black','green4','black','green4'), cex = 1)
 
 #--Ordihull variations by range, burn, and both burn and range
 #ordihull(morisita.otu, groups = color.vec$p.group,
@@ -316,6 +319,7 @@ dev.off()
 #--a multivariate analogue of Levene's test for homogeneity of variance
 betadisper <- betadisper(comm.dist.morisita, group = color.vec$p.group)
 morisita.betadisper <- anova(betadisper)
+morisita.betadisper
 
 #--add Betadisper results to table
 anosim.res[which(anosim.res$anosim.res =="morisita"), "F.betadisper"] <-
@@ -338,8 +342,8 @@ anosim.res[which(anosim.res$anosim.res =="morisita"), "p"] <- morisita.anosim$si
 
 #<< PERMANOVA >>--------------------------------------------------------------------------
 #--adonis
-morisita.adonis <- adonis(formula = comm.dist.morisita ~ Range * po4.p.ppm *
-                           temp.warmest.quarter, data = stsp.matrix, permutations = 1000)
+morisita.adonis <- adonis(formula = comm.dist.morisita ~ Burn_status * po4.p.ppm *
+                           temp.warmest.quarter, data = morisita.matrix, permutations = 1000)
 morisita.adonis
 
 #--add results to data.frame
