@@ -106,6 +106,41 @@ rangeburn.matrix <- rangeburn.matrix[c(1:3, 120, 4:119)]
 # Species richness----
 #=========================================================================================
 
+# << Table of species abundance >> ------------------------
+#--Overall
+spec <- table(colSums(stsp.matrix[6:length(stsp.matrix)]))
+plot(spec, xlab = 'Individuals per species',
+     ylab = 'Number of species')
+
+# #--burned
+# spec.burned <- table(colSums(stsp.matrix[stsp.matrix$Burn_status == 'burned' , 
+#                                          6:length(stsp.matrix)]))
+# spec.burned <- spec.burned[-1]
+# plot(spec.burned, xlab = 'Individuals per species',
+#      ylab = 'Number of species', main = 'Burned sites')
+# 
+# #--unburned
+# spec.unburned <- table(colSums(stsp.matrix[stsp.matrix$Burn_status == 'unburned' , 
+#                                            6:length(stsp.matrix)]))
+# spec.unburned <- spec.unburned[-1]
+# plot(spec.unburned, xlab = 'Individuals per species',
+#      ylab = 'Number of species', main = 'Unburned sites')
+# 
+# #--Pinaleno
+# spec.pin <- table(colSums(stsp.matrix[stsp.matrix$Range == 'pinaleno' , 
+#                                          6:length(stsp.matrix)]))
+# spec.pin <- spec.pin[-1]
+# plot(spec.pin, xlab = 'Individuals per species',
+#      ylab = 'Number of species', main = 'Pinaleno Mts.')
+# 
+# #--Santa Catalina
+# spec.scm <- table(colSums(stsp.matrix[stsp.matrix$Range == 'santa.catalina' , 
+#                                            6:length(stsp.matrix)]))
+# spec.scm <- spec.scm[-1]
+# plot(spec.scm, xlab = 'Individuals per species',
+#      ylab = 'Number of species', main = 'Santa Catalina Mts.')
+
+
 # << Burn status >> --------
 specnumber(stsp.matrix[6:length(stsp.matrix)], groups = stsp.matrix$Burn_status)
 
