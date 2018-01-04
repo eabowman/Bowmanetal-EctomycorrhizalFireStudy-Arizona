@@ -14,9 +14,9 @@ library(ggplot2);library (tidyr);library (vegan);library (dplyr); library(gridEx
 # set up paths to directories----
 #-----------------------------------------------------------------------------------------
 #--path to directory 
-dat.dir <- "~/Documents/PhD/3_EM_Fire_effect/data/"
-fig.dir <- '~/Documents/PhD/3_EM_Fire_effect/figures/'
-res.dir <- "~/Documents/PhD/3_EM_Fire_effect/results/"
+dat.dir <- "~/Documents/PhD/2_EM_Fire_effect/data/"
+fig.dir <- '~/Documents/PhD/2_EM_Fire_effect/figures/'
+res.dir <- "~/Documents/PhD/2_EM_Fire_effect/results/"
 
 #-----------------------------------------------------------------------------------------
 # Load data and clean up----
@@ -58,12 +58,13 @@ for(i in unique(soil.data$range)){
 #=========================================================================================
 # Anova of soil traits differences based on both burn status and range----
 #=========================================================================================
-
+source('~/Documents/PhD/2_EM_Fire_effect/scripts/functions.R')
 response <- c("pH.su","EC.ds.m","ca.ppm","mg.ppm","na.ppm","k.ppm","zn.ppm","fe.ppm",
                "mn.ppm","cu.ppm","ni.ppm","no3.n.ppm","po4.p.ppm","so4.s.ppm","b.ppm",
                "esp","cec.meq.100g")
 anova.rb <- anova.t(soil.data, 'range_burn', response)
 anova.rb$p <- round(anova.rb$p, 5)
+anova.rb
 
 #<< plots of soil factors >> -------------------------------------------------------------
 # pH----
@@ -270,8 +271,8 @@ cec <- ggplot(soil.data, aes(x = burn_status, y = cec.meq.100g, fill = burn_stat
   labs(fill = "Burn status") +
   theme(legend.position="none")
 
-all.plot <- grid.arrange(ca,mg,k,zn,fe,ni,po4,so4,b,cec,
-             nrow = 5, ncol = 2)
+all.plot <- grid.arrange(ph,po4,so4,no3,
+             nrow = 2, ncol = 2)
 ggsave('soil.pdf', plot = all.plot, device = 'pdf', path = fig.dir,
        width = 10, height = 5)
 
@@ -283,7 +284,9 @@ source('~/Documents/PhD/3_EM_Fire_effect/scripts/functions.R')
 responses <- c("pH.su","EC.ds.m","ca.ppm","mg.ppm","na.ppm","k.ppm","zn.ppm","fe.ppm",
                "mn.ppm","cu.ppm","ni.ppm","no3.n.ppm","po4.p.ppm","so4.s.ppm","b.ppm",
                "esp","cec.meq.100g")
-ttester(soil.data, 'range', responses)
+ttester.range <- ttester(soil.data, 'range', responses)
+ttester.range$p <- round(ttester.range$p, digits = 4)
+ttester.range
 wilcoxtest(soil.data, 'range', responses)
 
 #=========================================================================================
@@ -294,14 +297,16 @@ source('~/Documents/PhD/3_EM_Fire_effect/scripts/functions.R')
 responses <- c("pH.su","EC.ds.m","ca.ppm","mg.ppm","na.ppm","k.ppm","zn.ppm","fe.ppm",
                "mn.ppm","cu.ppm","ni.ppm","no3.n.ppm","po4.p.ppm","so4.s.ppm","b.ppm",
                "esp","cec.meq.100g")
-ttester(soil.data, 'burn_status', responses)
+ttester.burn <- ttester(soil.data, 'burn_status', responses)
+ttester.burn$p <- round(ttester.burn$p, digits = 4)
+ttester.burn
 wilcoxtest(soil.data, 'burn_status', responses)
 
 #=========================================================================================
 # soil as a function of distance----
 #=========================================================================================
 
-soil.sig <- c('pH.su','po4.p.ppm','so4.s.ppm','b.ppm')
+soil.sig <- c('pH','mg.ppm','k.ppm','po4.p.ppm','so4.s.ppm','b.ppm', 'no3.n.ppm')
 
 soil.dist <- vegdist(soil.data[colnames(soil.data) %in% soil.sig], method = 'euclidean')
 geo.dist <- vegdist(soil.data[c('lat','long')], method = 'euclidean')

@@ -19,9 +19,9 @@ library(vegan)
 # set up paths to directories----
 #-----------------------------------------------------------------------------------------
 #--path to directory where the climate data downloaded from BIOCLIM site is stored
-dat.dir <- "~/Documents/PhD/3_EM_Fire_effect/data/"
-fig.dir <- '~/Documents/PhD/3_EM_Fire_effect/figures/'
-res.dir <- "~/Documents/PhD/3_EM_Fire_effect/results/"
+dat.dir <- "~/Documents/PhD/2_EM_Fire_effect/data/"
+fig.dir <- '~/Documents/PhD/2_EM_Fire_effect/figures/'
+res.dir <- "~/Documents/PhD/2_EM_Fire_effect/results/"
 
 #-----------------------------------------------------------------------------------------
 # Load data: shortened----
@@ -396,13 +396,23 @@ pdf(file=paste0(fig.dir,'Cluster_abundance_tree.pdf'),
 
 #divide your plotting device in 3 plotting regions with different dimensions
 layout(matrix(c(1,2,3), 1, 3, byrow = TRUE), widths = c(4,2,2)) 
+
 #--abundance
-matrix.abu <- as.matrix(stsp.matrix[,6:119])
-rownames(matrix.abu) <- stsp.matrix[,5]
+#--comment to include singletons
+abu.meta <- stsp.matrix
+matrix.abu <- abu.meta[6:length(abu.meta)]
+matrix.abu <- matrix.abu[colSums(matrix.abu) >= 2]
+matrix.abu <- matrix.abu[rowSums(matrix.abu) > 0, ] 
+abu.meta <- abu.meta[row.names(matrix.abu),]
+rownames(matrix.abu) <- abu.meta$Tree
+matrix.abu <- as.matrix(matrix.abu)
 
 #--presence/absence
-matrix.pa <- as.matrix(rangeburn.matrix[,4:118])
-rownames(matrix.pa) <- rangeburn.matrix[,5]
+pa.meta <- stsp.matrix
+matrix.pa <- pa.meta[6:length(pa.meta)]
+matrix.pa <- matrix.pa[colSums(matrix.pa) >= 2]
+matrix.pa <- matrix.pa[rowSums(matrix.pa) > 0, ] 
+pa.meta <- pa.meta[row.names(matrix.pa),]
 
 #Calculate distances among communities using the 
 dist.abu <- vegdist(matrix.abu, method="horn") #to calculate the distances 
@@ -422,23 +432,17 @@ mtext("Abundance", cex = 1)
 # mtext("Presence/Absence", cex = 1)
 
 #--data frame for metadata
-meta.matrix <- data.frame(range.burn = rownames(matrix.abu),
-                          range = stsp.matrix$Range,
-                          burn_status = stsp.matrix$Burn_status)
-clust.labels <- c('pinaleno unburned','pinaleno unburned','santa.catalina unburned',
-                  'pinaleno burned', 'santa.catalina unburned', 'pinaleno burned',
-                  'pinaleno burned','pinaleno burned','pinaleno unburned','pinaleno burned',
-                  'pinaleno unburned','santa.catalina burned','santa.catalina unburned',
-                  'santa.catalina burned','santa.catalina burned','pinaleno unburned',
-                  'pinaleno burned','santa.catalina burned','santa.catalina burned',
-                  'santa.catalina burned','santa.catalina unburned','santa.catalina unburned',
-                  'santa.catalina unburned','santa.catalina unburned','santa.catalina burned',
-                  'santa.catalina burned','santa.catalina burned','pinaleno unburned',
-                  'pinaleno burned','pinaleno burned','santa.catalina burned',
-                  'santa.catalina unburned','pinaleno unburned','pinaleno unburned',
-                  'pinaleno unburned','pinaleno unburned','pinaleno unburned',
-                  'santa.catalina unburned','santa.catalina unburned','pinaleno burned',
-                  'pinaleno burned')
+labels <- c('NF20','NF17','NF18','NF12','NF11','LB060','F5','F17','F14','LB059','F8',
+            'F2','F1','LB021','LB019','F11','LB055','LB020','F7','F10','F6','NF15',
+            'F9','F4','LB023','F3','NF13','LB057','F16','F12','LB058','F19','F13',
+            'NF14','F18','F15','LB056','LB024','F20','NF16','NF19')
+clust.labels <- NA
+for(i in labels){
+  lab.i <- abu.meta[abu.meta$Tree == i, 'range.burn']
+  clust.labels <- c(clust.labels, lab.i)
+}
+clust.labels <- clust.labels[2:length(clust.labels)]
+
 rcol <- clust.labels
 rcol <- replace(rcol,rcol == 'santa.catalina burned' |
                   rcol == 'santa.catalina unburned', 1)
@@ -486,6 +490,29 @@ text(1.7,8+0.3, labels="Burned", font=1, cex=.7, pos=4)
 text(1.7,9+0.3, labels="Unburned", font=1, cex=.7, pos=4)
 
 dev.off()
+
+#<< Pairwise comparison plot >> ----------------------
+source('~/Documents/PhD/3_Sky_islands-FE/scripts/functions.R')
+#--Range information
+range.anosim <- anosim(stsp.matrix[6:length(stsp.matrix)], 
+                       grouping = stsp.matrix$Range,
+                       permutations = 999,
+                       distance = 'horn')
+plot.anosim(range.anosim)
+
+#--Burn information
+burn.anosim <- anosim(stsp.matrix[6:length(stsp.matrix)], 
+                      grouping = stsp.matrix$Burn_status,
+                      permutations = 999,
+                      distance = 'horn')
+plot.anosim(burn.anosim)
+
+#--Range and burn information
+rangeburn.anosim <- anosim(stsp.matrix[6:length(stsp.matrix)], 
+                      grouping = stsp.matrix$range.burn,
+                      permutations = 999,
+                      distance = 'horn')
+plot.anosim(rangeburn.anosim)
 
 #-----------------------------------------------------------------------------------------
 # Soil-----

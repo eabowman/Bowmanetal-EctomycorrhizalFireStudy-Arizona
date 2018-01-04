@@ -14,9 +14,9 @@ library(ggplot2);library (tidyr);library (vegan);library (dplyr); library(gridEx
 # set up paths to directories----
 #-----------------------------------------------------------------------------------------
 #--path to directory where the climate data downloaded from BIOCLIM site is stored
-dat.dir <- "~/Documents/PhD/3_EM_Fire_effect/data/"
-fig.dir <- '~/Documents/PhD/3_EM_Fire_effect/figures/'
-res.dir <- "~/Documents/PhD/3_EM_Fire_effect/results/"
+dat.dir <- "~/Documents/PhD/2_EM_Fire_effect/data/"
+fig.dir <- '~/Documents/PhD/2_EM_Fire_effect/figures/'
+res.dir <- "~/Documents/PhD/2_EM_Fire_effect/results/"
 
 #-----------------------------------------------------------------------------------------
 # Load data and clean up----
@@ -33,9 +33,9 @@ clim.data[clim.data$site %in% c('sc1','sc2','sc3','sc4'), 'range'] <-
 #=========================================================================================
 # Differences between range----
 #=========================================================================================
-source('~/Documents/PhD/3_EM_Fire_effect/scripts/functions.R')
+source('~/Documents/PhD/2_EM_Fire_effect/scripts/functions.R')
 
-responses <- c('BIO10_red','BIO11_red','prec')
+response <- c('BIO10_red','BIO11_red','prec')
 ttester(clim.data, 'range', responses)
 wilcoxtest(clim.data, 'range', responses)
 

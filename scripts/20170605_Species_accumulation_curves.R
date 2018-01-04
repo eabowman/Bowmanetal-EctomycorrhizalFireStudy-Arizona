@@ -15,11 +15,12 @@ library(ggplot2);library (tidyr);library (vegan);library (dplyr)
 #-----------------------------------------------------------------------------------------
 #--path to directory where the climate data downloaded from BIOCLIM site is stored
 dat.dir <- "~/Documents/PhD/2_EM_Fire_effect/data/"
-fig.dir <- '~/Documents/PhD/2_EM_Fire_effect/figures/'
-res.dir <- "~/Documents/PhD/2_EM_Fire_effect/results/"
+fig.dir <- '~/Documents/PhD/2_EM_Fire_effect/figures_output/'
+res.dir <- "~/Documents/PhD/2_EM_Fire_effect/results_output/"
 
 #-----------------------------------------------------------------------------------------
-# Load data and clean up----
+# Load data and clean up
+# Make two data frames: one with singletons and one without singletons
 #-----------------------------------------------------------------------------------------
 #--Load data
 all.data <- read.csv(paste0(dat.dir,'20170806_OTU_data.csv'), as.is = T)
@@ -27,6 +28,8 @@ all.data <- read.csv(paste0(dat.dir,'20170806_OTU_data.csv'), as.is = T)
 #--Remove sequences not assigned to an OTU
 otu.data <- all.data[!is.na(all.data$otu.97), ]
 
+#--Remove sequences not assigned to Ponderosa host
+otu.data <- otu.data[otu.data$Host == 'Ponderosa',]
 
 #--Add an OTU count column (1 sequence = 1 frequency count)
 otu.data['otu.count'] <- 1
@@ -49,7 +52,8 @@ for(r in unique(stsp.matrix$Range)) {
   }
 }
 
-stsp.matrix <- stsp.matrix[c(1:4,128,5:127)]
+colnames(stsp.matrix)
+stsp.matrix <- stsp.matrix[c(1:4,121,5:120)]
 
 # #=========================================================================================
 # # Species accumulation curves by burn status----
@@ -177,51 +181,157 @@ SCMunburned.sp.wo <- SCMunburned.sp.wo[rowSums(SCMunburned.sp.wo) > 0]
 # Plot----
 #=========================================================================================
 
-#--Export as jpeg
-png(filename = paste0(fig.dir,"species_accum_curves.jpeg"), width = 1200, height = 1200)
-#--Combine into one figure
-par(mfrow = c(2,2), "mar"=c(6, 5, 5, 3))
-
 #<< Combine Pinaleno burned plots, with singletons and without >>--------------------------
-plot(specaccum(PMburned.sp, sample = min(rowSums(PMburned.sp),  permutations = 999)),
-     xlab = NA, ylab = "OTUs", cex.lab = 2, cex.axis = 2, lwd = 2, yaxt = "n",
-     ylim = c(0,100), yaxt = "n")
-title(main = 'Pinaleno burned sites', cex.main = 2)
-axis (2, at = seq (0, 100, by = 25), cex.axis = 2, las = 2)
-par(new=TRUE)
-plot(specaccum(PMburned.sp.wo, sample = min(rowSums(PMburned.sp.wo),  permutations = 999)),
-     axes = FALSE, xlab = "", ylab = "", lwd = 2, col = "darkblue")
+Pin.w.burned <- specaccum(PMburned.sp, sample = min(rowSums(PMburned.sp),  permutations = 999))
+Pin.w.burned.df <- data.frame(Sites=Pin.w.burned$sites,
+                        Richness=Pin.w.burned$richness,
+                        SD=Pin.w.burned$sd)
+Pin.wo.burned <- specaccum(PMburned.sp.wo, sample = min(rowSums(PMburned.sp.wo),  permutations = 999))
+Pin.wo.burned.df <- data.frame(Sites=Pin.wo.burned$sites,
+                              Richness=Pin.wo.burned$richness,
+                              SD=Pin.wo.burned$sd)
 
 #<< Combine Pinaleno unburned plots, with singletons and without >>------------------------
-plot(specaccum(PMunburned.sp, sample = min(rowSums(PMunburned.sp),  permutations = 999)),
-     xlab = NA, ylab = NA, cex.lab = 2, cex.axis = 2, lwd = 2, 
-     ylim = c(0,100), yaxt = "n")
-title(main = 'Pinaleno unburned sites', cex.main = 2)
-axis (2, at = seq (0, 100, by = 25), cex.axis = 2, las = 2)
-par(new=TRUE)
-plot(specaccum(PMunburned.sp.wo, sample = min(rowSums(PMunburned.sp.wo),
-     permutations = 999)), axes = FALSE, xlab = "", ylab = "", lwd = 2, col = "darkblue",
-     ylim = c(0,100))
+Pin.w.unburned <- specaccum(PMunburned.sp, sample = min(rowSums(PMunburned.sp),
+                                                        permutations = 999))
+Pin.w.unburned.df <- data.frame(Sites=Pin.w.unburned$sites,
+                              Richness=Pin.w.unburned$richness,
+                              SD=Pin.w.unburned$sd)
+Pin.wo.unburned <- specaccum(PMunburned.sp.wo, sample = min(rowSums(PMunburned.sp.wo),
+                                              permutations = 999))
+Pin.wo.unburned.df <- data.frame(Sites=Pin.wo.unburned$sites,
+                                Richness=Pin.wo.unburned$richness,
+                                SD=Pin.wo.unburned$sd)
 
 #<< Combine Santa Catalina burned plots, with singletons and without >>---------------------
-plot(specaccum(SCMburned.sp, sample = min(rowSums(SCMburned.sp),  permutations = 999)),
-     xlab = NA, ylab = "OTUs", cex.lab = 2, cex.axis = 2, lwd = 2, yaxt = "n",
-     ylim = c(0,100), yaxt = "n")
-title(main = 'Santa Catalina burned sites', cex.main = 2)
-axis (2, at = seq (0, 100, by = 25), cex.axis = 2, las = 2)
-par(new=TRUE)
-plot(specaccum(SCMburned.sp.wo, sample = min(rowSums(SCMburned.sp.wo),  permutations = 999)),
-     axes = FALSE, xlab = "", ylab = "", lwd = 2, col = "darkblue", ylim = c(0,100))
+SCM.w.burned <- specaccum(SCMburned.sp, sample = min(rowSums(SCMburned.sp), permutations = 999))
+SCM.w.burned.df <- data.frame(Sites=SCM.w.burned$sites,
+                                Richness=SCM.w.burned$richness,
+                                SD=SCM.w.burned$sd)
+SCM.wo.burned <- specaccum(SCMburned.sp.wo, sample = min(rowSums(SCMburned.sp.wo),permutations = 999))
+SCM.wo.burned.df <- data.frame(Sites=SCM.wo.burned$sites,
+                                 Richness=SCM.wo.burned$richness,
+                                 SD=SCM.wo.burned$sd)
 
 #<< Combine Santa Catalina unburned plots, with singletons and without >>-------------------
-plot(specaccum(SCMunburned.sp, sample = min(rowSums(SCMunburned.sp),  permutations = 999)),
-     xlab = NA, ylab = NA, cex.lab = 2, cex.axis = 2, lwd = 2, 
-     ylim = c(0,100), yaxt = "n")
-title(main = 'Santa Catalina unburned sites', cex.main = 2)
-#axis (2, at = seq (0, 100, by = 25), cex.axis = 2, las = 2)
-par(new=TRUE)
-plot(specaccum(SCMunburned.sp.wo, sample = min(rowSums(SCMunburned.sp.wo),
-                                              permutations = 999)), axes = FALSE, xlab = "", ylab = "", lwd = 2, col = "darkblue",
-     ylim = c(0,100))
+SCM.w.unburned <- specaccum(SCMunburned.sp, sample = min(rowSums(SCMunburned.sp),permutations = 999))
+SCM.w.unburned.df <- data.frame(Sites=SCM.w.unburned$sites,
+                              Richness=SCM.w.unburned$richness,
+                              SD=SCM.w.unburned$sd)
+SCM.wo.unburned <- specaccum(SCMunburned.sp.wo, sample = min(rowSums(SCMunburned.sp.wo),
+                                               permutations = 999))
+SCM.wo.unburned.df <- data.frame(Sites=SCM.wo.unburned$sites,
+                               Richness=SCM.wo.unburned$richness,
+                               SD=SCM.wo.unburned$sd)
 
-dev.off()
+#<< Pinaleno burned plot >> ------------
+Pinaleno.burned <- ggplot() +
+  geom_point(data=Pin.w.burned.df, aes(x=Sites, y=Richness), size = 3) +
+  geom_line(data=Pin.w.burned.df, aes(x=Sites, y=Richness)) +
+  geom_ribbon(data=Pin.w.burned.df ,aes(x=Sites,
+                                  ymin=(Richness-2*SD),
+                                  ymax=(Richness+2*SD)),
+              alpha=0.2) +
+  geom_point(data=Pin.wo.burned.df, aes(x=Sites, y=Richness), colour = 'darkgrey', size = 3) +
+  geom_line(data=Pin.wo.burned.df, aes(x=Sites, y=Richness), colour = 'darkgrey') +
+  geom_ribbon(data=Pin.wo.burned.df ,aes(x=Sites,
+                                     ymin=(Richness-2*SD),
+                                     ymax=(Richness+2*SD)),
+              alpha=0.2) +
+  theme_bw() +
+  expand_limits(y=c(0,50), x = c(0,10)) +
+  ylab('OTUs') +
+  xlab('Trees sampled') +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(axis.text = element_text(size=22, color = 'black'),
+        axis.title = element_text(size = 28), legend.position = "none") +
+  theme(axis.title.x = element_text(margin = margin(t = 30)),
+        axis.title.y = element_text(margin = margin(r = 30)))
+
+ggsave('SpecAccum_PinBurn_SequenceBased.tiff', plot = Pinaleno.burned,
+       device = 'tiff', path = fig.dir,
+       width = 20, height = 20, units = 'cm')
+
+#<< Pinaleno unburned plot >> ------------
+Pinaleno.unburned <- ggplot() +
+  geom_point(data=Pin.w.unburned.df, aes(x=Sites, y=Richness), size = 3) +
+  geom_line(data=Pin.w.unburned.df, aes(x=Sites, y=Richness)) +
+  geom_ribbon(data=Pin.w.unburned.df ,aes(x=Sites,
+                                        ymin=(Richness-2*SD),
+                                        ymax=(Richness+2*SD)),
+              alpha=0.2) +
+  geom_point(data=Pin.wo.unburned.df, aes(x=Sites, y=Richness), colour = 'darkgrey', size = 3) +
+  geom_line(data=Pin.wo.unburned.df, aes(x=Sites, y=Richness), colour = 'darkgrey') +
+  geom_ribbon(data=Pin.wo.unburned.df ,aes(x=Sites,
+                                         ymin=(Richness-2*SD),
+                                         ymax=(Richness+2*SD)),
+              alpha=0.2) +
+  theme_bw() +
+  expand_limits(y=c(0,50), x = c(0,10)) +
+  ylab('OTUs') +
+  xlab('Trees sampled') +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(axis.text = element_text(size=22, color = 'black'),
+        axis.title = element_text(size = 28), legend.position = "none") +
+  theme(axis.title.x = element_text(margin = margin(t = 30)),
+        axis.title.y = element_text(margin = margin(r = 30)))
+
+ggsave('SpecAccum_PinUnburn_SequenceBased.tiff', plot = Pinaleno.unburned,
+       device = 'tiff', path = fig.dir,
+       width = 20, height = 20, units = 'cm')
+
+#<< Santa Catalina burned plot >> ------------
+Catalina.burned <- ggplot() +
+  geom_point(data=SCM.w.burned.df, aes(x=Sites, y=Richness), size = 3) +
+  geom_line(data=SCM.w.burned.df, aes(x=Sites, y=Richness)) +
+  geom_ribbon(data=SCM.w.burned.df ,aes(x=Sites,
+                                          ymin=(Richness-2*SD),
+                                          ymax=(Richness+2*SD)),
+              alpha=0.2) +
+  geom_point(data=SCM.wo.burned.df, aes(x=Sites, y=Richness), colour = 'darkgrey', size = 3) +
+  geom_line(data=SCM.wo.burned.df, aes(x=Sites, y=Richness), colour = 'darkgrey') +
+  geom_ribbon(data=SCM.wo.burned.df ,aes(x=Sites,
+                                           ymin=(Richness-2*SD),
+                                           ymax=(Richness+2*SD)),
+              alpha=0.2) +
+  theme_bw() +
+  expand_limits(y=c(0,50), x = c(0,10)) +
+  ylab('OTUs') +
+  xlab('Trees sampled') +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(axis.text = element_text(size=22, color = 'black'),
+        axis.title = element_text(size = 28), legend.position = "none") +
+  theme(axis.title.x = element_text(margin = margin(t = 30)),
+        axis.title.y = element_text(margin = margin(r = 30)))
+
+ggsave('SpecAccum_ScmBurn_SequenceBased.tiff', plot = Catalina.burned,
+       device = 'tiff', path = fig.dir,
+       width = 20, height = 20, units = 'cm')
+       
+#<< Santa Catalina unburned plot >> ------------
+Catalina.unburned <- ggplot() +
+  geom_point(data=SCM.w.unburned.df, aes(x=Sites, y=Richness), size = 3) +
+  geom_line(data=SCM.w.unburned.df, aes(x=Sites, y=Richness)) +
+  geom_ribbon(data=SCM.w.unburned.df ,aes(x=Sites,
+                                        ymin=(Richness-2*SD),
+                                        ymax=(Richness+2*SD)),
+              alpha=0.2) +
+  geom_point(data=SCM.wo.unburned.df, aes(x=Sites, y=Richness), colour = 'darkgrey', size = 3) +
+  geom_line(data=SCM.wo.unburned.df, aes(x=Sites, y=Richness), colour = 'darkgrey') +
+  geom_ribbon(data=SCM.wo.unburned.df ,aes(x=Sites,
+                                         ymin=(Richness-2*SD),
+                                         ymax=(Richness+2*SD)),
+              alpha=0.2) +
+  theme_bw() +
+  expand_limits(y=c(0,50), x = c(0,10)) +
+  ylab('OTUs') +
+  xlab('Trees sampled') +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(axis.text = element_text(size=22, color = 'black'),
+        axis.title = element_text(size = 28), legend.position = "none") +
+  theme(axis.title.x = element_text(margin = margin(t = 30)),
+        axis.title.y = element_text(margin = margin(r = 30)))
+
+ggsave('SpecAccum_ScmUnburn_SequenceBased.tiff', plot = Catalina.unburned,
+       device = 'tiff', path = fig.dir,
+       width = 20, height = 20, units = 'cm')

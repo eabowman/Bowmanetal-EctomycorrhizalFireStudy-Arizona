@@ -30,10 +30,12 @@ anova.t <- function(data, group, response) {
 ttester <- function(data, group, response) {
   ttest.output <- data.frame(response = response,
                              t.stat =  NA,
+                             df = NA,
                              p = NA)
   for(r in response){
     simple <- t.test(data[,r] ~ data[,group])
     ttest.output[ttest.output$response == r, 't.stat'] <- simple$statistic
+    ttest.output[ttest.output$response == r, 'df'] <- simple$parameter
     ttest.output[ttest.output$response == r, 'p'] <- simple$p.value
     # cat('Predictor: ', predictor, '\n')
   }
@@ -142,3 +144,23 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
     }
   }
 }
+
+#=========================================================================================
+# Plot ANOSIM output----
+#=========================================================================================
+
+"plot.anosim" <-
+  function (x, title=NULL, ...) 
+  {
+    boxplot(x$dis.rank ~ x$class.vec, notch=F, varwidth=F,
+            ...)
+    title(title)
+    if (x$permutations) {
+      pval <- format.pval(x$signif)
+    } else {
+      pval <- "not assessed"
+    }
+    mtext(paste("R = ", round(x$statistic, 3), ", ",
+                "P = ", pval ), 3)
+    invisible()
+  }
