@@ -1,0 +1,1123 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-stylesheet  href="job.xsl" type="text/xsl"?><jobState>
+  <program>
+    <head>
+      <name>sanger_otu_clustering_workflow</name>
+      <doc>
+        <title>Sanger OTU Clustering Workflow</title>
+        <description>
+          <text lang="en"/>
+        </description>
+        <doclink>../../helpfiles/Sanger_OTUclustering_information.pdf</doclink>
+        <doclink>../../helpfiles/AZ_conifer.fasta</doclink>
+        <doclink>../../helpfiles/AZ_conifer_HostAll.groups</doclink>
+        <doclink>../../helpfiles/fungalITSdatabaseID.fasta.zip</doclink>
+      </doc>
+      <category>metagenomics</category>
+      <category>Workflows</category>
+      <command>runner </command>
+      <interface type="form" generated="true">
+        <fieldset xmlns="http://www.w3.org/1999/xhtml" class="minimizable" data-paragraphname="mothur1">
+          <legend>First mothur run</legend>
+          <div>
+            <fieldset class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="true" data-default-value="" data-datatype="BatchFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="commandfile1">
+              <legend>Commands to be executed (Batch file)<a href="#idp1373712::comment" class="blindLink commentToggle" onclick="if (typeof portal=='undefined'){var target=document.getElementById(this.getAttribute('href').substr(1)); target.style.display=(target.style.display=='none') ? '':'none';}" title="click to expand/collapse contextual help">?</a>
+                <a href="#idp1373712::example" class="exampleLink" title="click to prefill with an example">[use example data]</a>
+              </legend>
+              <div id="idp1373712::comment" class="commentText" style="display:none" mode="ajaxTarget">
+                <div>This file is designed to work with data files pasted in.  If you upload data files you will need to change the filesnames in this mothur command file to match the filenames of the data files you upload.</div>
+                <div class="example" id="idp1373712::example" data-forparameter="commandfile1">Example data <i>(click on <a>[use example data]</a> to load)</i>:
+			<pre>unique.seqs(fasta=dat1.data)
+</pre>
+                </div>
+              </div>
+              <div class="example" id="idp1373712::example" data-forparameter="commandfile1" style="display:none">
+                <pre>unique.seqs(fasta=dat1.data)
+</pre>
+              </div>
+              <textarea name="commandfile1" cols="60" rows="7"> </textarea>
+            </fieldset>
+            <fieldset class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="SequenceFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="dat1">
+              <legend>Fasta file (if pasted will be named dat1.data, if uploaded will keep the same filename)</legend>
+              <textarea name="dat1" cols="60" rows="7"> </textarea>
+            </fieldset>
+            <fieldset class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="GroupsFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="dat4">
+              <legend>Groups file (if pasted will be named dat4.data, if uploaded will keep the same filename)</legend>
+              <textarea name="dat4" cols="60" rows="7"> </textarea>
+            </fieldset>
+            <fieldset class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="SequenceFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="dat5">
+              <legend>Database file (if pasted will be named dat5.data, if uploaded will keep the same filename)</legend>
+              <textarea name="dat5" cols="60" rows="7"> </textarea>
+            </fieldset>
+          </div>
+        </fieldset>
+        <fieldset xmlns="http://www.w3.org/1999/xhtml" class="minimizable" data-paragraphname="funitsext">
+          <legend>Fungal ITS Extractor</legend>
+          <div>
+            <label class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="false" data-default-value="dat1.unique.data" data-datatype="Filename" data-datatype-superclass="" data-biotype="" data-card="" data-formats="" data-parametername="funitsinfilename">Name of input file for the Fungal ITS Extractor.  This should be the first part of your fasta file + .unique. + the file extention<input name="funitsinfilename" type="text" value="dat1.unique.data"/>
+            </label>
+          </div>
+        </fieldset>
+        <fieldset xmlns="http://www.w3.org/1999/xhtml" class="minimizable" data-paragraphname="mothur2">
+          <legend>Second mothur run</legend>
+          <div>
+            <label class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="true" data-default-value="Both" data-datatype="Choice" data-datatype-superclass="" data-biotype="" data-card="" data-formats="" data-parametername="whichfile">File to process<a href="#idp1501968::comment" class="blindLink commentToggle" onclick="if (typeof portal=='undefined'){var target=document.getElementById(this.getAttribute('href').substr(1)); target.style.display=(target.style.display=='none') ? '':'none';}" title="click to expand/collapse contextual help">?</a>
+              <select name="whichfile">
+                <option value="ITS1">ITS1.fasta</option>
+                <option value="ITS2">ITS2.fasta</option>
+                <option value="Both" selected="selected">Both.fasta</option>
+                <option value="dat1.unique.data">dat1.unique.data</option>
+              </select>
+              <div id="idp1501968::comment" class="commentText" style="display:none" mode="ajaxTarget">
+                <div>If you change this parameter, change the filenames in the mothur commands below to match.</div>
+              </div>
+            </label>
+            <fieldset class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="true" data-default-value="" data-datatype="BatchFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="commandfile2">
+              <legend>Commands to be executed (Batch file)<a href="#idp1509312::comment" class="blindLink commentToggle" onclick="if (typeof portal=='undefined'){var target=document.getElementById(this.getAttribute('href').substr(1)); target.style.display=(target.style.display=='none') ? '':'none';}" title="click to expand/collapse contextual help">?</a>
+                <a href="#idp1509312::example" class="exampleLink" title="click to prefill with an example">[use example data]</a>
+              </legend>
+              <div id="idp1509312::comment" class="commentText" style="display:none" mode="ajaxTarget">
+                <div>This file is designed to work with data files pasted in.  If you upload data files you will need to change the filesnames in this mothur command file to match the filenames of the data files you upload.</div>
+                <div class="example" id="idp1509312::example" data-forparameter="commandfile2">Example data <i>(click on <a>[use example data]</a> to load)</i>:
+			<pre>trim.seqs(fasta=Both.fasta, minlength=400)
+chimera.uchime(fasta=Both.trim.fasta, reference=dat5.data)
+remove.seqs(accnos=Both.trim.uchime.accnos, fasta=Both.trim.fasta)
+list.seqs(fasta=Both.trim.pick.fasta)
+get.seqs(accnos=Both.trim.pick.accnos, name=dat1.names)
+list.seqs(name=dat1.pick.names)
+get.seqs(accnos=dat1.pick.accnos, group=dat4.data)
+</pre>
+                </div>
+              </div>
+              <div class="example" id="idp1509312::example" data-forparameter="commandfile2" style="display:none">
+                <pre>trim.seqs(fasta=Both.fasta, minlength=400)
+chimera.uchime(fasta=Both.trim.fasta, reference=dat5.data)
+remove.seqs(accnos=Both.trim.uchime.accnos, fasta=Both.trim.fasta)
+list.seqs(fasta=Both.trim.pick.fasta)
+get.seqs(accnos=Both.trim.pick.accnos, name=dat1.names)
+list.seqs(name=dat1.pick.names)
+get.seqs(accnos=dat1.pick.accnos, group=dat4.data)
+</pre>
+              </div>
+              <textarea name="commandfile2" cols="60" rows="7"> </textarea>
+            </fieldset>
+          </div>
+        </fieldset>
+        <fieldset xmlns="http://www.w3.org/1999/xhtml" class="minimizable" data-paragraphname="esprit_cc">
+          <legend>Esprit_cc run</legend>
+          <div>
+            <label class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="false" data-default-value=".trim.pick.fasta" data-datatype="String" data-datatype-superclass="" data-biotype="" data-card="" data-formats="" data-parametername="eccinfileext">The file extention of the input for Esprit_CC (the filename is set by "File to process" above)<input name="eccinfileext" type="text" value=".trim.pick.fasta"/>
+            </label>
+            <label class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="false" data-default-value="100" data-datatype="Integer" data-datatype-superclass="" data-biotype="" data-card="" data-formats="" data-parametername="needledist">Number of needledist runs (will use n processors)<input name="needledist" type="text" value="100"/>
+            </label>
+          </div>
+        </fieldset>
+        <fieldset xmlns="http://www.w3.org/1999/xhtml" class="minimizable" data-paragraphname="espritdist2dist3">
+          <legend>Espritdist2dist3 run</legend>
+          <div>
+            <label class="parameter " title="" data-issimple="false" data-default-value=".trim.pick.dist2dist3.ndist" data-datatype="String" data-datatype-superclass="" data-biotype="" data-card="" data-formats="" data-parametername="espritdist2dist3infilename">The file extension of the output file from Espritdist2dist3 (the filename is set by "File to process" above)<input name="espritdist2dist3infilename" type="text" value=".trim.pick.dist2dist3.ndist"/>
+            </label>
+          </div>
+        </fieldset>
+        <fieldset xmlns="http://www.w3.org/1999/xhtml" class="minimizable" data-paragraphname="mothur3">
+          <legend>Third mothur run</legend>
+          <div>
+            <fieldset class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="true" data-default-value="" data-datatype="BatchFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="commandfile3">
+              <legend>Commands to be executed (Batch file)<a href="#idp1685904::comment" class="blindLink commentToggle" onclick="if (typeof portal=='undefined'){var target=document.getElementById(this.getAttribute('href').substr(1)); target.style.display=(target.style.display=='none') ? '':'none';}" title="click to expand/collapse contextual help">?</a>
+                <a href="#idp1685904::example" class="exampleLink" title="click to prefill with an example">[use example data]</a>
+              </legend>
+              <div id="idp1685904::comment" class="commentText" style="display:none" mode="ajaxTarget">
+                <div>This file is designed to work with data files pasted in.  If you upload data files you will need to change the filesnames in this mothur command file to match the filenames of the data files you upload.</div>
+                <div class="example" id="idp1685904::example" data-forparameter="commandfile3">Example data <i>(click on <a>[use example data]</a> to load)</i>:
+			<pre>cluster(column=Both.trim.pick.dist2dist3.ndist, name=dat1.pick.names, method=furthest)
+get.oturep(column=Both.trim.pick.dist2dist3.ndist, name=dat1.pick.names, fasta=Both.trim.pick.fasta, list=Both.trim.pick.dist2dist3.fn.list, label=0.01-0.03-0.05)
+collect.single(list=Both.trim.pick.dist2dist3.fn.list, freq=1, label=0.01-0.03-0.05)
+rarefaction.single(list=Both.trim.pick.dist2dist3.fn.list, freq=1, label=0.01-0.03-0.05)
+summary.single(list=Both.trim.pick.dist2dist3.fn.list, label=0.01-0.03-0.05)
+make.shared(list=Both.trim.pick.dist2dist3.fn.list, group=dat4.pick.data)
+collect.single(shared=Both.trim.pick.dist2dist3.fn.shared, freq=1, label=0.01-0.03-0.05)
+summary.single(shared=Both.trim.pick.dist2dist3.fn.shared, calc=bootstrap-jack-ace-chao-sobs, label=0.01-0.03-0.05)
+rarefaction.single(shared=Both.trim.pick.dist2dist3.fn.shared, freq=1, label=0.01-0.03-0.05, calc=bootstrap-sobs)
+remove.rare(shared=Both.trim.pick.dist2dist3.fn.shared, nseqs=1)
+summary.shared(shared=Both.trim.pick.dist2dist3.fn.pick.shared, calc=sharedsobs-jclass-morisitahorn, label=0.01-0.03-0.05)
+</pre>
+                </div>
+              </div>
+              <div class="example" id="idp1685904::example" data-forparameter="commandfile3" style="display:none">
+                <pre>cluster(column=Both.trim.pick.dist2dist3.ndist, name=dat1.pick.names, method=furthest)
+get.oturep(column=Both.trim.pick.dist2dist3.ndist, name=dat1.pick.names, fasta=Both.trim.pick.fasta, list=Both.trim.pick.dist2dist3.fn.list, label=0.01-0.03-0.05)
+collect.single(list=Both.trim.pick.dist2dist3.fn.list, freq=1, label=0.01-0.03-0.05)
+rarefaction.single(list=Both.trim.pick.dist2dist3.fn.list, freq=1, label=0.01-0.03-0.05)
+summary.single(list=Both.trim.pick.dist2dist3.fn.list, label=0.01-0.03-0.05)
+make.shared(list=Both.trim.pick.dist2dist3.fn.list, group=dat4.pick.data)
+collect.single(shared=Both.trim.pick.dist2dist3.fn.shared, freq=1, label=0.01-0.03-0.05)
+summary.single(shared=Both.trim.pick.dist2dist3.fn.shared, calc=bootstrap-jack-ace-chao-sobs, label=0.01-0.03-0.05)
+rarefaction.single(shared=Both.trim.pick.dist2dist3.fn.shared, freq=1, label=0.01-0.03-0.05, calc=bootstrap-sobs)
+remove.rare(shared=Both.trim.pick.dist2dist3.fn.shared, nseqs=1)
+summary.shared(shared=Both.trim.pick.dist2dist3.fn.pick.shared, calc=sharedsobs-jclass-morisitahorn, label=0.01-0.03-0.05)
+</pre>
+              </div>
+              <textarea name="commandfile3" cols="60" rows="7"> </textarea>
+            </fieldset>
+          </div>
+        </fieldset>
+      </interface>
+      <interface type="job_input" generated="true">
+        <xhtml:fieldset xmlns:xhtml="http://www.w3.org/1999/xhtml" class="minimizable" data-paragraphname="mothur1">
+          <xhtml:legend>First mothur run</xhtml:legend>
+          <xhtml:div>
+            <xhtml:div data-parametername="commandfile1" class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="true" data-default-value="" data-datatype="BatchFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="">
+              <xhtml:span class="prompt">Commands to be executed (Batch file)</xhtml:span>
+              <xhtml:i>
+				(BatchFile)
+			</xhtml:i>
+              <xhtml:a href="#idp1373712::comment" class="blindLink commentToggle" onclick="if (typeof portal=='undefined'){var target=document.getElementById(this.getAttribute('href').substr(1)); target.style.display=(target.style.display=='none') ? '':'none';}" title="click to expand/collapse contextual help">?</xhtml:a>
+              <xhtml:div id="idp1373712::comment" class="commentText" style="display:none" mode="ajaxTarget">
+                <xhtml:div>This file is designed to work with data files pasted in.  If you upload data files you will need to change the filesnames in this mothur command file to match the filenames of the data files you upload.</xhtml:div>
+              </xhtml:div>
+            </xhtml:div>
+            <xhtml:div data-parametername="dat1" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="SequenceFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="">
+              <xhtml:span class="prompt">Fasta file (if pasted will be named dat1.data, if uploaded will keep the same filename)</xhtml:span>
+              <xhtml:i>
+				(SequenceFile)
+			</xhtml:i>
+            </xhtml:div>
+            <xhtml:div data-parametername="dat4" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="GroupsFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="">
+              <xhtml:span class="prompt">Groups file (if pasted will be named dat4.data, if uploaded will keep the same filename)</xhtml:span>
+              <xhtml:i>
+				(GroupsFile)
+			</xhtml:i>
+            </xhtml:div>
+            <xhtml:div data-parametername="dat5" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="SequenceFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="">
+              <xhtml:span class="prompt">Database file (if pasted will be named dat5.data, if uploaded will keep the same filename)</xhtml:span>
+              <xhtml:i>
+				(SequenceFile)
+			</xhtml:i>
+            </xhtml:div>
+            <xhtml:div data-parametername="a" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="String" data-datatype-superclass="" data-biotype="" data-card="" data-formats="">
+              <xhtml:span class="prompt"/>
+            </xhtml:div>
+          </xhtml:div>
+        </xhtml:fieldset>
+        <xhtml:fieldset xmlns:xhtml="http://www.w3.org/1999/xhtml" class="minimizable" data-paragraphname="funitsext">
+          <xhtml:legend>Fungal ITS Extractor</xhtml:legend>
+          <xhtml:div>
+            <xhtml:div data-parametername="funitsinfilename" class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="false" data-default-value="dat1.unique.data" data-datatype="Filename" data-datatype-superclass="" data-biotype="" data-card="" data-formats="">
+              <xhtml:span class="prompt">Name of input file for the Fungal ITS Extractor.  This should be the first part of your fasta file + .unique. + the file extention</xhtml:span>
+            </xhtml:div>
+          </xhtml:div>
+        </xhtml:fieldset>
+        <xhtml:fieldset xmlns:xhtml="http://www.w3.org/1999/xhtml" class="minimizable" data-paragraphname="mothur2">
+          <xhtml:legend>Second mothur run</xhtml:legend>
+          <xhtml:div>
+            <xhtml:div data-parametername="whichfile" class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="true" data-default-value="Both" data-datatype="Choice" data-datatype-superclass="" data-biotype="" data-card="" data-formats="">
+              <xhtml:span class="prompt">File to process</xhtml:span>
+              <xhtml:a href="#idp1501968::comment" class="blindLink commentToggle" onclick="if (typeof portal=='undefined'){var target=document.getElementById(this.getAttribute('href').substr(1)); target.style.display=(target.style.display=='none') ? '':'none';}" title="click to expand/collapse contextual help">?</xhtml:a>
+              <xhtml:div id="idp1501968::comment" class="commentText" style="display:none" mode="ajaxTarget">
+                <xhtml:div>If you change this parameter, change the filenames in the mothur commands below to match.</xhtml:div>
+              </xhtml:div>
+            </xhtml:div>
+            <xhtml:div data-parametername="commandfile2" class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="true" data-default-value="" data-datatype="BatchFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="">
+              <xhtml:span class="prompt">Commands to be executed (Batch file)</xhtml:span>
+              <xhtml:i>
+				(BatchFile)
+			</xhtml:i>
+              <xhtml:a href="#idp1509312::comment" class="blindLink commentToggle" onclick="if (typeof portal=='undefined'){var target=document.getElementById(this.getAttribute('href').substr(1)); target.style.display=(target.style.display=='none') ? '':'none';}" title="click to expand/collapse contextual help">?</xhtml:a>
+              <xhtml:div id="idp1509312::comment" class="commentText" style="display:none" mode="ajaxTarget">
+                <xhtml:div>This file is designed to work with data files pasted in.  If you upload data files you will need to change the filesnames in this mothur command file to match the filenames of the data files you upload.</xhtml:div>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </xhtml:fieldset>
+        <xhtml:fieldset xmlns:xhtml="http://www.w3.org/1999/xhtml" class="minimizable" data-paragraphname="esprit_cc">
+          <xhtml:legend>Esprit_cc run</xhtml:legend>
+          <xhtml:div>
+            <xhtml:div data-parametername="eccinfileext" class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="false" data-default-value=".trim.pick.fasta" data-datatype="String" data-datatype-superclass="" data-biotype="" data-card="" data-formats="">
+              <xhtml:span class="prompt">The file extention of the input for Esprit_CC (the filename is set by "File to process" above)</xhtml:span>
+            </xhtml:div>
+            <xhtml:div data-parametername="kmerblocks" class="parameter " title="" data-issimple="false" data-default-value="10" data-datatype="Integer" data-datatype-superclass="" data-biotype="" data-card="" data-formats="">
+              <xhtml:span class="prompt">Number of kmer-dist blocks (will use (n+1 choose 2) processors). The esprit algorithm is parallelized, meaning the input is broken into multiple parts and those parts are processed simultaneously on multiple computers. This parameter controls how many parts the input is broken into. For most datasets you can leave it at 10. If you are running just a few sequences, you need to make sure that the parameter is less than the number of sequences you have so that there will be more than just 1 or 2 sequences in each block. If you have a very large dataset that's taking too long to run you can try raising it. Do not set it higher than 15 though, since 16 choose 2 is already 120 </xhtml:span>
+            </xhtml:div>
+            <xhtml:div data-parametername="needledist" class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="false" data-default-value="100" data-datatype="Integer" data-datatype-superclass="" data-biotype="" data-card="" data-formats="">
+              <xhtml:span class="prompt">Number of needledist runs (will use n processors)</xhtml:span>
+            </xhtml:div>
+          </xhtml:div>
+        </xhtml:fieldset>
+        <xhtml:fieldset xmlns:xhtml="http://www.w3.org/1999/xhtml" class="minimizable" data-paragraphname="espritdist2dist3">
+          <xhtml:legend>Espritdist2dist3 run</xhtml:legend>
+          <xhtml:div>
+            <xhtml:div data-parametername="espritdist2dist3infilename" class="parameter " title="" data-issimple="false" data-default-value=".trim.pick.dist2dist3.ndist" data-datatype="String" data-datatype-superclass="" data-biotype="" data-card="" data-formats="">
+              <xhtml:span class="prompt">The file extension of the output file from Espritdist2dist3 (the filename is set by "File to process" above)</xhtml:span>
+            </xhtml:div>
+          </xhtml:div>
+        </xhtml:fieldset>
+        <xhtml:fieldset xmlns:xhtml="http://www.w3.org/1999/xhtml" class="minimizable" data-paragraphname="mothur3">
+          <xhtml:legend>Third mothur run</xhtml:legend>
+          <xhtml:div>
+            <xhtml:div data-parametername="commandfile3" class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="true" data-default-value="" data-datatype="BatchFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="">
+              <xhtml:span class="prompt">Commands to be executed (Batch file)</xhtml:span>
+              <xhtml:i>
+				(BatchFile)
+			</xhtml:i>
+              <xhtml:a href="#idp1685904::comment" class="blindLink commentToggle" onclick="if (typeof portal=='undefined'){var target=document.getElementById(this.getAttribute('href').substr(1)); target.style.display=(target.style.display=='none') ? '':'none';}" title="click to expand/collapse contextual help">?</xhtml:a>
+              <xhtml:div id="idp1685904::comment" class="commentText" style="display:none" mode="ajaxTarget">
+                <xhtml:div>This file is designed to work with data files pasted in.  If you upload data files you will need to change the filesnames in this mothur command file to match the filenames of the data files you upload.</xhtml:div>
+              </xhtml:div>
+            </xhtml:div>
+          </xhtml:div>
+        </xhtml:fieldset>
+      </interface>
+      <interface type="job_output" generated="true">
+        <div xmlns="http://www.w3.org/1999/xhtml" data-parametername="stepsixoutfiles" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="StepSixFiles" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="">
+          <span class="prompt"/>
+          <i>
+				(StepSixFiles)
+			</i>
+        </div>
+        <div xmlns="http://www.w3.org/1999/xhtml" data-parametername="stepfiveoutfiles" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="StepFiveFiles" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="">
+          <span class="prompt"/>
+          <i>
+				(StepFiveFiles)
+			</i>
+        </div>
+        <div xmlns="http://www.w3.org/1999/xhtml" data-parametername="stepfouroutfiles" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="StepFourFiles" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="">
+          <span class="prompt"/>
+          <i>
+				(StepFourFiles)
+			</i>
+        </div>
+        <div xmlns="http://www.w3.org/1999/xhtml" data-parametername="stepthreeoutfiles" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="StepThreeFiles" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="">
+          <span class="prompt"/>
+          <i>
+				(StepThreeFiles)
+			</i>
+        </div>
+        <div xmlns="http://www.w3.org/1999/xhtml" data-parametername="steptwooutfiles" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="StepTwoFiles" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="">
+          <span class="prompt"/>
+          <i>
+				(StepTwoFiles)
+			</i>
+        </div>
+        <div xmlns="http://www.w3.org/1999/xhtml" data-parametername="steponeoutfiles" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="StepOneFiles" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="">
+          <span class="prompt"/>
+          <i>
+				(StepOneFiles)
+			</i>
+        </div>
+        <div xmlns="http://www.w3.org/1999/xhtml" data-parametername="stdoutfile" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="stdout" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="">
+          <span class="prompt"/>
+          <i>
+				(stdout)
+			</i>
+        </div>
+        <div xmlns="http://www.w3.org/1999/xhtml" data-parametername="stdout" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="Report" data-datatype-superclass="" data-biotype="" data-card="" data-formats="">
+          <span class="prompt">Standard output</span>
+          <i>
+				(Report)
+			</i>
+        </div>
+        <div xmlns="http://www.w3.org/1999/xhtml" data-parametername="stderr" class="prompt" title="" data-issimple="false" data-default-value="" data-datatype="Report" data-datatype-superclass="" data-biotype="" data-card="" data-formats="">
+          <span class="prompt">Standard error</span>
+          <i>
+				(Report)
+			</i>
+        </div>
+      </interface>
+    </head>
+    <parameters>
+      <paragraph>
+        <name>mothur1</name>
+        <prompt lang="en">First mothur run</prompt>
+        <parameters>
+          <parameter ismandatory="1" issimple="1">
+            <name>commandfile1</name>
+            <prompt lang="en">Commands to be executed (Batch file)</prompt>
+            <type>
+              <datatype>
+                <class>BatchFile</class>
+                <superclass>AbstractText</superclass>
+              </datatype>
+            </type>
+            <argpos>2</argpos>
+            <example>unique.seqs(fasta=dat1.data)
+</example>
+            <comment>
+              <text lang="en">This file is designed to work with data files pasted in.  If you upload data files you will need to change the filesnames in this mothur command file to match the filenames of the data files you upload.</text>
+            </comment>
+            <interface type="form" generated="true">
+              <xhtml:fieldset xmlns:xhtml="http://www.w3.org/1999/xhtml">
+                <xhtml:legend>Commands to be executed (Batch file)</xhtml:legend>
+                <xhtml:textarea name="commandfile1" cols="60" rows="7"> </xhtml:textarea>
+              </xhtml:fieldset>
+            </interface>
+            <interface generated="true" type="job_input">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="true" data-default-value="" data-datatype="BatchFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="commandfile1">
+                <span class="prompt">Commands to be executed (Batch file)</span>
+                <i>
+				(BatchFile)
+			</i>
+                <a href="#idp1373712::comment" class="blindLink commentToggle" onclick="if (typeof portal=='undefined'){var target=document.getElementById(this.getAttribute('href').substr(1)); target.style.display=(target.style.display=='none') ? '':'none';}" title="click to expand/collapse contextual help">?</a>
+                <div id="idp1373712::comment" class="commentText" style="display:none" mode="ajaxTarget">
+                  <div>This file is designed to work with data files pasted in.  If you upload data files you will need to change the filesnames in this mothur command file to match the filenames of the data files you upload.</div>
+                </div>
+              </div>
+            </interface>
+          </parameter>
+          <parameter>
+            <name>dat1</name>
+            <prompt lang="en">Fasta file (if pasted will be named dat1.data, if uploaded will keep the same filename)</prompt>
+            <type>
+              <datatype>
+                <class>SequenceFile</class>
+                <superclass>AbstractText</superclass>
+              </datatype>
+            </type>
+            <interface type="form" generated="true">
+              <xhtml:fieldset xmlns:xhtml="http://www.w3.org/1999/xhtml">
+                <xhtml:legend>Fasta file (if pasted will be named dat1.data, if uploaded will keep the same filename)</xhtml:legend>
+                <xhtml:textarea name="dat1" cols="60" rows="7"> </xhtml:textarea>
+              </xhtml:fieldset>
+            </interface>
+            <interface generated="true" type="job_input">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="SequenceFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="dat1">
+                <span class="prompt">Fasta file (if pasted will be named dat1.data, if uploaded will keep the same filename)</span>
+                <i>
+				(SequenceFile)
+			</i>
+              </div>
+            </interface>
+          </parameter>
+          <!--<parameter>
+                <name>dat2</name>
+                <prompt lang="en">Names file (if pasted will be named dat2.data, if uploaded will keep the same filename)</prompt>
+                <type>
+                  <datatype>
+                    <class>NamesFile</class>
+                    <superclass>AbstractText</superclass>
+                  </datatype>
+                </type> 
+              </parameter>-->
+          <parameter>
+            <name>dat4</name>
+            <prompt lang="en">Groups file (if pasted will be named dat4.data, if uploaded will keep the same filename)</prompt>
+            <type>
+              <datatype>
+                <class>GroupsFile</class>
+                <superclass>AbstractText</superclass>
+              </datatype>
+            </type>
+            <interface type="form" generated="true">
+              <xhtml:fieldset xmlns:xhtml="http://www.w3.org/1999/xhtml">
+                <xhtml:legend>Groups file (if pasted will be named dat4.data, if uploaded will keep the same filename)</xhtml:legend>
+                <xhtml:textarea name="dat4" cols="60" rows="7"> </xhtml:textarea>
+              </xhtml:fieldset>
+            </interface>
+            <interface generated="true" type="job_input">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="GroupsFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="dat4">
+                <span class="prompt">Groups file (if pasted will be named dat4.data, if uploaded will keep the same filename)</span>
+                <i>
+				(GroupsFile)
+			</i>
+              </div>
+            </interface>
+          </parameter>
+          <parameter>
+            <name>dat5</name>
+            <prompt lang="en">Database file (if pasted will be named dat5.data, if uploaded will keep the same filename)</prompt>
+            <type>
+              <datatype>
+                <class>SequenceFile</class>
+                <superclass>AbstractText</superclass>
+              </datatype>
+            </type>
+            <interface type="form" generated="true">
+              <xhtml:fieldset xmlns:xhtml="http://www.w3.org/1999/xhtml">
+                <xhtml:legend>Database file (if pasted will be named dat5.data, if uploaded will keep the same filename)</xhtml:legend>
+                <xhtml:textarea name="dat5" cols="60" rows="7"> </xhtml:textarea>
+              </xhtml:fieldset>
+            </interface>
+            <interface generated="true" type="job_input">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="SequenceFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="dat5">
+                <span class="prompt">Database file (if pasted will be named dat5.data, if uploaded will keep the same filename)</span>
+                <i>
+				(SequenceFile)
+			</i>
+              </div>
+            </interface>
+          </parameter>
+          <parameter ishidden="1">
+            <name>a</name>
+            <type>
+              <datatype>
+                <class>String</class>
+              </datatype>
+            </type>
+            <format>
+              <code proglang="python">" mothur " + str(commandfile1) + " % "</code>
+            </format>
+            <interface generated="true" type="job_input">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="String" data-datatype-superclass="" data-biotype="" data-card="" data-formats="" data-parametername="a">
+                <span class="prompt"/>
+              </div>
+            </interface>
+          </parameter>
+        </parameters>
+      </paragraph>
+      <paragraph>
+        <name>funitsext</name>
+        <prompt lang="en">Fungal ITS Extractor</prompt>
+        <parameters>
+          <parameter ismandatory="1">
+            <name>funitsinfilename</name>
+            <prompt lang="en">Name of input file for the Fungal ITS Extractor.  This should be the first part of your fasta file + .unique. + the file extention</prompt>
+            <type>
+              <datatype>
+                <class>Filename</class>
+              </datatype>
+            </type>
+            <vdef>
+              <value>dat1.unique.data</value>
+            </vdef>
+            <format>
+              <code proglang="python">( "" , "/opt/mobyle/bin/FungalITSextractor.pl " + str(value) + " /opt/mobyle/bin/HMMs/ % java -jar /opt/mobyle/bin/ParseFungalITS.jar outdata.csv " + str(value) )[ value is not None ]</code>
+            </format>
+            <argpos>4</argpos>
+            <interface type="form" generated="true">
+              <label xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="" data-datatype-superclass="" data-biotype="" data-card="" data-formats="">Name of input file for the Fungal ITS Extractor.  This should be the first part of your fasta file + .unique. + the file extention<input name="funitsinfilename" type="text" value="dat1.unique.data"/>
+              </label>
+            </interface>
+            <interface generated="true" type="job_input">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="false" data-default-value="dat1.unique.data" data-datatype="Filename" data-datatype-superclass="" data-biotype="" data-card="" data-formats="" data-parametername="funitsinfilename">
+                <span class="prompt">Name of input file for the Fungal ITS Extractor.  This should be the first part of your fasta file + .unique. + the file extention</span>
+              </div>
+            </interface>
+          </parameter>
+        </parameters>
+      </paragraph>
+      <paragraph>
+        <name>mothur2</name>
+        <prompt lang="en">Second mothur run</prompt>
+        <parameters>
+          <parameter ismandatory="1" issimple="1">
+            <name>whichfile</name>
+            <prompt lang="en">File to process</prompt>
+            <type>
+              <datatype>
+                <class>Choice</class>
+              </datatype>
+            </type>
+            <vdef>
+              <value>Both</value>
+            </vdef>
+            <vlist>
+              <velem>
+                <value>ITS1</value>
+                <label>ITS1.fasta</label>
+              </velem>
+              <velem>
+                <value>ITS2</value>
+                <label>ITS2.fasta</label>
+              </velem>
+              <velem>
+                <value>Both</value>
+                <label>Both.fasta</label>
+              </velem>
+              <velem>
+                <value>dat1.unique.data</value>
+                <label>dat1.unique.data</label>
+              </velem>
+            </vlist>
+            <comment>
+              <text lang="en">If you change this parameter, change the filenames in the mothur commands below to match.</text>
+            </comment>
+            <interface type="form" generated="true">
+              <label xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="" data-datatype-superclass="" data-biotype="" data-card="" data-formats="">File to process<a href="#idp1501968::comment" class="blindLink commentToggle" onclick="if (typeof portal=='undefined'){var target=document.getElementById(this.getAttribute('href').substr(1)); target.style.display=(target.style.display=='none') ? '':'none';}" title="click to expand/collapse contextual help">?</a>
+                <select name="whichfile">
+                  <option value="ITS1">ITS1.fasta</option>
+                  <option value="ITS2">ITS2.fasta</option>
+                  <option value="Both" selected="selected">Both.fasta</option>
+                  <option value="dat1.unique.data">dat1.unique.data</option>
+                </select>
+                <div id="idp1501968::comment" class="commentText" style="display:none" mode="ajaxTarget">
+                  <div>If you change this parameter, change the filenames in the mothur commands below to match.</div>
+                </div>
+              </label>
+            </interface>
+            <interface generated="true" type="job_input">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="true" data-default-value="Both" data-datatype="Choice" data-datatype-superclass="" data-biotype="" data-card="" data-formats="" data-parametername="whichfile">
+                <span class="prompt">File to process</span>
+                <a href="#idp1501968::comment" class="blindLink commentToggle" onclick="if (typeof portal=='undefined'){var target=document.getElementById(this.getAttribute('href').substr(1)); target.style.display=(target.style.display=='none') ? '':'none';}" title="click to expand/collapse contextual help">?</a>
+                <div id="idp1501968::comment" class="commentText" style="display:none" mode="ajaxTarget">
+                  <div>If you change this parameter, change the filenames in the mothur commands below to match.</div>
+                </div>
+              </div>
+            </interface>
+          </parameter>
+          <parameter ismandatory="1" issimple="1">
+            <name>commandfile2</name>
+            <prompt lang="en">Commands to be executed (Batch file)</prompt>
+            <type>
+              <datatype>
+                <class>BatchFile</class>
+                <superclass>AbstractText</superclass>
+              </datatype>
+            </type>
+            <format>
+              <code proglang="python">( "" , " % mothur " + str( value ))[ value is not None ]</code>
+            </format>
+            <argpos>6</argpos>
+            <example>trim.seqs(fasta=Both.fasta, minlength=400)
+chimera.uchime(fasta=Both.trim.fasta, reference=dat5.data)
+remove.seqs(accnos=Both.trim.uchime.accnos, fasta=Both.trim.fasta)
+list.seqs(fasta=Both.trim.pick.fasta)
+get.seqs(accnos=Both.trim.pick.accnos, name=dat1.names)
+list.seqs(name=dat1.pick.names)
+get.seqs(accnos=dat1.pick.accnos, group=dat4.data)
+</example>
+            <comment>
+              <text lang="en">This file is designed to work with data files pasted in.  If you upload data files you will need to change the filesnames in this mothur command file to match the filenames of the data files you upload.</text>
+            </comment>
+            <interface type="form" generated="true">
+              <xhtml:fieldset xmlns:xhtml="http://www.w3.org/1999/xhtml">
+                <xhtml:legend>Commands to be executed (Batch file)</xhtml:legend>
+                <xhtml:textarea name="commandfile2" cols="60" rows="7"> </xhtml:textarea>
+              </xhtml:fieldset>
+            </interface>
+            <interface generated="true" type="job_input">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="true" data-default-value="" data-datatype="BatchFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="commandfile2">
+                <span class="prompt">Commands to be executed (Batch file)</span>
+                <i>
+				(BatchFile)
+			</i>
+                <a href="#idp1509312::comment" class="blindLink commentToggle" onclick="if (typeof portal=='undefined'){var target=document.getElementById(this.getAttribute('href').substr(1)); target.style.display=(target.style.display=='none') ? '':'none';}" title="click to expand/collapse contextual help">?</a>
+                <div id="idp1509312::comment" class="commentText" style="display:none" mode="ajaxTarget">
+                  <div>This file is designed to work with data files pasted in.  If you upload data files you will need to change the filesnames in this mothur command file to match the filenames of the data files you upload.</div>
+                </div>
+              </div>
+            </interface>
+          </parameter>
+        </parameters>
+      </paragraph>
+      <paragraph>
+        <name>esprit_cc</name>
+        <prompt lang="en">Esprit_cc run</prompt>
+        <parameters>
+          <parameter ismandatory="1">
+            <name>eccinfileext</name>
+            <prompt lang="en">The file extention of the input for Esprit_CC (the filename is set by "File to process" above)</prompt>
+            <type>
+              <datatype>
+                <class>String</class>
+              </datatype>
+            </type>
+            <vdef>
+              <value>.trim.pick.fasta</value>
+            </vdef>
+            <interface type="form" generated="true">
+              <label xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="" data-datatype-superclass="" data-biotype="" data-card="" data-formats="">The file extention of the input for Esprit_CC (the filename is set by "File to process" above)<input name="eccinfileext" type="text" value=".trim.pick.fasta"/>
+              </label>
+            </interface>
+            <interface generated="true" type="job_input">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="false" data-default-value=".trim.pick.fasta" data-datatype="String" data-datatype-superclass="" data-biotype="" data-card="" data-formats="" data-parametername="eccinfileext">
+                <span class="prompt">The file extention of the input for Esprit_CC (the filename is set by "File to process" above)</span>
+              </div>
+            </interface>
+          </parameter>
+          <parameter ishidden="1">
+            <name>kmerblocks</name>
+            <prompt lang="en">Number of kmer-dist blocks (will use (n+1 choose 2) processors). The esprit algorithm is parallelized, meaning the input is broken into multiple parts and those parts are processed simultaneously on multiple computers. This parameter controls how many parts the input is broken into. For most datasets you can leave it at 10. If you are running just a few sequences, you need to make sure that the parameter is less than the number of sequences you have so that there will be more than just 1 or 2 sequences in each block. If you have a very large dataset that's taking too long to run you can try raising it. Do not set it higher than 15 though, since 16 choose 2 is already 120 </prompt>
+            <type>
+              <datatype>
+                <class>Integer</class>
+              </datatype>
+            </type>
+            <vdef>
+              <value>10</value>
+            </vdef>
+            <format>
+              <code proglang="python">" % run-esprit-cc-no-preproc -w -v 1.0 -i " + str(whichfile) + str(eccinfileext) + " " + str(value)</code>
+            </format>
+            <argpos>8</argpos>
+            <interface generated="true" type="job_input">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="10" data-datatype="Integer" data-datatype-superclass="" data-biotype="" data-card="" data-formats="" data-parametername="kmerblocks">
+                <span class="prompt">Number of kmer-dist blocks (will use (n+1 choose 2) processors). The esprit algorithm is parallelized, meaning the input is broken into multiple parts and those parts are processed simultaneously on multiple computers. This parameter controls how many parts the input is broken into. For most datasets you can leave it at 10. If you are running just a few sequences, you need to make sure that the parameter is less than the number of sequences you have so that there will be more than just 1 or 2 sequences in each block. If you have a very large dataset that's taking too long to run you can try raising it. Do not set it higher than 15 though, since 16 choose 2 is already 120 </span>
+              </div>
+            </interface>
+          </parameter>
+          <parameter ismandatory="1">
+            <name>needledist</name>
+            <prompt lang="en">Number of needledist runs (will use n processors)</prompt>
+            <type>
+              <datatype>
+                <class>Integer</class>
+              </datatype>
+            </type>
+            <vdef>
+              <value>100</value>
+            </vdef>
+            <format>
+              <code proglang="python">" " + str(value) + " % mv sequence.ndist " + str(whichfile) + ".trim.ndist"</code>
+            </format>
+            <argpos>10</argpos>
+            <interface type="form" generated="true">
+              <label xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="" data-datatype-superclass="" data-biotype="" data-card="" data-formats="">Number of needledist runs (will use n processors)<input name="needledist" type="text" value="100"/>
+              </label>
+            </interface>
+            <interface generated="true" type="job_input">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="false" data-default-value="100" data-datatype="Integer" data-datatype-superclass="" data-biotype="" data-card="" data-formats="" data-parametername="needledist">
+                <span class="prompt">Number of needledist runs (will use n processors)</span>
+              </div>
+            </interface>
+          </parameter>
+        </parameters>
+      </paragraph>
+      <paragraph>
+        <name>espritdist2dist3</name>
+        <prompt lang="en">Espritdist2dist3 run</prompt>
+        <parameters>
+          <parameter>
+            <name>espritdist2dist3infilename</name>
+            <prompt lang="en">The file extension of the output file from Espritdist2dist3 (the filename is set by "File to process" above)</prompt>
+            <type>
+              <datatype>
+                <class>String</class>
+              </datatype>
+            </type>
+            <vdef>
+              <value>.trim.pick.dist2dist3.ndist</value>
+            </vdef>
+            <format>
+              <code proglang="python">" % espritdist2dist3 -f " + str(whichfile) + str(eccinfileext) + " -d " + str(whichfile) + ".trim.ndist @ " + str(whichfile) + str(value)</code>
+            </format>
+            <argpos>12</argpos>
+            <interface type="form" generated="true">
+              <label xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="" data-datatype-superclass="" data-biotype="" data-card="" data-formats="">The file extension of the output file from Espritdist2dist3 (the filename is set by "File to process" above)<input name="espritdist2dist3infilename" type="text" value=".trim.pick.dist2dist3.ndist"/>
+              </label>
+            </interface>
+            <interface generated="true" type="job_input">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value=".trim.pick.dist2dist3.ndist" data-datatype="String" data-datatype-superclass="" data-biotype="" data-card="" data-formats="" data-parametername="espritdist2dist3infilename">
+                <span class="prompt">The file extension of the output file from Espritdist2dist3 (the filename is set by "File to process" above)</span>
+              </div>
+            </interface>
+          </parameter>
+        </parameters>
+      </paragraph>
+      <!--		
+	<paragraph>
+      <name>slp</name>
+      <prompt lang="en">Slp</prompt>
+
+        <parameters>
+
+          <parameter ishidden="1">
+            <name>slprunsetup</name>
+            <type>
+              <datatype>
+                <class>String</class>
+              </datatype>
+            </type>
+            <format>
+              <code proglang="python">" % runbsub -n 1 -W 10:00 -o std.out -e std.err -N __bsubArgsEnd__ slp -d " + str(whichfile) + ".trim.dist2dist3.ndist -n 454data.shhh.trim.pick.names -f " + str(whichfile) + ".trim.pick.fasta -o slp"</code>
+            </format>
+			<argpos>14</argpos>
+          </parameter>
+		  
+	  <parameter>
+        <name>w</name>
+        <prompt lang="en">Clustering width</prompt>
+	    <type>
+          <datatype>
+            <class>Float</class>
+	      </datatype>
+        </type>
+        <format>
+          <code proglang="python">( "" , " -w " + str( value ))[ value is not None]</code>
+        </format>
+		<argpos>16</argpos>
+      </parameter>
+	  
+	  <parameter>
+        <name>p</name>
+        <prompt lang="en">Write out to log file pairs that are wider than this value</prompt>
+	    <type>
+          <datatype>
+            <class>Float</class>
+	      </datatype>
+        </type>
+        <format>
+          <code proglang="python">( "" ,  " -p " + str( value ))[ value is not None]</code>
+        </format>
+		<argpos>18</argpos>
+      </parameter>
+	  
+	  <parameter>
+        <name>i</name>
+        <prompt lang="en">Otu size for iterate clustering (all otus smaller than this will be double-checked)</prompt>
+	    <type>
+          <datatype>
+            <class>Float</class>
+	      </datatype>
+        </type>
+        <format>
+          <code proglang="python">( "" ,  " -i " + str( value ))[ value is not None]</code>
+        </format>
+		<argpos>20</argpos>
+      </parameter>
+
+        </parameters>
+    </paragraph>			
+	
+				<parameter ishidden="1">
+					<name>sampledist3</name>
+					<prompt lang="en">sampledist3</prompt>
+					<type>
+						<datatype>
+							<class>String</class>
+						</datatype>
+					</type>
+					<format>
+						<code proglang="python">" % runbsub -n 1 -W 10:00 -o output.dist3 -e std.err -N __bsubArgsEnd__ sampledist3 -d " + str(whichfile) + ".trim.dist2dist3.ndist -f slp.unique.fa"</code>
+					</format>
+					<argpos>22</argpos>
+				</parameter>-->
+      <paragraph>
+        <name>mothur3</name>
+        <prompt lang="en">Third mothur run</prompt>
+        <parameters>
+          <parameter ismandatory="1" issimple="1">
+            <name>commandfile3</name>
+            <prompt lang="en">Commands to be executed (Batch file)</prompt>
+            <type>
+              <datatype>
+                <class>BatchFile</class>
+                <superclass>AbstractText</superclass>
+              </datatype>
+            </type>
+            <format>
+              <code proglang="python">( "" , " % mothur " + str( value ))[ value is not None ]</code>
+            </format>
+            <argpos>24</argpos>
+            <example>cluster(column=Both.trim.pick.dist2dist3.ndist, name=dat1.pick.names, method=furthest)
+get.oturep(column=Both.trim.pick.dist2dist3.ndist, name=dat1.pick.names, fasta=Both.trim.pick.fasta, list=Both.trim.pick.dist2dist3.fn.list, label=0.01-0.03-0.05)
+collect.single(list=Both.trim.pick.dist2dist3.fn.list, freq=1, label=0.01-0.03-0.05)
+rarefaction.single(list=Both.trim.pick.dist2dist3.fn.list, freq=1, label=0.01-0.03-0.05)
+summary.single(list=Both.trim.pick.dist2dist3.fn.list, label=0.01-0.03-0.05)
+make.shared(list=Both.trim.pick.dist2dist3.fn.list, group=dat4.pick.data)
+collect.single(shared=Both.trim.pick.dist2dist3.fn.shared, freq=1, label=0.01-0.03-0.05)
+summary.single(shared=Both.trim.pick.dist2dist3.fn.shared, calc=bootstrap-jack-ace-chao-sobs, label=0.01-0.03-0.05)
+rarefaction.single(shared=Both.trim.pick.dist2dist3.fn.shared, freq=1, label=0.01-0.03-0.05, calc=bootstrap-sobs)
+remove.rare(shared=Both.trim.pick.dist2dist3.fn.shared, nseqs=1)
+summary.shared(shared=Both.trim.pick.dist2dist3.fn.pick.shared, calc=sharedsobs-jclass-morisitahorn, label=0.01-0.03-0.05)
+</example>
+            <comment>
+              <text lang="en">This file is designed to work with data files pasted in.  If you upload data files you will need to change the filesnames in this mothur command file to match the filenames of the data files you upload.</text>
+            </comment>
+            <interface type="form" generated="true">
+              <xhtml:fieldset xmlns:xhtml="http://www.w3.org/1999/xhtml">
+                <xhtml:legend>Commands to be executed (Batch file)</xhtml:legend>
+                <xhtml:textarea name="commandfile3" cols="60" rows="7"> </xhtml:textarea>
+              </xhtml:fieldset>
+            </interface>
+            <interface generated="true" type="job_input">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="parameter &#10;&#9;&#9;&#9;&#9;mandatory&#10;&#9;&#9;&#9;&#9;" title="This parameter is mandatory" data-issimple="true" data-default-value="" data-datatype="BatchFile" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="commandfile3">
+                <span class="prompt">Commands to be executed (Batch file)</span>
+                <i>
+				(BatchFile)
+			</i>
+                <a href="#idp1685904::comment" class="blindLink commentToggle" onclick="if (typeof portal=='undefined'){var target=document.getElementById(this.getAttribute('href').substr(1)); target.style.display=(target.style.display=='none') ? '':'none';}" title="click to expand/collapse contextual help">?</a>
+                <div id="idp1685904::comment" class="commentText" style="display:none" mode="ajaxTarget">
+                  <div>This file is designed to work with data files pasted in.  If you upload data files you will need to change the filesnames in this mothur command file to match the filenames of the data files you upload.</div>
+                </div>
+              </div>
+            </interface>
+          </parameter>
+        </parameters>
+      </paragraph>
+      <parameter isout="1">
+        <name>stepsixoutfiles</name>
+        <type>
+          <datatype>
+            <class>StepSixFiles</class>
+            <superclass>AbstractText</superclass>
+          </datatype>
+        </type>
+        <filenames>
+          <code proglang="python">"*.list"</code>
+          <code proglang="python">"*.rabund"</code>
+          <code proglang="python">"*.sabund"</code>
+        </filenames>
+        <interface generated="true" type="job_output">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="StepSixFiles" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="stepsixoutfiles">
+            <span class="prompt"/>
+            <i>
+				(StepSixFiles)
+			</i>
+          </div>
+        </interface>
+      </parameter>
+      <parameter isout="1">
+        <name>stepfiveoutfiles</name>
+        <type>
+          <datatype>
+            <class>StepFiveFiles</class>
+            <superclass>AbstractText</superclass>
+          </datatype>
+        </type>
+        <filenames>
+          <code proglang="python">str(whichfile) + ".trim.dist2dist3.ndist"</code>
+        </filenames>
+        <interface generated="true" type="job_output">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="StepFiveFiles" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="stepfiveoutfiles">
+            <span class="prompt"/>
+            <i>
+				(StepFiveFiles)
+			</i>
+          </div>
+        </interface>
+      </parameter>
+      <parameter isout="1">
+        <name>stepfouroutfiles</name>
+        <type>
+          <datatype>
+            <class>StepFourFiles</class>
+            <superclass>AbstractText</superclass>
+          </datatype>
+        </type>
+        <filenames>
+          <code proglang="python">str(whichfile) + ".trim.ndist"</code>
+        </filenames>
+        <interface generated="true" type="job_output">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="StepFourFiles" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="stepfouroutfiles">
+            <span class="prompt"/>
+            <i>
+				(StepFourFiles)
+			</i>
+          </div>
+        </interface>
+      </parameter>
+      <parameter isout="1">
+        <name>stepthreeoutfiles</name>
+        <type>
+          <datatype>
+            <class>StepThreeFiles</class>
+            <superclass>AbstractText</superclass>
+          </datatype>
+        </type>
+        <filenames>
+          <code proglang="python">str(whichfile) + ".trim.fasta"</code>
+          <code proglang="python">"*.trim.pick.names"</code>
+          <code proglang="python">"*.pick.groups"</code>
+        </filenames>
+        <interface generated="true" type="job_output">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="StepThreeFiles" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="stepthreeoutfiles">
+            <span class="prompt"/>
+            <i>
+				(StepThreeFiles)
+			</i>
+          </div>
+        </interface>
+      </parameter>
+      <parameter isout="1">
+        <name>steptwooutfiles</name>
+        <type>
+          <datatype>
+            <class>StepTwoFiles</class>
+            <superclass>AbstractText</superclass>
+          </datatype>
+        </type>
+        <filenames>
+          <code proglang="python">"ITS1.fasta"</code>
+          <code proglang="python">"ITS1.txt"</code>
+          <code proglang="python">"ITS2.fasta"</code>
+          <code proglang="python">"ITS2.txt"</code>
+          <code proglang="python">"Both.fasta"</code>
+          <code proglang="python">"Both.txt"</code>
+        </filenames>
+        <interface generated="true" type="job_output">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="StepTwoFiles" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="steptwooutfiles">
+            <span class="prompt"/>
+            <i>
+				(StepTwoFiles)
+			</i>
+          </div>
+        </interface>
+      </parameter>
+      <parameter isout="1">
+        <name>steponeoutfiles</name>
+        <type>
+          <datatype>
+            <class>StepOneFiles</class>
+            <superclass>AbstractText</superclass>
+          </datatype>
+        </type>
+        <filenames>
+          <code proglang="python">"*.groups"</code>
+          <code proglang="python">"*.scrap.fasta"</code>
+          <code proglang="python">"*.scrap.names"</code>
+          <code proglang="python">"*.trim.fasta"</code>
+          <code proglang="python">"*.trim.names"</code>
+        </filenames>
+        <interface generated="true" type="job_output">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="StepOneFiles" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="steponeoutfiles">
+            <span class="prompt"/>
+            <i>
+				(StepOneFiles)
+			</i>
+          </div>
+        </interface>
+      </parameter>
+      <parameter isout="1">
+        <name>stdoutfile</name>
+        <type>
+          <datatype>
+            <class>stdout</class>
+            <superclass>AbstractText</superclass>
+          </datatype>
+        </type>
+        <filenames>
+          <code proglang="python">"std.out"</code>
+          <code proglang="python">"std.err"</code>
+        </filenames>
+        <interface generated="true" type="job_output">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="stdout" data-datatype-superclass="AbstractText" data-biotype="" data-card="" data-formats="" data-parametername="stdoutfile">
+            <span class="prompt"/>
+            <i>
+				(stdout)
+			</i>
+          </div>
+        </interface>
+      </parameter>
+      <parameter isstdout="true">
+        <name>stdout</name>
+        <type>
+          <datatype>
+            <class>Report</class>
+          </datatype>
+        </type>
+        <interface type="job_output" generated="true">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="parameter " title="" data-issimple="false" data-default-value="" data-datatype="Report" data-datatype-superclass="" data-biotype="" data-card="" data-formats="" data-parametername="stdout">
+            <span class="prompt">Standard output</span>
+            <i>
+				(Report)
+			</i>
+          </div>
+        </interface>
+        <filenames>
+          <code proglang="perl">"sanger_otu_clustering_workflow.out"</code>
+          <code proglang="python">"sanger_otu_clustering_workflow.out"</code>
+        </filenames>
+      </parameter>
+      <parameter isout="true">
+        <name>stderr</name>
+        <type>
+          <datatype>
+            <class>Report</class>
+          </datatype>
+        </type>
+        <interface type="job_output" generated="true">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="prompt" title="" data-issimple="false" data-default-value="" data-datatype="Report" data-datatype-superclass="" data-biotype="" data-card="" data-formats="" data-parametername="stderr">
+            <span class="prompt">Standard error</span>
+            <i>
+				(Report)
+			</i>
+          </div>
+        </interface>
+        <filenames>
+          <code proglang="perl">"sanger_otu_clustering_workflow.err"</code>
+          <code proglang="python">"sanger_otu_clustering_workflow.err"</code>
+        </filenames>
+      </parameter>
+    </parameters>
+  </program>
+  <name>http://snap.hpc.ncsu.edu/mobyle/data/services/servers/local/programs/sanger_otu_clustering_workflow.xml</name>
+  <host>http://snap.hpc.ncsu.edu</host>
+  <id>http://snap.hpc.ncsu.edu/mobyle/data/jobs/sanger_otu_clustering_workflow/I10390613356113</id>
+  <date>01/03/18  10:59:16</date>
+  <email>eabowman@email.arizona.edu</email>
+  <sessionKey>Z20062464355946</sessionKey>
+  <data>
+    <input>
+      <parameter>
+        <name>commandfile3</name>
+      </parameter>
+      <file size="1082">commandfile3.data</file>
+    </input>
+    <input>
+      <parameter>
+        <name>commandfile2</name>
+      </parameter>
+      <file size="346">commandfile2.data</file>
+    </input>
+    <input>
+      <parameter>
+        <name>commandfile1</name>
+      </parameter>
+      <file size="29">commandfile1.data</file>
+    </input>
+    <input>
+      <parameter>
+        <name>dat5</name>
+      </parameter>
+      <file size="80749094">dat5.data</file>
+    </input>
+    <input>
+      <parameter>
+        <name>dat1</name>
+      </parameter>
+      <file size="406997">dat1.data</file>
+    </input>
+    <output>
+      <parameter>
+        <name>steponeoutfiles</name>
+      </parameter>
+      <file size="9417">Both.scrap.fasta</file>
+      <file size="207093">Both.trim.fasta</file>
+    </output>
+    <output>
+      <parameter>
+        <name>stdout</name>
+      </parameter>
+      <file size="48675">sanger_otu_clustering_workflow.out</file>
+    </output>
+    <output>
+      <parameter>
+        <name>steptwooutfiles</name>
+      </parameter>
+      <file size="79233">ITS1.fasta</file>
+      <file size="86233">ITS2.fasta</file>
+      <file size="216460">Both.fasta</file>
+      <file size="2436">Both.txt</file>
+    </output>
+    <output>
+      <parameter>
+        <name>stepthreeoutfiles</name>
+      </parameter>
+      <file size="207093">Both.trim.fasta</file>
+    </output>
+    <output>
+      <parameter>
+        <name>stepfouroutfiles</name>
+      </parameter>
+      <file size="82035">Both.trim.ndist</file>
+    </output>
+    <output>
+      <parameter>
+        <name>stderr</name>
+      </parameter>
+      <file size="17644">sanger_otu_clustering_workflow.err</file>
+    </output>
+    <output>
+      <parameter>
+        <name>stepsixoutfiles</name>
+      </parameter>
+      <file size="38121">Both.trim.pick.dist2dist3.fn.list</file>
+      <file size="3686">Both.trim.pick.dist2dist3.fn.rabund</file>
+      <file size="1406">Both.trim.pick.dist2dist3.fn.sabund</file>
+    </output>
+  </data>
+  <commandLine>runner mothur commandfile1.data % /opt/mobyle/bin/FungalITSextractor.pl dat1.unique.data /opt/mobyle/bin/HMMs/ % java -jar /opt/mobyle/bin/ParseFungalITS.jar outdata.csv dat1.unique.data % mothur commandfile2.data % run-esprit-cc-no-preproc -w -v 1.0 -i Both.trim.pick.fasta 10 100 % mv sequence.ndist Both.trim.ndist % espritdist2dist3 -f Both.trim.pick.fasta -d Both.trim.ndist @ Both.trim.pick.dist2dist3.ndist % mothur commandfile3.data</commandLine>
+  <status>
+    <value>finished</value>
+    <message/>
+  </status>
+</jobState>

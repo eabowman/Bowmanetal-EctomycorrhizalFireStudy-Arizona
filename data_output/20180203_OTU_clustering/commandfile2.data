@@ -1,0 +1,7 @@
+trim.seqs(fasta=Both.fasta, minlength=400)
+chimera.uchime(fasta=Both.trim.fasta, reference=dat5.data)
+remove.seqs(accnos=Both.trim.uchime.accnos, fasta=Both.trim.fasta)
+list.seqs(fasta=Both.trim.pick.fasta)
+get.seqs(accnos=Both.trim.pick.accnos, name=dat1.names)
+list.seqs(name=dat1.pick.names)
+get.seqs(accnos=dat1.pick.accnos, group=dat4.data)
