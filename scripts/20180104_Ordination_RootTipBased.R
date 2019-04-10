@@ -48,7 +48,7 @@ for(i in unique(stsp.matrix$Site)) {
     clim.data[clim.data$site == i, 'Tmax']
 }
 
-#<< Isolate soil data for PCA >> ----------------------
+# Isolate soil data for PCA ----------------------
 soil.data <- read.csv(paste0(dat.dir, 'soil_data.csv'),as.is = T)
 # soil.sig <- c('site','pH.su','po4.p.ppm','so4.s.ppm','b.ppm','mg.ppm',
 #               'k.ppm','no3.n.ppm')
@@ -131,6 +131,7 @@ jaccard.otu$stress
 anosim.res[which(anosim.res$anosim.res =="jaccard"), "stress.nmds"] <-
   jaccard.otu$stress
 
+## NMDS Plot ------
 #--format and output NMDS plots to figure folder
 jpeg(filename = paste0(fig.dir, 'NDMS_RootTipBased.jpeg'),
      width = 1200, height = 450,
@@ -225,25 +226,27 @@ anosim.res[which(anosim.res$anosim.res =="jaccard"), "p"] <- jaccard.anosim$sign
 
 #<< PERMANOVA >>--------------------------------------------------------------------------
 #--adonis
-jaccard.adonis <- adonis(formula = comm.dist.jaccard ~ Burn_status * Range * Tmax,
-                         data = jaccard.matrix, permutations = 1000)
+jaccard.adonis <- adonis(formula = comm.dist.jaccard ~ Burn_status + 
+                           soil.pca + prec,
+                         data = jaccard.matrix, permutations = 1000,
+                         strata = jaccard.matrix$Range, by = NULL)
 jaccard.adonis
 
 #--add results to data.frame
 #--Burn status f.model, r2, p-value
-permanova.res[which(permanova.res$test == "jaccard"), "F.model.burn.status"] <- 
+permanova.res[which(permanova.res$test == "jaccard"), "F.model.soil"] <- 
   jaccard.adonis$aov.tab$F.Model[1]
-permanova.res[which(permanova.res$test == "jaccard"), "r2.burn.status"] <- 
+permanova.res[which(permanova.res$test == "jaccard"), "r2.soil"] <- 
   jaccard.adonis$aov.tab$R2[1]
-permanova.res[which(permanova.res$test == "jaccard"), "p.burn.status"] <- 
+permanova.res[which(permanova.res$test == "jaccard"), "p.soil"] <- 
   jaccard.adonis$aov.tab$`Pr(>F)`[1]
 
 #--Range f.model, r2, p-value
-permanova.res[which(permanova.res$test == "jaccard"), "F.model.range"] <-
+permanova.res[which(permanova.res$test == "jaccard"), "F.model.prec"] <-
   jaccard.adonis$aov.tab$F.Model[2]
-permanova.res[which(permanova.res$test == "jaccard"), "r2.range"] <-
+permanova.res[which(permanova.res$test == "jaccard"), "r2.prec"] <-
   jaccard.adonis$aov.tab$R2[2]
-permanova.res[which(permanova.res$test == "jaccard"), "p.range"] <-
+permanova.res[which(permanova.res$test == "jaccard"), "p.prec"] <-
   jaccard.adonis$aov.tab$`Pr(>F)`[2]
 
 #--Tmax f.model, r2, p-value
@@ -253,6 +256,15 @@ permanova.res[which(permanova.res$test == "jaccard"), "r2.temp"] <-
   jaccard.adonis$aov.tab$R2[3]
 permanova.res[which(permanova.res$test == "jaccard"), "p.temp"] <- 
   jaccard.adonis$aov.tab$`Pr(>F)`[3]
+
+#<< Variation partioning >>-------------------------------------------------------------
+jaccard.var <- varpart(comm.dist.jaccard, ~ Range, ~ prec,
+                       ~ Burn_status, ~ soil.pca,
+                       data = jaccard.matrix)
+
+jaccard.var
+plot(jaccard.var, bg = c('orange','purple'), alpha = 100,
+     Xnames = c('Range','Fire history'))
 
 #========================================================================================#
 # Morisita based dissimilarity index----
@@ -361,35 +373,37 @@ anosim.res[which(anosim.res$anosim.res =="morisita"), "p.betadisper"] <-
   morisita.betadisper$`Pr(>F)`[1]
 
 #<< PERMANOVA >>-----------------------------------------------------------------------------
-morisita.anosim <- adonis(comm.matrix ~ Burn_status * Range, data = morisita.matrix,
+morisita.perm <- adonis(comm.matrix ~ color.vec$p.group,
                           distance = "horn", by = NULL)
-morisita.anosim
+morisita.perm
 
 #--Add results to data frame
-anosim.res[which(anosim.res$anosim.res =="morisita"), "r"] <- morisita.anosim$statistic
-anosim.res[which(anosim.res$anosim.res =="morisita"), "p"] <- morisita.anosim$signif
+anosim.res[which(anosim.res$anosim.res =="morisita"), "df1"] <- morisita.perm$aov.tab$Df[1]
+anosim.res[which(anosim.res$anosim.res =="morisita"), "df2"] <- morisita.perm$aov.tab$Df[3]
+anosim.res[which(anosim.res$anosim.res =="morisita"), "R2"] <- morisita.perm$aov.tab$R2[1]
+anosim.res[which(anosim.res$anosim.res =="morisita"), "p.value"] <- morisita.perm$aov.tab$`Pr(>F)`[1]
 
 #<< PERMANOVA >>--------------------------------------------------------------------------
 #--adonis
-morisita.adonis <- adonis(formula = comm.dist.morisita ~ Burn_status * Range * Tmax,
+morisita.adonis <- adonis(formula = comm.dist.morisita ~ soil.pca * prec * Tmax,
                           data = morisita.matrix, permutations = 1000)
 morisita.adonis
 
 #--add results to data.frame
-#--Burn status f.model, r2, p-value
-permanova.res[which(permanova.res$test == "morisita"), "F.model.burn.status"] <- 
+#--Soil f.model, r2, p-value
+permanova.res[which(permanova.res$test == "morisita"), "F.model.soil"] <- 
   morisita.adonis$aov.tab$F.Model[1]
-permanova.res[which(permanova.res$test == "morisita"), "r2.burn.status"] <- 
+permanova.res[which(permanova.res$test == "morisita"), "r2.soil"] <- 
   morisita.adonis$aov.tab$R2[1]
-permanova.res[which(permanova.res$test == "morisita"), "p.burn.status"] <- 
+permanova.res[which(permanova.res$test == "morisita"), "p.soil"] <- 
   morisita.adonis$aov.tab$`Pr(>F)`[1]
 
-#--Range f.model, r2, p-value
-permanova.res[which(permanova.res$test == "morisita"), "F.model.range"] <-
+#--Precipitation f.model, r2, p-value
+permanova.res[which(permanova.res$test == "morisita"), "F.model.prec"] <-
   morisita.adonis$aov.tab$F.Model[2]
-permanova.res[which(permanova.res$test == "morisita"), "r2.range"] <-
+permanova.res[which(permanova.res$test == "morisita"), "r2.prec"] <-
   morisita.adonis$aov.tab$R2[2]
-permanova.res[which(permanova.res$test == "morisita"), "p.range"] <-
+permanova.res[which(permanova.res$test == "morisita"), "p.prec"] <-
   morisita.adonis$aov.tab$`Pr(>F)`[2]
 
 #--Tmax f.model, r2, p-value
@@ -408,6 +422,153 @@ write.csv(anosim.res, paste0(res.dir, "ANOSIM_RootTipBased.csv"),
 write.csv(permanova.res, paste0(res.dir, "Permanova_RootTipBaed.csv"),
           row.names = F)
 
+#<< Variation partioning >>-------------------------------------------------------------
+morisita.var <- varpart(comm.dist.morisita, ~ Range, ~ Burn_status,
+                       ~ prec, ~ soil.pca, data = morisita.matrix)
+
+morisita.var
+plot(morisita.var, bg = c('blue','yellow','orange','purple'), alpha = 100,
+     Xnames = c('Range','Fire history', 'Climate','Soil'))
+
+
+#========================================================================================#
+# Jaccard and morisita based dissimilarity plot: all----
+#========================================================================================#
+## Dissimilarity Plot ------
+# Pinaleno -----
+p.matrix <- stsp.matrix[stsp.matrix$Range == 'pinaleno',]
+p.comm.matrix <- p.matrix[8:length(p.matrix)]
+
+#--comment to include singletons
+p.comm.matrix <- p.comm.matrix[colSums(p.comm.matrix) >= 4]
+p.comm.matrix <- p.comm.matrix[rowSums(p.comm.matrix) > 0, ] # remove rows with sums of 0
+p.matrix <- p.matrix[row.names(p.comm.matrix),]
+
+#--distance matrix using jaccard index
+p.dist.jaccard <- as.matrix(vegdist(p.comm.matrix, method = "jaccard", binary = F))
+p.dist.horn <- as.matrix(vegdist(p.comm.matrix, method = "morisita", binary = F))
+
+# Santa Catalina -----
+scm.matrix <- stsp.matrix[stsp.matrix$Range == 'santa.catalina',]
+scm.comm.matrix <- scm.matrix[8:length(scm.matrix)]
+
+#--comment to include singletons
+scm.comm.matrix <- scm.comm.matrix[colSums(scm.comm.matrix) >= 4]
+scm.comm.matrix <- scm.comm.matrix[rowSums(scm.comm.matrix) > 0, ] # remove rows with sums of 0
+scm.matrix <- scm.matrix[row.names(scm.comm.matrix),]
+
+#--distance matrix using jaccard index
+scm.dist.jaccard <- as.matrix(vegdist(scm.comm.matrix, method = "jaccard", binary = F))
+scm.dist.horn <- as.matrix(vegdist(scm.comm.matrix, method = "morisita", binary = F))
+
+# Burned -----
+b.matrix <- stsp.matrix[stsp.matrix$Burn_status == 'burned',]
+b.comm.matrix <- b.matrix[8:length(b.matrix)]
+
+#--comment to include singletons
+b.comm.matrix <- b.comm.matrix[colSums(b.comm.matrix) >= 4]
+b.comm.matrix <- b.comm.matrix[rowSums(b.comm.matrix) > 0, ] # remove rows with sums of 0
+b.matrix <- b.matrix[row.names(b.comm.matrix),]
+
+#--distance matrix using jaccard index
+b.dist.jaccard <- as.matrix(vegdist(b.comm.matrix, method = "jaccard", binary = F))
+b.dist.horn <- as.matrix(vegdist(b.comm.matrix, method = "morisita", binary = F))
+
+# Unburned -----
+ub.matrix <- stsp.matrix[stsp.matrix$Burn_status == 'unburned',]
+ub.comm.matrix <- ub.matrix[8:length(ub.matrix)]
+
+#--comment to include singletons
+ub.comm.matrix <- ub.comm.matrix[colSums(ub.comm.matrix) >= 4]
+ub.comm.matrix <- ub.comm.matrix[rowSums(ub.comm.matrix) > 0, ] # remove rows with sums of 0
+ub.matrix <- ub.matrix[row.names(ub.comm.matrix),]
+
+#--distance matrix using jaccard index
+ub.dist.jaccard <- as.matrix(vegdist(ub.comm.matrix, method = "jaccard", binary = F))
+ub.dist.horn <- as.matrix(vegdist(ub.comm.matrix, method = "morisita", binary = F))
+
+# Overall ----
+all.matrix <- stsp.matrix
+comm.matrix <- stsp.matrix[8:length(stsp.matrix)]
+
+#--comment to include singletons
+comm.matrix <- comm.matrix[colSums(comm.matrix) >= 4]
+comm.matrix <- comm.matrix[rowSums(comm.matrix) > 0, ] # remove rows with sums of 0
+all.matrix <- all.matrix[row.names(comm.matrix),]
+
+#--distance matrix using jaccard index
+all.dist.jaccard <- as.matrix(vegdist(comm.matrix, method = "jaccard", binary = F))
+all.dist.horn <- as.matrix(vegdist(comm.matrix, method = "morisita", binary = F))
+
+diss.plot <- data.frame(factor = c(rep('Pinaleno Mts.',20),
+                                      rep('Santa Catalina Mts.',21),
+                                      rep('Burned',20),
+                                      rep('Unburned',21)),
+                                   # rep('Overall', 41)),
+                           jaccard = NA,
+                           morisita.horn = NA)
+
+for(i in 1:nrow(p.dist.jaccard)){
+  jmean.i <- mean(p.dist.jaccard[i,])
+  diss.plot[i,'jaccard'] <- jmean.i
+  hmean.i <- mean(p.dist.horn[i,])
+  diss.plot[i,'morisita.horn'] <- hmean.i
+}
+
+for(i in 1:nrow(scm.dist.jaccard)){
+  jmean.i <- mean(scm.dist.jaccard[i,])
+  diss.plot[sum(i+20), 'jaccard'] <- jmean.i
+  hmean.i <- mean(scm.dist.horn[i,])
+  diss.plot[sum(i+20), 'morisita.horn'] <- hmean.i
+}
+
+for(i in 1:nrow(b.dist.jaccard)){
+  jmean.i <- mean(b.dist.jaccard[i,])
+  diss.plot[sum(i+41), 'jaccard'] <- jmean.i
+  hmean.i <- mean(b.dist.horn[i,])
+  diss.plot[sum(i+41), 'morisita.horn'] <- hmean.i
+}
+
+for(i in 1:nrow(ub.dist.jaccard)){
+  jmean.i <- mean(ub.dist.jaccard[i,])
+  diss.plot[sum(i+61), 'jaccard'] <- jmean.i
+  hmean.i <- mean(ub.dist.horn[i,])
+  diss.plot[sum(i+61), 'morisita.horn'] <- hmean.i
+}
+
+# for(i in 1:nrow(all.dist.jaccard)){
+#   jmean.i <- mean(all.dist.jaccard[i,])
+#   diss.plot[sum(i+41), 'jaccard'] <- jmean.i
+#   hmean.i <- mean(all.dist.jaccard[i,])
+#   diss.plot[sum(i+41), 'morisita.horn'] <- hmean.i
+# }
+
+# diss.plot$factor <- factor(diss.plot$factor,levels = c('Pinaleno Mts.',
+#                                                        'Santa Catalina Mts.',
+#                                                        'Overall'))
+diss.plot$factor <- factor(diss.plot$factor,levels = c('Burned','Unburned',
+                                                       'Pinaleno Mts.',
+                                                       'Santa Catalina Mts.'))
+
+ggplot(diss.plot,aes(x = factor,
+                 y = jaccard)) +
+  geom_boxplot() +
+  theme_bw() +
+  #ggtitle("Proportion of Classes by Topography") +
+  theme(legend.position = 'right',
+        axis.title.x = element_text(margin = margin(t = 30)),
+        axis.title.y = element_text(margin = margin(r = 30)),
+        panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        axis.text = element_text(size=22, color = 'black'),
+        axis.title = element_text(size = 28),
+        strip.text.x = element_text(size = 14),
+        legend.text=element_text(size=16),
+        legend.title = element_blank()) +
+  ylab('Jaccard Similarity')
+
+ggsave('./figures_output/Jaccard_Anoval.pdf', plot = last_plot(),
+       device = 'pdf',
+       width = 20, height = 20, units = 'cm')
 
 #========================================================================================#
 # Jaccard based dissimilarity index: Burned----
@@ -477,7 +638,7 @@ legend("topright", legend = levels(color.vec$p.group), bty = "n",
 
 #--Ordihull variations by range, burn, and both burn and range
 #ordihull(jaccard.otu, groups = color.vec$p.group)
-ordiellipse(jaccard.otu, groups = color.vec$p.group,
+ordiellipse(jaccard.otu, groups = jaccard.matrix$Site,
             col = 'black',
             kind = 'ehull')
 #ordihull(jaccard.otu, groups = stsp.matrix$Range) # just mt. range
@@ -489,12 +650,12 @@ ordiellipse(jaccard.otu, groups = color.vec$p.group,
 
 #--BetaDisper
 #--a multivariate analogue of Levene's test for homogeneity of variance
-betadisper <- betadisper(comm.dist.jaccard, group = color.vec$p.group)
+betadisper <- betadisper(comm.dist.jaccard, group = jaccard.matrix$Burn_status)
 jaccard.betadisper <- anova(betadisper)
 jaccard.betadisper
 
 #<< ANOSIM >>-----------------------------------------------------------------------------
-jaccard.anosim <- anosim(comm.matrix, grouping = ,
+jaccard.anosim <- anosim(comm.matrix, grouping = jaccard.matrix$Burn_status,
                          distance = "jaccard")
 jaccard.anosim
 

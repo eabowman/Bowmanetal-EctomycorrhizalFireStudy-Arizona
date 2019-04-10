@@ -124,13 +124,13 @@ tax.results[tax.results$tests == 'burn.class', 'p.value'] <- burn.class$p.value[
 #   guides (fill=guide_legend(title=NULL)) +
 #   theme_classic(base_size = 12)
 
-#=========================================================================================
+#========================================================================================#
 # Difference between burn status and range: class level----
-#=========================================================================================
+#========================================================================================#
 
-#-----------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------#
 # Chi square test: Significant----
-#-----------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------#
 
 #--Make count table of classes byrange
 rangeburn.tax <- table(tax.data$rangeburn,tax.data$Taxonomy_class)
@@ -146,14 +146,14 @@ tax.results[tax.results$tests == 'burn.range.class', 'chi.stat'] <- rangeburn.cl
 tax.results[tax.results$tests == 'burn.range.class', 'df'] <- rangeburn.class$parameter[[1]]
 tax.results[tax.results$tests == 'burn.range.class', 'p.value'] <- rangeburn.class$p.value[[1]]
 
-#=========================================================================================
+#========================================================================================#
 # Difference between burn status and range: class level----
-#=========================================================================================
+#========================================================================================#
 
-#-----------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------#
 # Chi square test: Significant----
-#-----------------------------------------------------------------------------------------
-
+#----------------------------------------------------------------------------------------#
+#<< Range and Burn >> -----------------------------
 #--Make count table of classes byrange
 rangeburn.tax <- table(tax.data$rangeburn,tax.data$Taxonomy_class)
 rangeburn.tax
@@ -163,14 +163,34 @@ rare <- c('Saccharomycetes','Archaeorhizomycetes')
 rangeburn.tax <- rangeburn.tax[ , which(!colnames(rangeburn.tax) %in% rare)]
 
 #--chi square test
-rangeburn.class <- chisq.test(rangeburn.tax)
-tax.results[tax.results$tests == 'burn.range.class', 'chi.stat'] <- rangeburn.class$statistic[[1]]
-tax.results[tax.results$tests == 'burn.range.class', 'df'] <- rangeburn.class$parameter[[1]]
-tax.results[tax.results$tests == 'burn.range.class', 'p.value'] <- rangeburn.class$p.value[[1]]
+rangeburn.chi <- chisq.test(rangeburn.tax, correct = F)
+tax.results[tax.results$tests == 'burn.range.class', 'chi.stat'] <- rangeburn.chi$statistic[[1]]
+tax.results[tax.results$tests == 'burn.range.class', 'df'] <- rangeburn.chi$parameter[[1]]
+tax.results[tax.results$tests == 'burn.range.class', 'p.value'] <- rangeburn.chi$p.value[[1]]
 
-#-----------------------------------------------------------------------------------------
+#<< Range >> -----------------------------
+range.tax <- table(tax.data$Range, tax.data$Taxonomy_class)
+range.tax <- range.tax[, which(!colnames(range.tax) %in% rare)]
+
+range.chi <- chisq.test(range.tax, correct = F)
+range.chi
+tax.results[tax.results$tests == 'range.class', 'chi.stat'] <- range.chi$statistic[[1]]
+tax.results[tax.results$tests == 'range.class', 'df'] <- range.chi$parameter[[1]]
+tax.results[tax.results$tests == 'range.class', 'p.value'] <- range.chi$p.value[[1]]
+
+#<< Burn >> -----------------------------
+burn.tax <- table(tax.data$Burn_status, tax.data$Taxonomy_class)
+burn.tax <- burn.tax[, which(!colnames(burn.tax) %in% rare)]
+
+burn.chi <- chisq.test(burn.tax, correct = F)
+burn.chi
+tax.results[tax.results$tests == 'burn.class', 'chi.stat'] <- burn.chi$statistic[[1]]
+tax.results[tax.results$tests == 'burn.class', 'df'] <- burn.chi$parameter[[1]]
+tax.results[tax.results$tests == 'burn.class', 'p.value'] <- burn.chi$p.value[[1]]
+
+#----------------------------------------------------------------------------------------#
 # Plot: burn status and range at class level----
-#-----------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------#
 
 #--remove rare species from the tax data file
 range.tax <- tax.data[which(!tax.data$Taxonomy_class %in% rare), ]
@@ -190,6 +210,7 @@ rangeburn.class <- ggplot(data = range.tax,
   ylab("Proportion of \n sequences per class") +
   facet_grid(. ~ Range) +
   theme_bw() +
+  xlab('Fire history') +
   #ggtitle("Proportion of Classes by Topography") +
   scale_fill_brewer(palette = "Greens") +
   guides (fill=guide_legend(title=NULL)) +
@@ -207,13 +228,13 @@ ggsave('TaxonomyClass_SequenceBased.tiff', plot = rangeburn.class,
        device = 'tiff', path = fig.dir,
        width = 20, height = 20, units = 'cm')
 
-#=========================================================================================
+#========================================================================================#
 # Difference between ranges: genus level----
-#=========================================================================================
-#-----------------------------------------------------------------------------------------
+#========================================================================================#
+#----------------------------------------------------------------------------------------#
 # Chi square test: all phyla----
-#-----------------------------------------------------------------------------------------
-
+#----------------------------------------------------------------------------------------#
+#<< range >> -------------
 #--Make count table of classes byrange
 range.tax <- table(tax.data$Range,tax.data$Taxonomy_genus)
 range.tax
@@ -224,17 +245,12 @@ range.tax <- range.tax[ ,colSums(range.tax) > 4]
 
 #--chi square test
 range.genus <- chisq.test(range.tax)
+range.genus
 tax.results[tax.results$tests == 'range.genus', 'chi.stat'] <- range.genus$statistic[[1]]
 tax.results[tax.results$tests == 'range.genus', 'df'] <- range.genus$parameter[[1]]
 tax.results[tax.results$tests == 'range.genus', 'p.value'] <- range.genus$p.value[[1]]
 
-#=========================================================================================
-# Difference between burn status: genus level----
-#=========================================================================================
-#-----------------------------------------------------------------------------------------
-# Chi square test: all phyla----
-#-----------------------------------------------------------------------------------------
-
+#<< Fire history >> -------------
 #--Make count table of classes byrange
 burn.tax <- table(tax.data$Burn_status,tax.data$Taxonomy_genus)
 burn.tax
@@ -249,13 +265,7 @@ tax.results[tax.results$tests == 'burn.genus', 'chi.stat'] <- burn.genus$statist
 tax.results[tax.results$tests == 'burn.genus', 'df'] <- burn.genus$parameter[[1]]
 tax.results[tax.results$tests == 'burn.genus', 'p.value'] <- burn.genus$p.value[[1]]
 
-#=========================================================================================
-# Difference between burn and range: genus level----
-#=========================================================================================
-#-----------------------------------------------------------------------------------------
-# Chi square test: all phyla----
-#-----------------------------------------------------------------------------------------
-
+#<< Fire history and Range >> -------------
 #--Make count table of classes byrange
 burnrange.tax <- table(tax.data$rangeburn,tax.data$Taxonomy_genus)
 burnrange.tax
@@ -266,6 +276,7 @@ burnrange.tax <- burnrange.tax[ ,colSums(burnrange.tax) > 4]
 
 #--chi square test
 burnrange.genus <- chisq.test(range.tax)
+burnrange.genus
 tax.results[tax.results$tests == 'burn.range.genus', 'chi.stat'] <- 
   burnrange.genus$statistic[[1]]
 tax.results[tax.results$tests == 'burn.range.genus', 'df'] <- 
@@ -276,9 +287,9 @@ tax.results[tax.results$tests == 'burn.range.genus', 'p.value'] <-
 write.csv(tax.results, paste0(res.dir,'TaxResults_SequenceBased.csv'),
           row.names = F)
 
-#-----------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------#
 # Plot: Range and burn status at genus level----
-#-----------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------#
 
 #<< Ascomyceteous genera >> --------------------------------------------------------------
 #--isolate Ascomycete genera
@@ -299,13 +310,15 @@ asco <- ggplot(data = asco.tax,
   theme_bw() +
   facet_grid(. ~ Range) +
   guides (fill=guide_legend(title=NULL)) +
-  theme(legend.position="none",
+  theme(legend.position="bottom",
         axis.title.x = element_text(margin = margin(t = 30)),
         axis.title.y = element_text(margin = margin(r = 30)),
         panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         axis.text = element_text(size=22, color = 'black'),
         axis.title = element_text(size = 28),
         strip.text.x = element_text(size = 14))
+
+asco
 
 #<< Basid genera >> ----------------------------------------------------------------------
 #--isolate Basidiomycete genera
@@ -327,10 +340,12 @@ basid <- ggplot(data = basid.tax,
   guides (fill=guide_legend(title=NULL)) +
   theme_classic(base_size = 12)  +
   facet_grid(. ~ Range) +
-  theme(legend.position="none",
+  theme(legend.position="bottom",
         axis.title.x = element_text(margin = margin(t = 30)),
         axis.title.y = element_text(margin = margin(r = 30)),
         panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         axis.text = element_text(size=22, color = 'black'),
         axis.title = element_text(size = 28),
         strip.text.x = element_text(size = 14))
+
+basid

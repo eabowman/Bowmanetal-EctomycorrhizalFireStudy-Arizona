@@ -15,9 +15,10 @@
 # download climate data from Worldclim using raster package
 #-----------------------------------------------------------------------------------------
 #--path to directory where the climate data downloaded from BIOCLIM site is stored
-dat.dir <- "~/Documents/PhD/3_EM_Fire_effect/data/"
-fig.dir <- '~/Documents/PhD/2_Sky_islands/data/world_clim/'
-res.dir <- "~/Documents/PhD/3_EM_Fire_effect/results/"
+dat.dir <- "~/Documents/PhD/2_EM_Fire_effect/data/"
+fig.dir <- '~/Documents/PhD/2_EM_Fire_effect/data/world_clim/'
+res.dir <- "~/Documents/PhD/2_EM_Fire_effect/results/"
+clim.dir <- '~/Documents/PhD/3_Sky_islands-FE/'
 
 #--install and set library
 #--uncomment install packages function if you don't have this package installed
@@ -51,49 +52,53 @@ data.19 <- raster (paste0 (clim.dir, 'bio_12/bio19_12.bil'),native = F)
 #--load world climate data: Precipitation, Tmax, Tmin, Tmean
 #--there is a file for each month
 #--no need to change this if you downloaded for tile 12
-#--Precipitation
-prec.1 <- raster (paste0 (clim.dir, 'prec_12/prec1_12.bil'),native = F)
-prec.2 <- raster (paste0 (clim.dir, 'prec_12/prec2_12.bil'),native = F)
-prec.3 <- raster (paste0 (clim.dir, 'prec_12/prec3_12.bil'),native = F)
-prec.4 <- raster (paste0 (clim.dir, 'prec_12/prec4_12.bil'),native = F)
-prec.5 <- raster (paste0 (clim.dir, 'prec_12/prec5_12.bil'),native = F)
-prec.6 <- raster (paste0 (clim.dir, 'prec_12/prec6_12.bil'),native = F)
-prec.7 <- raster (paste0 (clim.dir, 'prec_12/prec7_12.bil'),native = F)
-prec.8 <- raster (paste0 (clim.dir, 'prec_12/prec8_12.bil'),native = F)
-prec.9 <- raster (paste0 (clim.dir, 'prec_12/prec9_12.bil'),native = F)
-prec.10 <- raster (paste0 (clim.dir, 'prec_12/prec10_12.bil'),native = F)
-prec.11 <- raster (paste0 (clim.dir, 'prec_12/prec11_12.bil'),native = F)
-prec.12 <- raster (paste0 (clim.dir, 'prec_12/prec12_12.bil'),native = F)
-#--Minimum temperature
-Tmin.1 <- raster (paste0 (clim.dir, 'tmin_12/tmin1_12.bil'),native = F)
-Tmin.2 <- raster (paste0 (clim.dir, 'tmin_12/tmin2_12.bil'),native = F)
-Tmin.3 <- raster (paste0 (clim.dir, 'tmin_12/tmin3_12.bil'),native = F)
-Tmin.4 <- raster (paste0 (clim.dir, 'tmin_12/tmin4_12.bil'),native = F)
-Tmin.5 <- raster (paste0 (clim.dir, 'tmin_12/tmin5_12.bil'),native = F)
-Tmin.6 <- raster (paste0 (clim.dir, 'tmin_12/tmin6_12.bil'),native = F)
-Tmin.7 <- raster (paste0 (clim.dir, 'tmin_12/tmin7_12.bil'),native = F)
-Tmin.8 <- raster (paste0 (clim.dir, 'tmin_12/tmin8_12.bil'),native = F)
-Tmin.9 <- raster (paste0 (clim.dir, 'tmin_12/tmin9_12.bil'),native = F)
-Tmin.10 <- raster (paste0 (clim.dir, 'tmin_12/tmin10_12.bil'),native = F)
-Tmin.11 <- raster (paste0 (clim.dir, 'tmin_12/tmin11_12.bil'),native = F)
-Tmin.12 <- raster (paste0 (clim.dir, 'tmin_12/tmin12_12.bil'),native = F)
-#--Maximum temperature
-Tmax.1 <- raster (paste0 (clim.dir, 'tmax_12/tmax1_12.bil'),native = F)
-Tmax.2 <- raster (paste0 (clim.dir, 'tmax_12/tmax2_12.bil'),native = F)
-Tmax.3 <- raster (paste0 (clim.dir, 'tmax_12/tmax3_12.bil'),native = F)
-Tmax.4 <- raster (paste0 (clim.dir, 'tmax_12/tmax4_12.bil'),native = F)
-Tmax.5 <- raster (paste0 (clim.dir, 'tmax_12/tmax5_12.bil'),native = F)
-Tmax.6 <- raster (paste0 (clim.dir, 'tmax_12/tmax6_12.bil'),native = F)
-Tmax.7 <- raster (paste0 (clim.dir, 'tmax_12/tmax7_12.bil'),native = F)
-Tmax.8 <- raster (paste0 (clim.dir, 'tmax_12/tmax8_12.bil'),native = F)
-Tmax.9 <- raster (paste0 (clim.dir, 'tmax_12/tmax9_12.bil'),native = F)
-Tmax.10 <- raster (paste0 (clim.dir, 'tmax_12/tmax10_12.bil'),native = F)
-Tmax.11 <- raster (paste0 (clim.dir, 'tmax_12/tmax11_12.bil'),native = F)
-Tmax.12 <- raster (paste0 (clim.dir, 'tmax_12/tmax12_12.bil'),native = F)
+# #--Precipitation
+# prec.1 <- raster (paste0 (clim.dir, 'prec_12/prec1_12.bil'),native = F)
+# prec.2 <- raster (paste0 (clim.dir, 'prec_12/prec2_12.bil'),native = F)
+# prec.3 <- raster (paste0 (clim.dir, 'prec_12/prec3_12.bil'),native = F)
+# prec.4 <- raster (paste0 (clim.dir, 'prec_12/prec4_12.bil'),native = F)
+# prec.5 <- raster (paste0 (clim.dir, 'prec_12/prec5_12.bil'),native = F)
+# prec.6 <- raster (paste0 (clim.dir, 'prec_12/prec6_12.bil'),native = F)
+# prec.7 <- raster (paste0 (clim.dir, 'prec_12/prec7_12.bil'),native = F)
+# prec.8 <- raster (paste0 (clim.dir, 'prec_12/prec8_12.bil'),native = F)
+# prec.9 <- raster (paste0 (clim.dir, 'prec_12/prec9_12.bil'),native = F)
+# prec.10 <- raster (paste0 (clim.dir, 'prec_12/prec10_12.bil'),native = F)
+# prec.11 <- raster (paste0 (clim.dir, 'prec_12/prec11_12.bil'),native = F)
+# prec.12 <- raster (paste0 (clim.dir, 'prec_12/prec12_12.bil'),native = F)
+# #--Minimum temperature
+# Tmin.1 <- raster (paste0 (clim.dir, 'tmin_12/tmin1_12.bil'),native = F)
+# Tmin.2 <- raster (paste0 (clim.dir, 'tmin_12/tmin2_12.bil'),native = F)
+# Tmin.3 <- raster (paste0 (clim.dir, 'tmin_12/tmin3_12.bil'),native = F)
+# Tmin.4 <- raster (paste0 (clim.dir, 'tmin_12/tmin4_12.bil'),native = F)
+# Tmin.5 <- raster (paste0 (clim.dir, 'tmin_12/tmin5_12.bil'),native = F)
+# Tmin.6 <- raster (paste0 (clim.dir, 'tmin_12/tmin6_12.bil'),native = F)
+# Tmin.7 <- raster (paste0 (clim.dir, 'tmin_12/tmin7_12.bil'),native = F)
+# Tmin.8 <- raster (paste0 (clim.dir, 'tmin_12/tmin8_12.bil'),native = F)
+# Tmin.9 <- raster (paste0 (clim.dir, 'tmin_12/tmin9_12.bil'),native = F)
+# Tmin.10 <- raster (paste0 (clim.dir, 'tmin_12/tmin10_12.bil'),native = F)
+# Tmin.11 <- raster (paste0 (clim.dir, 'tmin_12/tmin11_12.bil'),native = F)
+# Tmin.12 <- raster (paste0 (clim.dir, 'tmin_12/tmin12_12.bil'),native = F)
+# #--Maximum temperature
+# Tmax.1 <- raster (paste0 (clim.dir, 'tmax_12/tmax1_12.bil'),native = F)
+# Tmax.2 <- raster (paste0 (clim.dir, 'tmax_12/tmax2_12.bil'),native = F)
+# Tmax.3 <- raster (paste0 (clim.dir, 'tmax_12/tmax3_12.bil'),native = F)
+# Tmax.4 <- raster (paste0 (clim.dir, 'tmax_12/tmax4_12.bil'),native = F)
+# Tmax.5 <- raster (paste0 (clim.dir, 'tmax_12/tmax5_12.bil'),native = F)
+# Tmax.6 <- raster (paste0 (clim.dir, 'tmax_12/tmax6_12.bil'),native = F)
+# Tmax.7 <- raster (paste0 (clim.dir, 'tmax_12/tmax7_12.bil'),native = F)
+# Tmax.8 <- raster (paste0 (clim.dir, 'tmax_12/tmax8_12.bil'),native = F)
+# Tmax.9 <- raster (paste0 (clim.dir, 'tmax_12/tmax9_12.bil'),native = F)
+# Tmax.10 <- raster (paste0 (clim.dir, 'tmax_12/tmax10_12.bil'),native = F)
+# Tmax.11 <- raster (paste0 (clim.dir, 'tmax_12/tmax11_12.bil'),native = F)
+# Tmax.12 <- raster (paste0 (clim.dir, 'tmax_12/tmax12_12.bil'),native = F)
 
 #--import csv data frame with site name, lat, long
 #--make sure column names are site, lat, and long for next set of commands
 sites <- read.csv(paste0(dat.dir,'site_data.csv'), as.is = T, header = T)
+
+sites <- data.frame(site = c('pinal1','pinal2','pinal3','pinal4'),
+                    lat = c(33.29811,33.29745,33.29998,33.29463),
+                    long = c(-110.83396,-110.83949,-110.84474,-110.86654))
 
 #--combine lat and long
 xy <- cbind (sites$long, sites$lat)
@@ -102,10 +107,10 @@ sp <- SpatialPoints(xy)
 #--extract information from downloaded files
 #--Bio10 and Bio11 are mean temp of warmest quarter and "" of coldest quarter respectively
 #--Bio12 is annual precipitation given in millimeters
-sites_cli <- as.data.frame (cbind (sites,
-             "BIO10" = extract (data.10, sp, method = 'bilinear'),
-             "BIO11" = extract (data.11, sp, method = 'bilinear'),
-             "BIO12" = extract (data.12, sp, method = 'bilinear')))
+sites_cli <- as.data.frame(cbind(sites,
+             "BIO10" = extract(data.10, sp, method = 'bilinear'),
+             "BIO11" = extract(data.11, sp, method = 'bilinear'),
+             "BIO12" = extract(data.12, sp, method = 'bilinear')))
 #--Divide Bio10 and Bio11 by 10 as Worldclim stores the data multiplied by 10
 sites_cli$BIO10_red <- sites_cli$BIO10 / 10
 sites_cli$BIO11_red <- sites_cli$BIO11 / 10

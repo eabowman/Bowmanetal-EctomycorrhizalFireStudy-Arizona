@@ -15,8 +15,8 @@ library(ggplot2);library (tidyr);library (vegan);library (dplyr); library(gridEx
 #-----------------------------------------------------------------------------------------
 #--path to directory 
 dat.dir <- "~/Documents/PhD/2_EM_Fire_effect/data/"
-fig.dir <- '~/Documents/PhD/2_EM_Fire_effect/figures/'
-res.dir <- "~/Documents/PhD/2_EM_Fire_effect/results/"
+fig.dir <- '~/Documents/PhD/2_EM_Fire_effect/figures_output/'
+res.dir <- "~/Documents/PhD/2_EM_Fire_effect/results_output//"
 
 #-----------------------------------------------------------------------------------------
 # Load data and clean up----
@@ -54,6 +54,111 @@ for(i in unique(soil.data$range)){
       paste(i, b)
   }
 }
+
+## PCA of soil data -------
+soil.perma <- soil.data[6:22]
+soil.perma[soil.perma$no3.n.ppm == "<1.0", 'no3.n.ppm'] <- 0.00000001
+soil.perma$no3.n.ppm <- as.numeric(soil.perma$no3.n.ppm)
+soil.pca <- prcomp(soil.perma,
+                   center = TRUE,
+                   scale. = TRUE) 
+#print(soil.pca)
+#plot(soil.pca, type = 'l')
+summary(soil.pca)
+soil.eigenvector <- scores(soil.pca, choices = 1)
+soil.eigenvector <- data.frame(matrix(unlist(soil.eigenvector), nrow=24, byrow=T))
+
+#----------------------------------------------------------------------------------------#
+# Load data and clean up: Tree level----
+#----------------------------------------------------------------------------------------#
+#--Load data
+all.data <- read.csv(paste0(dat.dir,'20170806_OTU_data.csv'), as.is = T)
+
+#--Remove sequences not assigned to an OTU
+otu.data <- all.data[!is.na(all.data$otu.97), ]
+
+#--Remove sequences not assigned to Ponderosa host
+otu.data <- otu.data[otu.data$Host == 'Ponderosa',]
+
+#--Add an OTU count column (1 sequence = 1 frequency count)
+otu.data['otu.count'] <- 1
+
+#--Creates matrix, grouping OTUs by tree number and getting a sum of EM tip abundance 
+# for each OTU
+otu.data %>%
+  select(Sample_name,Burn_status,Range,Site,Tree,otu.97,otu.count) %>%
+  spread(otu.97,otu.count) %>%
+  group_by(Tree,Site,Range,Burn_status) %>%
+  select(matches ("otu*")) %>%
+  summarize_each(funs(sum(., na.rm = TRUE))) %>%
+  as.data.frame() -> stsp.matrix
+
+#--climate data: add to stsp.matrix
+clim.data <- read.csv(paste0(dat.dir, 'climate_data.csv'))
+for(i in unique(stsp.matrix$Site)) {
+  stsp.matrix[stsp.matrix$Site == i, 'prec'] <- clim.data[clim.data$site == i, 'prec']
+  stsp.matrix[stsp.matrix$Site == i, 'Tmax'] <-
+    clim.data[clim.data$site == i, 'Tmax']
+}
+
+#<< Isolate soil data for PCA >> ----------------------
+# soil.sig <- c('site','pH.su','po4.p.ppm','so4.s.ppm','b.ppm','mg.ppm',
+#               'k.ppm','no3.n.ppm')
+all.soil <- c('site','lat','long','pH.su','po4.p.ppm','so4.s.ppm','b.ppm','mg.ppm',
+              'k.ppm','no3.n.ppm','EC.ds.m','ca.ppm','na.ppm','zn.ppm','fe.ppm','mn.ppm',
+              'cu.ppm','ni.ppm','cec.meq.100g')
+soil.data.sig <- soil.data[colnames(soil.data)%in% all.soil]
+soil.data.sig[soil.data.sig$no3.n.ppm == '<1.0', 'no3.n.ppm'] <- 0
+soil.data.sig$no3.n.ppm <- as.numeric(soil.data.sig$no3.n.ppm)
+for(s in unique(soil.data$site)){
+  for(f in all.soil[2:length(all.soil)]){
+    stsp.matrix[stsp.matrix$Site == s, f] <- mean(soil.data.sig[soil.data.sig$site == s, f])
+  }
+}
+
+#--reorder matrix
+colnames(stsp.matrix)
+soil.perm <- stsp.matrix[c(1:4,125:140)]
+stsp.matrix <- stsp.matrix[c(1:4,121:124,5:120)]
+
+#=========================================================================================
+# Assess soil differences across Pinaleno and Santa Catalina Mts.----
+#=========================================================================================
+
+#--Cluster analysis of soil----
+#--distance matrix of soil data
+row.names(soil.data) <- soil.data$tree_number
+soil.dist <- dist(soil.data[6:22], method = 'euclidean')
+
+clus <- hclust(soil.dist, 'average')
+plot(clus)
+range(soil.dist)
+cor(soil.dist, cophenetic(clus))
+
+plot(clus)
+rect.hclust(clus, 2)
+grp <- cutree(clus, 2)
+
+boxplot(soil.eigenvector$matrix.unlist.soil.eigenvector...nrow...24..byrow...T. ~ grp, data = soil.data)
+
+#--Correlation of soil traits (PCA eigenvector) and community----
+pc <- prcomp(soil.perm[5:length(soil.perm)], scale = T)
+pc <- scores(pc, display = 'sites', choices = 1:4)
+edis <- vegdist(pc, method = 'euclid')
+#vare.dis <- vegdist(wisconsin(sqrt(stsp.matrix[9:length(stsp.matrix)])))
+vare.dis <- vegdist(stsp.matrix[9:length(stsp.matrix)], method = 'horn')
+mantel(vare.dis, edis)
+plot(vare.dis, edis)
+
+#--Correlation of soil traits (as above) and climate-----
+clim.pc <- dist(stsp.matrix[c('lat','long')], method = 'euclidean')
+#clim.pc <- vegdist(wisconsin(sqrt(stsp.matrix[9:length(stsp.matrix)])))
+plot(clim.pc, edis)
+mantel(clim.pc, edis)
+
+#--Correlation of climate and community----
+mantel(clim.pc, vare.dis)
+plot(clim.pc, vare.dis)
 
 #=========================================================================================
 # Anova of soil traits differences based on both burn status and range----

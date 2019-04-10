@@ -8,7 +8,7 @@
 #----------------------------------------------------------------------------------------#
 # Load libraries----
 #----------------------------------------------------------------------------------------#
-library(ggplot2);library (tidyr);library (vegan);library (dplyr)
+library(ggplot2);library(tidyr);library(vegan);library(dplyr); library(car); library(rcompanion)
 
 #----------------------------------------------------------------------------------------#
 # set up paths to directories----
@@ -17,6 +17,9 @@ library(ggplot2);library (tidyr);library (vegan);library (dplyr)
 dat.dir <- "~/Documents/PhD/2_EM_Fire_effect/data/"
 fig.dir <- '~/Documents/PhD/2_EM_Fire_effect/figures_output/'
 res.dir <- "~/Documents/PhD/2_EM_Fire_effect/results_output/"
+
+
+source('~/Documents/PhD/2_EM_Fire_effect/scripts/functions.R')
 
 #----------------------------------------------------------------------------------------#
 # Load data and clean up----
@@ -64,6 +67,7 @@ for(r in unique(stsp.matrix$Range)) {
 }
 
 #--reorder matrix
+colnames(stsp.matrix)
 stsp.matrix <- stsp.matrix[c(1:4,121,5:120)]
 
 #<< w/o singletons: by tree >> ------------------------
@@ -91,6 +95,7 @@ for(r in unique(rangeburn.matrix$Range)) {
       paste(b, r)
   }
 }
+colnames(rangeburn.matrix)
 rangeburn.matrix <- rangeburn.matrix[c(1:3, 120, 4:119)]
 
 #<< w/o singletons: by site >> ------------------------
@@ -98,7 +103,7 @@ nonsingletons <- as.data.frame(which(colSums(rangeburn.matrix[5:length(rangeburn
 nonsingletons <- rownames(nonsingletons)
 nonsingletons <- rangeburn.matrix[nonsingletons]
 nonsingletons$Site <- rangeburn.matrix$Site
-rangeburn.wo.singletons <- rangeburn.matrix[1:3]
+rangeburn.wo.singletons <- rangeburn.matrix[1:4]
 rangeburn.wo.singletons <- 
   left_join(rangeburn.wo.singletons, nonsingletons, by = NULL)
 
@@ -106,11 +111,11 @@ rangeburn.wo.singletons <-
 # Create dataframe for results----
 #----------------------------------------------------------------------------------------#
 DivResults.SequenceBased <- data.frame(div.measure = c('fisher.w.range', 'fisher.w.burn',
-                                                       'fisher.w.interaction','shannon.w.range',
-                                                       'shannon.w.burn','shannon.w.interaction',
-                                                       'fisher.wo.range', 'fisher.wo.burn',
-                                                       'fisher.wo.interaction','shannon.wo.range',
-                                                       'shannon.wo.burn', 'shannon.wo.interaction'),
+                                       'fisher.w.interaction','shannon.w.range',
+                                       'shannon.w.burn','shannon.w.interaction',
+                                       'fisher.wo.range', 'fisher.wo.burn',
+                                       'fisher.wo.interaction','shannon.wo.range',
+                                       'shannon.wo.burn', 'shannon.wo.interaction'),
                                        df1 = NA,
                                        df2 = NA,
                                        f.stat = NA,
@@ -120,13 +125,14 @@ SpecRichness.SequenceBased <- data.frame(data = c('w/ singletons', 'w/o singleto
                                    avg = NA,
                                    sd = NA)
 SpecRichnessResults.SequenceBased <- data.frame(data = c('w/ singletons.range',
-                                                       'w/ singletons.burn',
-                                                       'w/o singletons.range',
-                                                       'w/o singletons.burn'),
+                                       'w/ singletons.burn',
+                                       'w/o singletons.range',
+                                       'w/o singletons.burn'),
                                        df1 = NA,
                                        df2 = NA,
                                        f.stat = NA,
                                        p.value = NA)
+
 
 #========================================================================================#
 # Species richness----
@@ -283,7 +289,7 @@ ggplot(div.site.wSingle.data, aes(x = fa, colour = range)) +
   geom_density()
 
 #residuals
-plot(aov(fa ~ range, data = div.site.wSingle.data),1)
+plot(aov(fa ~ site, data = div.site.wSingle.data),1)
 
 #qqplot
 plot(aov(fa ~ range, data = div.site.wSingle.data),2)
@@ -297,6 +303,8 @@ leveneTest(div.site.wSingle.data$fa, div.site.wSingle.data$range,
 #Distribution
 ggplot(div.site.wSingle.data, aes(x = shannon, colour = range)) +
   geom_density()
+
+plotNormalHistogram(shannon)
 
 #residuals
 plot(aov(shannon ~ range, data = div.site.wSingle.data),1)
@@ -312,7 +320,7 @@ leveneTest(div.site.wSingle.data$shannon, div.site.wSingle.data$range,
 # << Diversity analysis: with singletons >> ------------------
 #--Fisher's alpha
 #multiple regression
-fisher.site.wSingleton.lm <- lm(fa ~ burn_status * range,
+fisher.site.wSingleton.lm <- lm(fa ~ burn_status *range,
                         data = div.site.wSingle.data)
 mult.reg.fa.wSingleton <- summary(fisher.site.wSingleton.lm)
 
@@ -347,13 +355,8 @@ DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
            'fisher.w.interaction', 'p.value'] <- fa.wSingleton[[1]]$`Pr(>F)`[3]
 
 #--Shannon's diversity
-shannon.site.wSingleton.lm <- aov(shannon ~ burn_status * range,
-                          data = div.site.wSingle.data)
-mult.reg.shannon.wSingleton <- summary(shannon.site.wSingleton.lm)
-
-#ANOVA
-anova.shannon.wSingleton <- aov(shannon.site.wSingleton.lm)
-shannon.wSingleton <- summary(anova.shannon.wSingleton)
+#--kruskal wallis test
+kruskal.test(shannon ~ burn_range, data = div.site.wSingle.data)
 
 #Add to results dataframe
 DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
@@ -414,7 +417,7 @@ shapiro.test(log(div.site.wo.data$shannon))
 leveneTest(div.site.wo.data$shannon, div.site.wo.data$range,
            center = median)
 
-# << Diversity analysis: with singletons >> ------------------
+# << Diversity analysis: Site data with singletons >> ------------------
 #--Fisher's alpha
 #multiple regression
 fisher.site.wo.lm <- lm(fa ~ burn_status * range,
@@ -486,49 +489,124 @@ DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
 DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
                            'shannon.wo.interaction', 'p.value'] <- shannon.wo.Singleton[[1]]$`Pr(>F)`[3]
 
-write.csv(DivResults.SequenceBased, paste0(res.dir, 'DivResults_SequenceBased.csv'),
+write.csv(DivResults.SequenceBased, paste0(res.dir, 'DivResults_site_SequenceBased.csv'),
           row.names = F)
 
 #<< By Tree >> ------
 #--With Singletons included-----
-# div.tree.wSingle.data <- data.frame(tree = stsp.matrix$Tree,
-#                                     range = stsp.matrix$Range,
-#                                     burn_status = stsp.matrix$Burn_status,
-#                                     burn_range = stsp.matrix$burn_range,
-#                                     fa = fisher.alpha(stsp.matrix[6:length(stsp.matrix)]),
-#                                     shannon = diversity(stsp.matrix[6:length(stsp.matrix)], index = 'shannon'))
+div.tree.wSingle.data <- data.frame(tree = stsp.matrix$Tree,
+                                    range = stsp.matrix$Range,
+                                    burn_status = stsp.matrix$Burn_status,
+                                    burn_range = stsp.matrix$burn_range,
+                                    fa = fisher.alpha(stsp.matrix[6:length(stsp.matrix)]),
+                                    shannon = diversity(stsp.matrix[6:length(stsp.matrix)], index = 'shannon'))
 #--remove outliers (those that have equal species richness and abundance)
-# fa.out <- c('F11','F12','F13','F14','F4','LB021','LB059','NF19')
-# div.data.fa <- div.data[!div.data$tree %in% fa.out, ]
+fa.out <- c('F11','F12', 'F13', 'F14','F4','LB021','NF19')
+div.tree.wSingle.data.o <- div.tree.wSingle.data[!div.tree.wSingle.data$tree %in% fa.out, ]
 
 
 #--w/o Singletons included-----
-# div.tree.wo.data <- data.frame(tree = stsp.wo.singletons$Tree,
-#                                range = stsp.wo.singletons$Range,
-#                                burn_status = stsp.wo.singletons$Burn_status,
-#                                burn_range = stsp.wo.singletons$burn_range,
-#                                fa = fisher.alpha(stsp.wo.singletons[6:length(stsp.wo.singletons)]),
-#                                shannon = diversity(stsp.wo.singletons[6:length(stsp.wo.singletons)],
-#                                                    index = 'shannon'))
+div.tree.wo.data <- data.frame(tree = stsp.wo.singletons$Tree,
+                               range = stsp.wo.singletons$Range,
+                               burn_status = stsp.wo.singletons$Burn_status,
+                               burn_range = stsp.wo.singletons$burn_range,
+                               fa = fisher.alpha(stsp.wo.singletons[6:length(stsp.wo.singletons)]),
+                               shannon = diversity(stsp.wo.singletons[6:length(stsp.wo.singletons)],
+                                                   index = 'shannon'))
 #--remove outliers (those that have equal species richness and abundance)
-# fa.out <- c('F11','F12','F13','F14','F4','LB021','LB059','NF19')
-# div.data.fa <- div.data[!div.data$tree %in% fa.out, ]
+fa.out <- c('F11','F12','F13','F14','F4','LB021','LB059','NF19')
+div.data.fa <- div.tree.wo.data[!div.tree.wo.data$tree %in% fa.out, ]
 
-#-----------------------------------------------------------------------------------------
-# Plot of Fisher's alpha by range and burn_status: site data with singletons----
-#-----------------------------------------------------------------------------------------
-levels(div.site.wSingle.data$range) <- c('Pinaleno Mts.', 'Santa Catalina Mts.')
-levels(div.site.wSingle.data$burn_status) <- c('Burned', 'Unburned')
- 
-fa.plot <- ggplot(div.site.wSingle.data, aes(x = burn_status, y = fa,
-                                  fill = burn_status)) +
+# << Diversity analysis: Tree data with singletons >> ------------------
+#--Fisher's alpha
+#multiple regression
+fisher.site.wo.lm <- lm(fa ~ burn_status,
+                        data = div.data.fa)
+mult.reg.fa.wo <- summary(fisher.site.wo.lm)
+
+#ANOVA
+anova.fa.wo <- aov(fisher.site.wo.lm)
+fa.wo.Singleton <- summary(anova.fa.wo)
+fa.wo.Singleton
+
+#Add to results dataframe
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'fisher.wo.burn', 'df1'] <- fa.wo.Singleton[[1]]$Df[1]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'fisher.wo.burn', 'df2'] <- fa.wo.Singleton[[1]]$Df[4]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'fisher.wo.burn', 'f.stat'] <- fa.wo.Singleton[[1]]$`F value`[1]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'fisher.wo.burn', 'p.value'] <- fa.wo.Singleton[[1]]$`Pr(>F)`[1]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'fisher.wo.range', 'df1'] <- fa.wo.Singleton[[1]]$Df[2]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'fisher.wo.range', 'df2'] <- fa.wo.Singleton[[1]]$Df[4]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'fisher.wo.range', 'f.stat'] <- fa.wo.Singleton[[1]]$`F value`[2]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'fisher.wo.range', 'p.value'] <- fa.wo.Singleton[[1]]$`Pr(>F)`[2]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'fisher.wo.interaction', 'df1'] <- fa.wo.Singleton[[1]]$Df[3]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'fisher.wo.interaction', 'df2'] <- fa.wo.Singleton[[1]]$Df[4]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'fisher.wo.interaction', 'f.stat'] <- fa.wo.Singleton[[1]]$`F value`[3]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'fisher.wo.interaction', 'p.value'] <- fa.wo.Singleton[[1]]$`Pr(>F)`[3]
+
+#--Shannon's diversity
+shannon.site.wo.lm <- aov(shannon ~ burn_status * range,
+                          data = div.site.wo.data)
+mult.reg.shannon.wo <- summary(shannon.site.wo.lm)
+
+#ANOVA
+anova.shannon.wo <- aov(shannon.site.wo.lm)
+shannon.wo.Singleton <- summary(anova.shannon.wo)
+
+#Add to results dataframe
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'shannon.wo.burn', 'df1'] <- shannon.wo.Singleton[[1]]$Df[1]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'shannon.wo.burn', 'df2'] <- shannon.wo.Singleton[[1]]$Df[4]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'shannon.wo.burn', 'f.stat'] <- shannon.wo.Singleton[[1]]$`F value`[1]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'shannon.wo.burn', 'p.value'] <- shannon.wo.Singleton[[1]]$`Pr(>F)`[1]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'shannon.wo.range', 'df1'] <- shannon.wo.Singleton[[1]]$Df[2]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'shannon.wo.range', 'df2'] <- shannon.wo.Singleton[[1]]$Df[4]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'shannon.wo.range', 'f.stat'] <- shannon.wo.Singleton[[1]]$`F value`[2]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'shannon.wo.range', 'p.value'] <- shannon.wo.Singleton[[1]]$`Pr(>F)`[2]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'shannon.wo.interaction', 'df1'] <- shannon.wo.Singleton[[1]]$Df[3]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'shannon.wo.interaction', 'df2'] <- shannon.wo.Singleton[[1]]$Df[4]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'shannon.wo.interaction', 'f.stat'] <- shannon.wo.Singleton[[1]]$`F value`[3]
+DivResults.SequenceBased[DivResults.SequenceBased$div.measure ==
+                           'shannon.wo.interaction', 'p.value'] <- shannon.wo.Singleton[[1]]$`Pr(>F)`[3]
+
+write.csv(DivResults.SequenceBased, paste0(res.dir, 'DivResults_tree_SequenceBased.csv'),
+          row.names = F)
+
+#----------------------------------------------------------------------------------------#
+# Plot of Fisher's alpha by burn status: tree data with singletons----
+#----------------------------------------------------------------------------------------#
+levels(div.tree.wSingle.data.o$range) <- c('Pinaleno Mts.', 'Santa Catalina Mts.')
+levels(div.tree.wSingle.data.o$burn_status) <- c('Burned', 'Unburned')
+
+fa.plot <- ggplot(div.tree.wSingle.data.o, aes(x = burn_status, y = fa,
+                                               fill = burn_status)) +
   geom_boxplot() +
-  scale_x_discrete(name = "Burn status") +
+  scale_x_discrete(name = "Fire history") +
   scale_y_continuous(name = "Fisher's alpha") +
-  facet_grid(. ~ range) +
   theme_bw() +
-  scale_fill_brewer(palette = "Accent") +
-  labs(fill = "Burn status") +
+  labs(fill = "Fire history") +
+  scale_fill_manual(values=c('#ef8a62','#999999')) +
   theme(legend.position="none",
         axis.title.x = element_text(margin = margin(t = 30)),
         axis.title.y = element_text(margin = margin(r = 30)),
@@ -537,22 +615,55 @@ fa.plot <- ggplot(div.site.wSingle.data, aes(x = burn_status, y = fa,
         axis.title = element_text(size = 28),
         strip.text.x = element_text(size = 14))
 
-ggsave('Div_FishersAlpha_SequenceBased.tiff', plot = fa.plot, device = 'tiff', path = fig.dir,
+fa.plot
+ggsave('Fig2a.jpeg', plot = fa.plot, device = 'jpeg',
+       path = '/Volumes/Cenococcum/PhD/Dissertation/Chpt.2/Figures/',
        width = 20, height = 20, units = 'cm')
 
-#-----------------------------------------------------------------------------------------
-# Plot of Shannon's diversity by range and burn_status----
-#-----------------------------------------------------------------------------------------
-
-shannon.plot <- ggplot(div.site.wSingle.data, aes(x = burn_status, y = shannon,
+#----------------------------------------------------------------------------------------#
+# Plot of Fisher's alpha by range and burn_status: tree data with singletons----
+#----------------------------------------------------------------------------------------#
+levels(div.tree.wSingle.data.o$range) <- c('Pinaleno Mts.', 'Santa Catalina Mts.')
+levels(div.tree.wSingle.data.o$burn_status) <- c('Burned', 'Unburned')
+ 
+fa.plot <- ggplot(div.tree.wSingle.data.o, aes(x = burn_status, y = fa,
                                   fill = burn_status)) +
   geom_boxplot() +
-  scale_x_discrete(name = "Burn status") +
+  scale_x_discrete(name = "Fire history") +
+  scale_y_continuous(name = "Fisher's alpha") +
+  facet_grid(. ~ range) +
+  theme_bw() +
+  labs(fill = "Fire history") +
+  scale_fill_manual(values=c('#ef8a62','#999999')) +
+  theme(legend.position="none",
+        axis.title.x = element_text(margin = margin(t = 30)),
+        axis.title.y = element_text(margin = margin(r = 30)),
+        panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        axis.text = element_text(size=22, color = 'black'),
+        axis.title = element_text(size = 28),
+        strip.text.x = element_text(size = 14))
+
+fa.plot
+ggsave('Fig2b.jpeg', plot = fa.plot, device = 'jpeg',
+       path = '/Volumes/Cenococcum/PhD/Dissertation/Chpt.2/Figures/',
+       width = 20, height = 20, units = 'cm')
+
+#----------------------------------------------------------------------------------------#
+# Plot of Shannon's diversity by range and burn_status: tree----
+#----------------------------------------------------------------------------------------#
+levels(div.tree.wSingle.data$range) <- c('Pinaleno Mts.', 'Santa Catalina Mts.')
+levels(div.tree.wSingle.data$burn_status) <- c('Burned', 'Unburned')
+
+shannon.plot <- ggplot(div.tree.wSingle.data, aes(x = burn_status, y = shannon,
+                                  fill = burn_status)) +
+  geom_boxplot() +
+  scale_x_discrete(name = "Fire history") +
   scale_y_continuous(name = "Shannon diversity index") +
   facet_grid(. ~ range) +
   theme_bw() +
   scale_fill_brewer(palette = "Accent") +
-  labs(fill = "Burn status") +
+  labs(fill = "Fire history") +
+  scale_fill_manual(values=c('#ef8a62','#999999')) +
   theme(legend.position="none",
         axis.title.x = element_text(margin = margin(t = 30)),
         axis.title.y = element_text(margin = margin(r = 30)),
@@ -561,6 +672,26 @@ shannon.plot <- ggplot(div.site.wSingle.data, aes(x = burn_status, y = shannon,
         axis.title = element_text(size = 28),
         strip.text.x = element_text(size = 14))
 
-ggsave('Div_ShannonsDiversity_SequenceBased.tiff', plot = shannon.plot,
-       device = 'tiff', path = fig.dir,
+shannon.plot
+ggsave('Fig2c.jpeg', plot = shannon.plot,
+       device = 'jpeg', path = '/Volumes/Cenococcum/PhD/Dissertation/Chpt.2/Figures/',
        width = 20, height = 20, units = 'cm')
+
+
+#========================================================================================#
+# Assess normality----
+#========================================================================================#
+norm.data <- data.frame(tree = stsp.matrix$Tree, 
+                        site = stsp.matrix$Site,
+                        range = stsp.matrix$Range,
+                        burn_status = stsp.matrix$Burn_status,
+                        spec.richness = NA)
+#--Species richness
+norm.data$spec.richness <- specnumber(stsp.matrix[6:length(stsp.matrix)], 
+                                      groups = stsp.matrix$Tree)
+normtest(norm.data, 'spec.richness')
+
+#--Fisher's alpha
+
+
+#--Shannon's diversity
