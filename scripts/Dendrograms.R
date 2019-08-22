@@ -191,21 +191,35 @@ soil.data <- soil.data[c(1:3,21:22,4:20)]
 #----------------------------------------------------------------------------------------#
 morisita.dist <- vegdist(rangeburn.matrix[4:length(rangeburn.matrix)], method = 'horn',
                          binary = F, na.rm = T)
-jaccard.dist <- vegdist(rangeburn.matrix[4:length(rangeburn.matrix)], method = 'jaccard')
+jaccard.dist <- vegdist(rangeburn.matrix[4:length(rangeburn.matrix)], method = 'jaccard',
+                        binary = T, na.rm = T)
 
 #========================================================================================#
 # Cluster analyses with site descriptions----
 #========================================================================================#
+#<< Morisita-horn >> ---
 rownames(rangeburn.matrix) <- rangeburn.matrix$Site
 rangeburn.matrix[4:length(rangeburn.matrix)] %>%
-  vegdist(method = 'horn') %>%
-  hclust(method = 'average') %>%
-  as.dendrogram -> ab.dend
-plot(ab.dend)
-labels(ab.dend)
-ab.dend %>%
+  vegdist(method = 'horn', binary = F) %>%
+  hclust(method = 'complete') %>%
+  as.dendrogram -> ab.dend.morisita
+plot(ab.dend.morisita)
+labels(ab.dend.morisita)
+ab.dend.morisita %>%
   set("labels", c('SCM unburned','SCM burned','SCM burned','PM burned',
                   'PM burned','SCM unburned','PM unburned','PM unburned')) %>% 
+  plot
+
+#<< Jaccard >> ---
+rangeburn.matrix[4:length(rangeburn.matrix)] %>%
+  vegdist(method = 'jaccard', binary = T) %>%
+  hclust(method = 'complete') %>%
+  as.dendrogram -> ab.dend.jaccard
+plot(ab.dend.jaccard)
+labels(ab.dend.jaccard)
+ab.dend.jaccard %>%
+  set("labels", c('PM unburned','SCM unburned','SCM burned','SCM unburned',
+                  'SCM burned','PM unburned','PM burned','PM unburned')) %>% 
   plot
 
 
@@ -228,7 +242,7 @@ matrix.pa <- as.matrix(site.matrix[,5:119])
 rownames(matrix.pa) <- site.matrix[,4]
 
 #Calculate distances among communities using the 
-dist.abu <- vegdist(matrix.abu, method="horn") #to calculate the distances 
+dist.abu <- vegdist(matrix.abu, method="horn", binary = F)
 dist.pres <- vegdist(matrix.pa, method="jaccard")
 
 #Hierarchical cluster analysis
@@ -388,9 +402,9 @@ text(1.7,9+0.3, labels="Unburned", font=1, cex=2, pos=4)
 
 dev.off()
 
-#-----------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------#
 # by tree-----
-#-----------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------#
 
 pdf(file=paste0(fig.dir,'Cluster_abundance_tree.pdf'),
     paper = "special", width = 6, height = 8, family="Times")
@@ -515,9 +529,9 @@ rangeburn.anosim <- anosim(stsp.matrix[6:length(stsp.matrix)],
                       distance = 'horn')
 plot.anosim(rangeburn.anosim)
 
-#-----------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------#
 # Soil-----
-#-----------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------#
 
 pdf(file=paste0(fig.dir,'Cluster_soil.pdf'),
     paper = "special", width = 6, height = 8, family="Times")
@@ -525,8 +539,8 @@ pdf(file=paste0(fig.dir,'Cluster_soil.pdf'),
 #divide your plotting device in 3 plotting regions with different dimensions
 layout(matrix(c(1,2,3), 1, 3, byrow = TRUE), widths = c(4,2,2)) 
 #--soil data isolated
-matrix.soil <- as.matrix(soil.data[,6:length(soil.data)])
-rownames(matrix.soil) <- soil.data[,6]
+matrix.soil <- as.matrix(soil.data[,4:length(soil.data)])
+rownames(matrix.soil) <- soil.data[,2]
 
 #Calculate distances among communities using the 
 dist.soil <- vegdist(matrix.soil, method="euclidean")
@@ -548,24 +562,40 @@ mtext("Soil", cex = 2)
 meta.matrix <- data.frame(range.burn = rownames(matrix.soil),
                           range = soil.data$range,
                           burn_status = soil.data$burn_status)
-clust.labels <- c('pinaleno burned','pinaleno burned','pinaleno unburned',
-                  'pinaleno burned', 'pinaleno unburned', 'pinaleno burned',
-                  'pinaleno unburned','santa.catalina burned','santa.catalina unburned',
-                  'santa.catalina burned','santa.catalina unburned',
-                  'santa.catalina unburned','santa.catalina unburned',
-                  'santa.catalina burned','santa.catalina burned',
-                  'santa.catalina unburned','pinaleno unburned','santa.catalina burned',
-                  'pinaleno unburned', 'pinaleno burned','pinaleno burned',
-                  'santa.catalina burned','santa.catalina unburned','pinaleno unburned')
+# clust.labels <- c('pinaleno burned','pinaleno burned','pinaleno unburned',
+#                   'pinaleno burned', 'pinaleno unburned', 'pinaleno burned',
+#                   'pinaleno unburned','santa.catalina burned','santa.catalina unburned',
+#                   'santa.catalina burned','santa.catalina unburned',
+#                   'santa.catalina unburned','santa.catalina unburned',
+#                   'santa.catalina burned','santa.catalina burned',
+#                   'santa.catalina unburned','pinaleno unburned','santa.catalina burned',
+#                   'pinaleno unburned', 'pinaleno burned','pinaleno burned',
+#                   'santa.catalina burned','santa.catalina unburned','pinaleno unburned')
+labelcreator <- data.frame(loc = length(labels(as.dendrogram(ca.soil))),
+                          site = labels(as.dendrogram(ca.soil)),
+                          fire = NA,
+                          range = NA,
+                          cat = NA)
+fire.lab = c('p3','p4','sc3','sc4')
+range.lab = c('p1','p2','p3','p4')
+labelcreator[labelcreator$site %in% fire.lab, 'fire'] <- 'burned'
+labelcreator[!labelcreator$site %in% fire.lab, 'fire'] <- 'unburned'
+labelcreator[labelcreator$site %in% range.lab, 'range'] <- 'PM'
+labelcreator[!labelcreator$site %in% range.lab, 'range'] <- 'SCM'
+for(i in 1:nrow(labelcreator)){
+  labelcreator[i, 'cat'] <- paste(labelcreator[i, 'fire'],
+                                  labelcreator[i, 'range'])
+}
+clust.labels <- labelcreator$cat
+
 rcol <- rev(clust.labels)
-rcol <- replace(rcol,rcol == 'santa.catalina burned' |
-                  rcol == 'santa.catalina unburned', 1)
-rcol <- replace(rcol,rcol == 'pinaleno burned' | rcol == 'pinaleno unburned', 2)
+rcol <- replace(rcol,rcol == 'burned SCM' | rcol == 'unburned SCM', 1)
+rcol <- replace(rcol,rcol == 'burned PM' | rcol == 'unburned PM', 2)
 rcol <- as.numeric(rcol)
 
 bcol <- rev(clust.labels)
-bcol <- replace(bcol,bcol == 'pinaleno burned' | bcol == 'santa.catalina burned', 4)
-bcol <- replace(bcol,bcol == 'pinaleno unburned' | bcol == 'santa.catalina unburned', 3)
+bcol <- replace(bcol,bcol == 'burned PM' | bcol == 'burned SCM', 4)
+bcol <- replace(bcol,bcol == 'unburned PM' | bcol == 'unburned SCM', 3)
 bcol <- as.numeric(bcol)
 
 hm <- data.frame(rcol = rcol,
@@ -599,7 +629,7 @@ rect(xleft=c(1,1),
      ybottom=c(8,9),
      ytop=c(9,10), 
      col=rev(col.burn), border="black")
-text(x=1.3,y=11+0.5, labels="Burn \n status", cex=2)
+text(x=1.3,y=11+0.5, labels="Burn status", cex=2)
 text(1.7,8+0.3, labels="Burned", cex=1, pos=4)
 text(1.7,9+0.3, labels="Unburned", cex=1, pos=4)
 
