@@ -8,8 +8,10 @@
 #----------------------------------------------------------------------------------------#
 # Load libraries----
 #----------------------------------------------------------------------------------------#
-library(ggplot2);library(tidyr);library(vegan);library(dplyr);
-library(car); library(rcompanion); library(nlme)
+library(ggplot2);library(vegan);library(car); library(rcompanion); library(nlme)
+
+#install.packages("tidyverse")
+library(tidyverse)
 
 #----------------------------------------------------------------------------------------#
 # set up paths to directories----
@@ -192,12 +194,35 @@ DivResults.SequenceBased[DivResults.SequenceBased$div.measure == 'specrich.pm',
 #----------------------------------------------------------------------------------------#
 # Plot of Species richness by range and burn_status: tree----
 #----------------------------------------------------------------------------------------#
-stsp.matrix$Range <- as.factor(stsp.matrix$Range)
-levels(stsp.matrix$Range) <- c('Pinaleno Mts.', 'Santa Catalina Mts.')
-stsp.matrix$Burn_status <- as.factor(stsp.matrix$Burn_status)
-levels(stsp.matrix$Burn_status) <- c('FA', 'FU')
+#--Reorder factors SCM, PM; Unburned, Burned
+stsp.matrix[stsp.matrix$Range == 'santa.catalina', 'Range'] <- 'Santa Catalina Mts.'
+stsp.matrix[stsp.matrix$Range == 'pinaleno', 'Range'] <- 'Pinaleno Mts.'
+stsp.matrix$Range <- factor(stsp.matrix$Range, 
+                            levels = c('Santa Catalina Mts.', 'Pinaleno Mts.'))
+
+stsp.matrix[stsp.matrix$Burn_status == 'burned', 'Burn_status'] <- 'Burned'
+stsp.matrix[stsp.matrix$Burn_status == 'unburned', 'Burn_status'] <- 'Unburned'
+stsp.matrix$Burn_status <- factor(stsp.matrix$Burn_status,
+                                  levels = c('Unburned','Burned'))
+
 stsp.matrix$spec.richness <- sr.by.tree
-stsp.matrix <- stsp.matrix[c(1:6, 123, 7:122)]
+stsp.matrix <- stsp.matrix[c(1:6, 124, 7:123)]
+
+# stsp.matrix <- as.tibble(stsp.matrix)
+# stsp.matrix %>%
+#   ungroup() %>%
+#   # 2. Arrange by
+#   #   i.  Range
+#   #   ii. Fire history
+#   arrange(desc(Range),desc(Burn_status)) %>%
+#   # 3. Add order column of row numbers
+#   mutate(order = row_number())
+# 
+# stsp.matrix %>%
+#   distinct(Range) %>%
+#   mutate(Range = fct_relevel(Range, 
+#                              c('Santa Catalina Mts', 'Pinaleno Mts.'))) %>%
+#   arrange(Range)
 
 sr.plot <- ggplot(stsp.matrix, aes(x = Burn_status, y = spec.richness,
                                                   fill = Burn_status)) +
@@ -208,7 +233,7 @@ sr.plot <- ggplot(stsp.matrix, aes(x = Burn_status, y = spec.richness,
   theme_bw() +
   scale_fill_brewer(palette = "Accent") +
   labs(fill = "Fire history") +
-  scale_fill_manual(values=c('#ef8a62','#999999')) +
+  scale_fill_manual(values=c('#006d2c','#636363')) +
   theme(legend.position="none",
         axis.title.x = element_text(margin = margin(t = 30)),
         axis.title.y = element_text(margin = margin(r = 30)),
@@ -336,8 +361,16 @@ DivResults.SequenceBased[DivResults.SequenceBased$div.measure == 'shannon.pm',
 #----------------------------------------------------------------------------------------#
 # Plot of Fisher's alpha by burn status: tree data with singletons----
 #----------------------------------------------------------------------------------------#
-levels(div.data.out$range) <- c('Pinaleno Mts.', 'Santa Catalina Mts.')
-levels(div.data.out$burn_status) <- c('FA', 'FU')
+#--Reorder factors SCM, PM; Unburned, Burned
+div.data.out[div.data.out$range == 'santa.catalina', 'range'] <- 'Santa Catalina Mts.'
+div.data.out[div.data.out$range == 'pinaleno', 'range'] <- 'Pinaleno Mts.'
+div.data.out$range <- factor(div.data.out$range, 
+                         levels = c('Santa Catalina Mts.', 'Pinaleno Mts.'))
+
+div.data.out[div.data.out$burn_status == 'burned', 'burn_status'] <- 'Burned'
+div.data.out[div.data.out$burn_status == 'unburned', 'burn_status'] <- 'Unburned'
+div.data.out$burn_status <- factor(div.data.out$burn_status,
+                               levels = c('Unburned','Burned'))
 
 fa.plot <- ggplot(div.data.out, aes(x = burn_status, y = fa,
                                     fill = burn_status)) +
@@ -347,7 +380,7 @@ fa.plot <- ggplot(div.data.out, aes(x = burn_status, y = fa,
   scale_y_continuous(name = "Fisher's alpha") +
   theme_bw() +
   labs(fill = "Fire history") +
-  scale_fill_manual(values=c('#ef8a62','#999999')) +
+  scale_fill_manual(values=c('#006d2c','#636363')) +
   theme(legend.position="none",
         axis.title.x = element_text(margin = margin(t = 30)),
         axis.title.y = element_text(margin = margin(r = 30)),
@@ -365,8 +398,16 @@ ggsave('FishersAlpha_FireHistory.jpeg', plot = fa.plot,
 #----------------------------------------------------------------------------------------#
 # Plot of Shannon's diversity by range and burn_status: tree----
 #----------------------------------------------------------------------------------------#
-levels(div.data$range) <- c('Pinaleno Mts.', 'Santa Catalina Mts.')
-levels(div.data$burn_status) <- c('FA', 'FU')
+#--Reorder factors SCM, PM; Unburned, Burned
+div.data[div.data$range == 'santa.catalina', 'range'] <- 'Santa Catalina Mts.'
+div.data[div.data$range == 'pinaleno', 'range'] <- 'Pinaleno Mts.'
+div.data$range <- factor(div.data$range, 
+                            levels = c('Santa Catalina Mts.', 'Pinaleno Mts.'))
+
+div.data[div.data$burn_status == 'burned', 'burn_status'] <- 'Burned'
+div.data[div.data$burn_status == 'unburned', 'burn_status'] <- 'Unburned'
+div.data$burn_status <- factor(div.data$burn_status,
+                                  levels = c('Unburned','Burned'))
 
 shannon.plot <- ggplot(div.data, aes(x = burn_status, y = shannon,
                                      fill = burn_status)) +
@@ -377,7 +418,7 @@ shannon.plot <- ggplot(div.data, aes(x = burn_status, y = shannon,
   theme_bw() +
   scale_fill_brewer(palette = "Accent") +
   labs(fill = "Fire history") +
-  scale_fill_manual(values=c('#ef8a62','#999999')) +
+  scale_fill_manual(values=c('#006d2c','#636363')) +
   theme(legend.position="none",
         axis.title.x = element_text(margin = margin(t = 30)),
         axis.title.y = element_text(margin = margin(r = 30)),

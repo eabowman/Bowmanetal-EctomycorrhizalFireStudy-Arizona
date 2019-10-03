@@ -43,98 +43,100 @@ tax.results <- data.frame(tests = c('burn.range.class','burn.class','scm.class',
 #========================================================================================#
 # Class level----
 #========================================================================================#
-
-#----------------------------------------------------------------------------------------#
-# Chi square test: Significant----
-#----------------------------------------------------------------------------------------#
-#<< Range and Burn >> -----------------------------
-#--Make count table of classes byrange
-rangeburn.tax <- table(tax.data$rangeburn,tax.data$Taxonomy_class)
-rangeburn.tax
-
-#--Remove rare species  (species with less than 3 occurrences)
-rare <- c('Saccharomycetes','Archaeorhizomycetes')
-rangeburn.tax <- rangeburn.tax[ , which(!colnames(rangeburn.tax) %in% rare)]
-
-#--chi square test
-rangeburn.chi <- chisq.test(rangeburn.tax, correct = F)
-tax.results[tax.results$tests == 'burn.range.class', 'chi.stat'] <- rangeburn.chi$statistic[[1]]
-tax.results[tax.results$tests == 'burn.range.class', 'df'] <- rangeburn.chi$parameter[[1]]
-tax.results[tax.results$tests == 'burn.range.class', 'p.value'] <- rangeburn.chi$p.value[[1]]
-
-#<< Range >> -----------------------------
-#--Santa Catalina Mts. 
-scm.tax <- tax.data[tax.data$Range == "santa.catalina",]
-
-scm.tab.tax <- table(scm.tax$Burn_status, scm.tax$Taxonomy_class)
-scm.tab.tax <- scm.tab.tax[, which(!colnames(scm.tab.tax) %in% rare)]
-
-range.chi <- chisq.test(scm.tab.tax, correct = F)
-range.chi
-tax.results[tax.results$tests == 'scm.class', 'chi.stat'] <- range.chi$statistic[[1]]
-tax.results[tax.results$tests == 'scm.class', 'df'] <- range.chi$parameter[[1]]
-tax.results[tax.results$tests == 'scm.class', 'p.value'] <- range.chi$p.value[[1]]
-
-
-#--Pinaleno Mts. 
-pm.tax <- tax.data[tax.data$Range == "pinaleno",]
-
-pm.tab.tax <- table(pm.tax$Burn_status, pm.tax$Taxonomy_class)
-pm.tab.tax <- pm.tab.tax[, which(!colnames(pm.tab.tax) %in% rare)]
-
-range.chi <- chisq.test(pm.tab.tax, correct = F)
-range.chi
-tax.results[tax.results$tests == 'pm.class', 'chi.stat'] <- range.chi$statistic[[1]]
-tax.results[tax.results$tests == 'pm.class', 'df'] <- range.chi$parameter[[1]]
-tax.results[tax.results$tests == 'pm.class', 'p.value'] <- range.chi$p.value[[1]]
-
-#<< Burn >> -----------------------------
-burn.tax <- table(tax.data$Burn_status, tax.data$Taxonomy_class)
-burn.tax <- burn.tax[, which(!colnames(burn.tax) %in% rare)]
-
-burn.chi <- chisq.test(burn.tax, correct = F)
+#<< Fire history >> -----------------------------
+#--burned data
+burn.tax <- tax.data[tax.data$Burn_status == 'burned',]
+# remove rare classes
+burn.tax <- burn.tax[!burn.tax$Taxonomy_class %in% c('Saccharomycetes',
+                                                     'Eurotiomycetes'),]
+burn.table <- table(burn.tax$Range, burn.tax$Taxonomy_class)
+burn.chi <- chisq.test(burn.table, correct = F)
 burn.chi
-tax.results[tax.results$tests == 'burn.class', 'chi.stat'] <- burn.chi$statistic[[1]]
-tax.results[tax.results$tests == 'burn.class', 'df'] <- burn.chi$parameter[[1]]
-tax.results[tax.results$tests == 'burn.class', 'p.value'] <- burn.chi$p.value[[1]]
+
+#--unburned data
+unburn.tax <- tax.data[tax.data$Burn_status == 'unburned',]
+# remove rare classes
+unburn.tax <- unburn.tax[!unburn.tax$Taxonomy_class %in% c('Archaeorhizomycetes',
+                                                     'Eurotiomycetes'),]
+unburn.table <- table(unburn.tax$Range, unburn.tax$Taxonomy_class)
+unburn.chi <- chisq.test(unburn.table, correct = F)
+unburn.chi
 
 #----------------------------------------------------------------------------------------#
-# Plot: burn status and range at class level----
+# Plot: Insets for figure 3----
 #----------------------------------------------------------------------------------------#
 
-#--remove rare species from the tax data file
-range.tax <- tax.data[which(!tax.data$Taxonomy_class %in% rare), ]
-range.tax <- range.tax[!is.na(range.tax$Taxonomy_class),]
-
+#--Isolated unburned data
+unburn.tax <- tax.data[tax.data$Burn_status == 'unburned',]
+unburn.tax <- unburn.tax[!unburn.tax$Taxonomy_class %in% c('Archaeorhizomycetes',
+                                                           'Eurotiomycetes',NA),]
 #Change levels of Burn_status and Range columns
-range.tax$Burn_status <- as.factor(range.tax$Burn_status)
-levels(range.tax$Burn_status) <- c('FA', 'FU')
-range.tax$Range <- as.factor(range.tax$Range)
-levels(range.tax$Range) <- c('Pinaleno Mts.', 'Santa Catalina Mts.')
+unburn.tax[unburn.tax$Range == 'santa.catalina', 'Range'] <- 'Santa Catalina Mts.'
+unburn.tax[unburn.tax$Range == 'pinaleno', 'Range'] <- 'Pinaleno Mts.'
+unburn.tax$Range <-  factor(unburn.tax$Range, 
+       levels = c('Santa Catalina Mts.', 'Pinaleno Mts.'))
 
 #--Bar graph
-rangeburn.class <- ggplot(data = range.tax, 
-                     aes(x = Burn_status,
-                         fill = Taxonomy_class)) + 
+unburn.class <- ggplot(data = unburn.tax, 
+                          aes(x = Range,
+                              fill = Taxonomy_class)) + 
   geom_bar(position = "fill") + 
   ylab("Proportion of \n sequences per class") +
-  facet_grid(. ~ Range) +
   theme_bw() +
-  xlab('Fire history') +
+  xlab(element_blank()) +
   #ggtitle("Proportion of Classes by Topography") +
-  scale_fill_brewer(palette = "Greens") +
+  scale_fill_brewer(palette = 2,
+                    direction = -1) +
   guides (fill=guide_legend(title=NULL)) +
   theme(legend.position='right',
-        axis.title.x = element_text(margin = margin(t = 30)),
-        axis.title.y = element_text(margin = margin(r = 30)),
+        # axis.title.x = element_text(margin = margin(t = 30)),
+        # axis.title.y = element_text(margin = margin(r = 30)),
         panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        axis.text = element_text(size=22, color = 'black'),
+        panel.border = element_blank(), axis.line = element_line(),
+        axis.text = element_text(size=20, color = 'black'),
         axis.title = element_text(size = 28),
         strip.text.x = element_text(size = 14))
 
-rangeburn.class
+unburn.class
 
-ggsave('TaxonomyClass_SequenceBased.tiff', plot = rangeburn.class,
+ggsave('TaxonomyClass_SequenceBased_Unburned.tiff', plot = unburn.class,
+       device = 'jpeg', path = fig.dir,
+       width = 20, height = 15, units = 'cm')
+
+#--Isolated burned data
+burn.tax <- tax.data[tax.data$Burn_status == 'burned',]
+burn.tax <- burn.tax[!burn.tax$Taxonomy_class %in% c('Saccharomycetes',
+                                                     'Eurotiomycetes',NA),]
+#Change levels of Burn_status and Range columns
+burn.tax[burn.tax$Range == 'santa.catalina', 'Range'] <- 'Santa Catalina Mts.'
+burn.tax[burn.tax$Range == 'pinaleno', 'Range'] <- 'Pinaleno Mts.'
+burn.tax$Range <-  factor(burn.tax$Range, 
+                            levels = c('Santa Catalina Mts.', 'Pinaleno Mts.'))
+
+#--Bar graph
+burn.class <- ggplot(data = burn.tax, 
+                       aes(x = Range,
+                           fill = Taxonomy_class)) + 
+  geom_bar(position = "fill") + 
+  ylab("Proportion of \n sequences per class") +
+  theme_bw() +
+  xlab(element_blank()) +
+  #ggtitle("Proportion of Classes by Topography") +
+  scale_fill_brewer(palette = 6,
+                    direction = -1) +
+  guides (fill=guide_legend(title=NULL)) +
+  theme(legend.position='right',
+        # axis.title.x = element_text(margin = margin(t = 30)),
+        # axis.title.y = element_text(margin = margin(r = 30)),
+        panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(), axis.line = element_line(),
+        axis.text = element_text(size=20, color = 'black'),
+        axis.title = element_text(size = 28),
+        strip.text.x = element_text(size = 14))
+
+burn.class
+
+ggsave('TaxonomyClass_SequenceBased_Burned.tiff', plot = burn.class,
        device = 'jpeg', path = fig.dir,
        width = 20, height = 15, units = 'cm')
 

@@ -8,8 +8,10 @@
 #----------------------------------------------------------------------------------------#
 # Load libraries----
 #----------------------------------------------------------------------------------------#
+# install.packages('ggplot2'); install.packages('tidyr'); install.packages('vegan')
+# install.packages('dplyr'); install.packages('gridExtra')
 library(ggplot2);library (tidyr);library (vegan);library (dplyr); library(gridExtra)
-#install.packages('ggfortify')
+# install.packages('ggfortify'); installed.packages('plyr'); install.packages('nlme')
 library(ggfortify); library(plyr); library(nlme)
 
 #----------------------------------------------------------------------------------------#
@@ -18,7 +20,7 @@ library(ggfortify); library(plyr); library(nlme)
 #--path to directory 
 dat.dir <- "~/Documents/PhD/2_EM_Fire_effect/data/"
 fig.dir <- '~/Documents/PhD/2_EM_Fire_effect/figures_output/'
-res.dir <- "~/Documents/PhD/2_EM_Fire_effect/results_output//"
+res.dir <- "~/Documents/PhD/2_EM_Fire_effect/results_output/"
 
 #----------------------------------------------------------------------------------------#
 # Soil data----
@@ -48,15 +50,6 @@ soil.data[!soil.data$site %in% c('sc1','sc2','sc3','sc4'), 'range'] <- 'Pinaleno
 soil.data[soil.data$site %in% c('sc1','sc2','sc3','sc4'), 'range'] <-
   'Santa Catalina Mts.'
 
-#--add column with range and burn status combined
-soil.data$range_burn <- NA
-for(i in unique(soil.data$range)){
-  for(b in unique(soil.data$burn_status)){
-    soil.data[soil.data$range == i & soil.data$burn_status == b, 'range_burn'] <-
-      paste(i, b)
-  }
-}
-
 #--add forest type
 soil.data$forest <- NA
 soil.data[soil.data$site %in% c('sc1','sc2','sc3','sc4','p2'), 'forest'] <- 'pine oak'
@@ -64,11 +57,9 @@ soil.data[soil.data$site %in% c('p3','p4'), 'forest'] <- 'pine df'
 soil.data[soil.data$site == 'p1', 'forest'] <- 'pine'
 
 ## PCA of soil data -------
-# all soil data
-# soil.perma <- soil.data[6:22] 
-# sig soil data
-soil.sig <- c('pH.su','po4.p.ppm','so4.s.ppm','b.ppm','mg.ppm',
-              'k.ppm','no3.n.ppm')
+# only unburned data
+soil.data <- soil.data[soil.data$burn_status == 'unburned',]
+soil.sig <- c('pH.su','po4.p.ppm','mg.ppm','k.ppm','no3.n.ppm')
 soil.perma <- soil.data[colnames(soil.data) %in% soil.sig]
 soil.perma[soil.perma$no3.n.ppm == "<1.0", 'no3.n.ppm'] <- 0.00000001
 soil.perma$no3.n.ppm <- as.numeric(soil.perma$no3.n.ppm)
@@ -79,8 +70,9 @@ soil.pca <- prcomp(soil.perma,
 #plot(soil.pca, type = 'l')
 summary(soil.pca)
 soil.eigenvector <- scores(soil.pca, choices = 1)
-soil.eigenvector <- data.frame(matrix(unlist(soil.eigenvector), nrow=24, byrow=T))
+soil.eigenvector <- data.frame(matrix(unlist(soil.eigenvector), nrow=12, byrow=T))
 colnames(soil.eigenvector) <- 'soil.pca'
+soil.data['soil.pca'] <- soil.eigenvector
 
 #----------------------------------------------------------------------------------------#
 # Community, climate, and soil data (extrapolated) data----
@@ -110,33 +102,17 @@ otu.data %>%
 #--climate data: add to stsp.matrix
 clim.data <- read.csv(paste0(dat.dir, 'climate_data.csv'))
 for(i in unique(stsp.matrix$Site)) {
-  stsp.matrix[stsp.matrix$Site == i, 'prec'] <- clim.data[clim.data$site == i, 'prec']
-  stsp.matrix[stsp.matrix$Site == i, 'Tmax'] <-
-    clim.data[clim.data$site == i, 'Tmax']
-}
-
-#<< Isolate soil data for PCA >> ----------------------
-soil.sig <- c('site','pH.su','po4.p.ppm','so4.s.ppm','b.ppm','mg.ppm',
-              'k.ppm','no3.n.ppm')
-# all.soil <- c('site','lat','long','pH.su','po4.p.ppm','so4.s.ppm','b.ppm','mg.ppm',
-#               'k.ppm','no3.n.ppm','EC.ds.m','ca.ppm','na.ppm','zn.ppm','fe.ppm','mn.ppm',
-#               'cu.ppm','ni.ppm','cec.meq.100g')
-soil.data.sig <- soil.data[colnames(soil.data)%in% soil.sig]
-soil.data.sig[soil.data.sig$no3.n.ppm == '<1.0', 'no3.n.ppm'] <- 0
-soil.data.sig$no3.n.ppm <- as.numeric(soil.data.sig$no3.n.ppm)
-for(s in unique(soil.data$site)){
-  for(f in soil.sig[2:length(soil.sig)]){
-    stsp.matrix[stsp.matrix$Site == s, f] <- mean(soil.data.sig[soil.data.sig$site == s, f])
-  }
+  stsp.matrix[stsp.matrix$Site == i, 'Prec.avg'] <- clim.data[clim.data$site == i, 'Prec.avg']
+  stsp.matrix[stsp.matrix$Site == i, 'Temp.avg'] <-
+    clim.data[clim.data$site == i, 'Temp.avg']
 }
 
 #--reorder matrix
 colnames(stsp.matrix)
-soil.perm <- stsp.matrix[c(1:4,123:129)]
 stsp.matrix <- stsp.matrix[c(1:4,121:122,5:120)]
 
 #========================================================================================#
-# Assess soil and climate between SCM and PM ranges----
+# Assess soil and climate between unburned sites in SCM and PM ranges----
 #========================================================================================#
 
 #<<Multiple regression of soil PCA axis one (soil.eigenvector)>>------
@@ -148,60 +124,20 @@ soil.eigenvector$tree <- soil.data$tree_number
 soil.eigenvector$range <- soil.data$range
 soil.eigenvector$burn_status <- soil.data$burn_status
 soil.eigenvector$forest <- soil.data$forest
-#--Create dummy variables for the predictor variables
-soil.eigenvector$range_dum <- as.factor(revalue(soil.eigenvector$range,
-                                            c('Pinaleno Mts.' = '1', 'Santa Catalina Mts.' = '2')))
-soil.eigenvector$burn_status_dum <- as.factor(revalue(soil.eigenvector$burn_status,
-                                                  c('burned' = '1', 'unburned' = '2')))
 
-#--Check to see if a mixed model is needed from "Discovering statistics using R" (p879)
-# assess base model
-interceptOnly <- gls(soil.pca ~ 1, data = soil.eigenvector, method = 'ML')
-summary(interceptOnly)
-# add in site as a random variable, assess whether it improves the model
-randomInterceptOnly <- lme(soil.pca ~ 1, data = soil.eigenvector,
-                           random = ~1|site, method = 'ML')
-summary(randomInterceptOnly)
-anova(interceptOnly, randomInterceptOnly) # use random effects model
-# add range as a fixed variable to the model
-randomInterceptRange <- lme(soil.pca ~ range, data = soil.eigenvector,
-                            random = ~ 1 | site/tree, method = 'ML')
-summary(randomInterceptRange)
-# add burn status as a fixed variable
-randomInterceptRangeBurn <- lme(soil.pca ~ range * burn_status, data = soil.eigenvector,
-                                random = ~ 1 | site/tree, method = 'ML')
-summary(randomInterceptRangeBurn)
-# assess all models 
-anova(randomInterceptOnly, randomInterceptRange, randomInterceptRangeBurn)
-### The range only model has the best fit (based on AIC and p-value)
-
-#--Linear multiple regression
-lme.soil <- lme(soil.pca ~ range * burn_status,
-                data = soil.eigenvector,
-                random = ~ 1 | site/tree)
-summary(lme.soil)
-anova(lme.soil)
-
-#<<Check model>>----
-#--Plot random effects, should be random around 0 intercept
-plot(ranef(lme.soil))
-
-#--Plot residuals to check for heterstasdicity
-plot(lme.soil)
+#--T-test to assess between range differences in unburned sites
+t.test(soil.pca ~ range, data = soil.eigenvector)
 
 #--plot
 soil.eigenvector$range <- factor(soil.eigenvector$range)
 levels(soil.eigenvector$range) <- c('Pinaleno Mts.','Santa Catalina Mts')
-soil.eigenvector$burn_status <- factor(soil.eigenvector$burn_status)
-levels(soil.eigenvector$burn_status) <-  c('FA','FU')
 
-rangeburn.soil <- ggplot(soil.eigenvector, aes(x = burn_status,
+range.soil <- ggplot(soil.eigenvector, aes(x = range,
                              y = soil.pca)) +
   geom_boxplot() +
   theme_bw() +
-  facet_grid(~ range) +
   ylab('PCA of soil variables') +
-  xlab('Burn history') +
+  xlab(element_blank()) +
   theme(legend.position="none",
         axis.title.x = element_text(margin = margin(t = 30)),
         axis.title.y = element_text(margin = margin(r = 30)),
@@ -262,36 +198,17 @@ mantel(clim.pc, edis)
 #========================================================================================#
 # Climate data----
 #========================================================================================#
-#--Create matrix of nonduplicated climate data, i.e. by site
-stsp.matrix %>%
-  select(Site, Burn_status, Range, prec, Tmax) %>%
-  distinct(Site, .keep_all = T) -> clim.data
 
 #<<Assess co-correlation of soil data>>-------
-clim.lm <- lm(prec ~ Tmax, data = clim.data)
+clim.lm <- lm(Prec.avg ~ Temp.avg, data = clim.data)
 summary(clim.lm)
-
-#<<PCA of climate data: not used, exploratory>>-------------
-climate.perma <- stsp.matrix[c('prec','Tmax')]
-climate.pca <- prcomp(climate.perma,
-                      center = TRUE,
-                      scale. = TRUE)
-autoplot(climate.pca,
-         data = stsp.matrix, colour = 'Range',
-         loadings = T, loadings.label = T,
-         frame = T)
-
-autoplot(climate.pca,
-         data = stsp.matrix, colour = 'Burn_status',
-         loadings = T, loadings.label = T,
-         frame = T)
 
 #<<T-test and Plot of precipitation>>-------------
 #--Range
-prec.range.t <- t.test(prec ~ Range, data = clim.data)
+prec.range.t <- t.test(Prec.avg ~ range, data = clim.data)
 
-prec.range <- ggplot(clim.data, aes(x = Range,
-                             y = prec)) +
+prec.range <- ggplot(clim.data, aes(x = range,
+                             y = Prec.avg)) +
   geom_boxplot() +
   theme_bw() +
   ylab('Annual average precipitation (mm)') +

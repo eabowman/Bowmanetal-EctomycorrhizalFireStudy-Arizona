@@ -18,103 +18,79 @@
 dat.dir <- "~/Documents/PhD/2_EM_Fire_effect/data/"
 fig.dir <- '~/Documents/PhD/2_EM_Fire_effect/data/world_clim/'
 res.dir <- "~/Documents/PhD/2_EM_Fire_effect/results/"
-clim.dir <- '~/Documents/PhD/3_Sky_islands-FE/'
+clim.dir <- '~/../../Volumes/Cenococcum/PhD/worldclim/'
 
 #--install and set library
 #--uncomment install packages function if you don't have this package installed
 #install.packages ("raster")
-library (raster)
+library(raster)
+#install.packages('rgdal')
+library(rgdal)
 
 # << BIOCLIM VARIABLES >> ----------------------------------------------------------------
 #--load world climate data: for 19 bio variables
 #--no need to change this if you downloaded tile 12
-data.1 <- raster (paste0 (clim.dir, 'bio_12/bio1_12.bil'),native = F)
-data.2 <- raster (paste0 (clim.dir, 'bio_12/bio2_12.bil'),native = F)
-data.3 <- raster (paste0 (clim.dir, 'bio_12/bio3_12.bil'),native = F)
-data.4 <- raster (paste0 (clim.dir, 'bio_12/bio4_12.bil'),native = F)
-data.5 <- raster (paste0 (clim.dir, 'bio_12/bio5_12.bil'),native = F)
-data.6 <- raster (paste0 (clim.dir, 'bio_12/bio6_12.bil'),native = F)
-data.7 <- raster (paste0 (clim.dir, 'bio_12/bio7_12.bil'),native = F)
-data.8 <- raster (paste0 (clim.dir, 'bio_12/bio8_12.bil'),native = F)
-data.9 <- raster (paste0 (clim.dir, 'bio_12/bio9_12.bil'),native = F)
-data.10 <- raster (paste0 (clim.dir, 'bio_12/bio10_12.bil'),native = F)
-data.11 <- raster (paste0 (clim.dir, 'bio_12/bio11_12.bil'),native = F)
-data.12 <- raster (paste0 (clim.dir, 'bio_12/bio12_12.bil'),native = F)
-data.13 <- raster (paste0 (clim.dir, 'bio_12/bio13_12.bil'),native = F)
-data.14 <- raster (paste0 (clim.dir, 'bio_12/bio14_12.bil'),native = F)
-data.15 <- raster (paste0 (clim.dir, 'bio_12/bio15_12.bil'),native = F)
-data.16 <- raster (paste0 (clim.dir, 'bio_12/bio16_12.bil'),native = F)
-data.17 <- raster (paste0 (clim.dir, 'bio_12/bio17_12.bil'),native = F)
-data.18 <- raster (paste0 (clim.dir, 'bio_12/bio18_12.bil'),native = F)
-data.19 <- raster (paste0 (clim.dir, 'bio_12/bio19_12.bil'),native = F)
+# data.1 <- raster (paste0 (clim.dir, 'bio_12/bio1_12.bil'),native = F)
+# data.2 <- raster (paste0 (clim.dir, 'bio_12/bio2_12.bil'),native = F)
+# data.3 <- raster (paste0 (clim.dir, 'bio_12/bio3_12.bil'),native = F)
+# data.4 <- raster (paste0 (clim.dir, 'bio_12/bio4_12.bil'),native = F)
+# data.5 <- raster (paste0 (clim.dir, 'bio_12/bio5_12.bil'),native = F)
+# data.6 <- raster (paste0 (clim.dir, 'bio_12/bio6_12.bil'),native = F)
+# data.7 <- raster (paste0 (clim.dir, 'bio_12/bio7_12.bil'),native = F)
+# data.8 <- raster (paste0 (clim.dir, 'bio_12/bio8_12.bil'),native = F)
+# data.9 <- raster (paste0 (clim.dir, 'bio_12/bio9_12.bil'),native = F)
+# data.10 <- raster (paste0 (clim.dir, 'bio_12/bio10_12.bil'),native = F)
+# data.11 <- raster (paste0 (clim.dir, 'bio_12/bio11_12.bil'),native = F)
+# data.12 <- raster (paste0 (clim.dir, 'bio_12/bio12_12.bil'),native = F)
+# data.13 <- raster (paste0 (clim.dir, 'bio_12/bio13_12.bil'),native = F)
+# data.14 <- raster (paste0 (clim.dir, 'bio_12/bio14_12.bil'),native = F)
+# data.15 <- raster (paste0 (clim.dir, 'bio_12/bio15_12.bil'),native = F)
+# data.16 <- raster (paste0 (clim.dir, 'bio_12/bio16_12.bil'),native = F)
+# data.17 <- raster (paste0 (clim.dir, 'bio_12/bio17_12.bil'),native = F)
+# data.18 <- raster (paste0 (clim.dir, 'bio_12/bio18_12.bil'),native = F)
+# data.19 <- raster (paste0 (clim.dir, 'bio_12/bio19_12.bil'),native = F)
 
 #<< Individual variables >> --------------------------------------------------------------
 #--load world climate data: Precipitation, Tmax, Tmin, Tmean
 #--there is a file for each month
 #--no need to change this if you downloaded for tile 12
-# #--Precipitation
-# prec.1 <- raster (paste0 (clim.dir, 'prec_12/prec1_12.bil'),native = F)
-# prec.2 <- raster (paste0 (clim.dir, 'prec_12/prec2_12.bil'),native = F)
-# prec.3 <- raster (paste0 (clim.dir, 'prec_12/prec3_12.bil'),native = F)
-# prec.4 <- raster (paste0 (clim.dir, 'prec_12/prec4_12.bil'),native = F)
-# prec.5 <- raster (paste0 (clim.dir, 'prec_12/prec5_12.bil'),native = F)
-# prec.6 <- raster (paste0 (clim.dir, 'prec_12/prec6_12.bil'),native = F)
-# prec.7 <- raster (paste0 (clim.dir, 'prec_12/prec7_12.bil'),native = F)
-# prec.8 <- raster (paste0 (clim.dir, 'prec_12/prec8_12.bil'),native = F)
-# prec.9 <- raster (paste0 (clim.dir, 'prec_12/prec9_12.bil'),native = F)
-# prec.10 <- raster (paste0 (clim.dir, 'prec_12/prec10_12.bil'),native = F)
-# prec.11 <- raster (paste0 (clim.dir, 'prec_12/prec11_12.bil'),native = F)
-# prec.12 <- raster (paste0 (clim.dir, 'prec_12/prec12_12.bil'),native = F)
-# #--Minimum temperature
-# Tmin.1 <- raster (paste0 (clim.dir, 'tmin_12/tmin1_12.bil'),native = F)
-# Tmin.2 <- raster (paste0 (clim.dir, 'tmin_12/tmin2_12.bil'),native = F)
-# Tmin.3 <- raster (paste0 (clim.dir, 'tmin_12/tmin3_12.bil'),native = F)
-# Tmin.4 <- raster (paste0 (clim.dir, 'tmin_12/tmin4_12.bil'),native = F)
-# Tmin.5 <- raster (paste0 (clim.dir, 'tmin_12/tmin5_12.bil'),native = F)
-# Tmin.6 <- raster (paste0 (clim.dir, 'tmin_12/tmin6_12.bil'),native = F)
-# Tmin.7 <- raster (paste0 (clim.dir, 'tmin_12/tmin7_12.bil'),native = F)
-# Tmin.8 <- raster (paste0 (clim.dir, 'tmin_12/tmin8_12.bil'),native = F)
-# Tmin.9 <- raster (paste0 (clim.dir, 'tmin_12/tmin9_12.bil'),native = F)
-# Tmin.10 <- raster (paste0 (clim.dir, 'tmin_12/tmin10_12.bil'),native = F)
-# Tmin.11 <- raster (paste0 (clim.dir, 'tmin_12/tmin11_12.bil'),native = F)
-# Tmin.12 <- raster (paste0 (clim.dir, 'tmin_12/tmin12_12.bil'),native = F)
-# #--Maximum temperature
-# Tmax.1 <- raster (paste0 (clim.dir, 'tmax_12/tmax1_12.bil'),native = F)
-# Tmax.2 <- raster (paste0 (clim.dir, 'tmax_12/tmax2_12.bil'),native = F)
-# Tmax.3 <- raster (paste0 (clim.dir, 'tmax_12/tmax3_12.bil'),native = F)
-# Tmax.4 <- raster (paste0 (clim.dir, 'tmax_12/tmax4_12.bil'),native = F)
-# Tmax.5 <- raster (paste0 (clim.dir, 'tmax_12/tmax5_12.bil'),native = F)
-# Tmax.6 <- raster (paste0 (clim.dir, 'tmax_12/tmax6_12.bil'),native = F)
-# Tmax.7 <- raster (paste0 (clim.dir, 'tmax_12/tmax7_12.bil'),native = F)
-# Tmax.8 <- raster (paste0 (clim.dir, 'tmax_12/tmax8_12.bil'),native = F)
-# Tmax.9 <- raster (paste0 (clim.dir, 'tmax_12/tmax9_12.bil'),native = F)
-# Tmax.10 <- raster (paste0 (clim.dir, 'tmax_12/tmax10_12.bil'),native = F)
-# Tmax.11 <- raster (paste0 (clim.dir, 'tmax_12/tmax11_12.bil'),native = F)
-# Tmax.12 <- raster (paste0 (clim.dir, 'tmax_12/tmax12_12.bil'),native = F)
+# #--Average precipitation
+prec.1 <- raster(paste0(clim.dir, 'prec_12/wc2.0_30s_prec_01.tif'),native = F)
+prec.2 <- raster(paste0(clim.dir, 'prec_12/wc2.0_30s_prec_02.tif'),native = F)
+prec.3 <- raster(paste0(clim.dir, 'prec_12/wc2.0_30s_prec_03.tif'),native = F)
+prec.4 <- raster(paste0(clim.dir, 'prec_12/wc2.0_30s_prec_04.tif'),native = F)
+prec.5 <- raster(paste0(clim.dir, 'prec_12/wc2.0_30s_prec_05.tif'),native = F)
+prec.6 <- raster(paste0(clim.dir, 'prec_12/wc2.0_30s_prec_06.tif'),native = F)
+prec.7 <- raster(paste0(clim.dir, 'prec_12/wc2.0_30s_prec_07.tif'),native = F)
+prec.8 <- raster(paste0(clim.dir, 'prec_12/wc2.0_30s_prec_08.tif'),native = F)
+prec.9 <- raster(paste0(clim.dir, 'prec_12/wc2.0_30s_prec_09.tif'),native = F)
+prec.10 <- raster(paste0(clim.dir, 'prec_12/wc2.0_30s_prec_10.tif'),native = F)
+prec.11 <- raster(paste0(clim.dir, 'prec_12/wc2.0_30s_prec_11.tif'),native = F)
+prec.12 <- raster(paste0(clim.dir, 'prec_12/wc2.0_30s_prec_12.tif'),native = F)
+# #--Average temperature
+Tavg.1 <- raster(paste0(clim.dir, 'tavg_12/wc2.0_30s_tavg_01.tif'),native = F)
+Tavg.2 <- raster(paste0(clim.dir, 'tavg_12/wc2.0_30s_tavg_02.tif'),native = F)
+Tavg.3 <- raster(paste0(clim.dir, 'tavg_12/wc2.0_30s_tavg_03.tif'),native = F)
+Tavg.4 <- raster(paste0(clim.dir, 'tavg_12/wc2.0_30s_tavg_04.tif'),native = F)
+Tavg.5 <- raster(paste0(clim.dir, 'tavg_12/wc2.0_30s_tavg_05.tif'),native = F)
+Tavg.6 <- raster(paste0(clim.dir, 'tavg_12/wc2.0_30s_tavg_06.tif'),native = F)
+Tavg.7 <- raster(paste0(clim.dir, 'tavg_12/wc2.0_30s_tavg_07.tif'),native = F)
+Tavg.8 <- raster(paste0(clim.dir, 'tavg_12/wc2.0_30s_tavg_08.tif'),native = F)
+Tavg.9 <- raster(paste0(clim.dir, 'tavg_12/wc2.0_30s_tavg_09.tif'),native = F)
+Tavg.10 <- raster(paste0(clim.dir, 'tavg_12/wc2.0_30s_tavg_10.tif'),native = F)
+Tavg.11 <- raster(paste0(clim.dir, 'tavg_12/wc2.0_30s_tavg_11.tif'),native = F)
+Tavg.12 <- raster(paste0(clim.dir, 'tavg_12/wc2.0_30s_tavg_12.tif'),native = F)
 
 #--import csv data frame with site name, lat, long
 #--make sure column names are site, lat, and long for next set of commands
 sites <- read.csv(paste0(dat.dir,'site_data.csv'), as.is = T, header = T)
 
-sites <- data.frame(site = c('pinal1','pinal2','pinal3','pinal4'),
-                    lat = c(33.29811,33.29745,33.29998,33.29463),
-                    long = c(-110.83396,-110.83949,-110.84474,-110.86654))
-
 #--combine lat and long
 xy <- cbind (sites$long, sites$lat)
 #--create object of class SpatialPoints from coordinates
 sp <- SpatialPoints(xy)
-#--extract information from downloaded files
-#--Bio10 and Bio11 are mean temp of warmest quarter and "" of coldest quarter respectively
-#--Bio12 is annual precipitation given in millimeters
-sites_cli <- as.data.frame(cbind(sites,
-             "BIO10" = extract(data.10, sp, method = 'bilinear'),
-             "BIO11" = extract(data.11, sp, method = 'bilinear'),
-             "BIO12" = extract(data.12, sp, method = 'bilinear')))
-#--Divide Bio10 and Bio11 by 10 as Worldclim stores the data multiplied by 10
-sites_cli$BIO10_red <- sites_cli$BIO10 / 10
-sites_cli$BIO11_red <- sites_cli$BIO11 / 10
 
+#--extract information from downloaded files
 #--temperature min, temperature max, and precipitation
 sites_cli2 <- as.data.frame (cbind (sites,
                                    "Prec1" = extract (prec.1, sp, method = 'bilinear'),
@@ -129,45 +105,30 @@ sites_cli2 <- as.data.frame (cbind (sites,
                                    "Prec10" = extract (prec.10, sp, method = 'bilinear'),
                                    "Prec11" = extract (prec.11, sp, method = 'bilinear'),
                                    "Prec12" = extract (prec.12, sp, method = 'bilinear'),
-                                   "Tmax1" = extract (Tmax.1, sp, method = 'bilinear'),
-                                   "Tmax2" = extract (Tmax.2, sp, method = 'bilinear'),
-                                   "Tmax3" = extract (Tmax.3, sp, method = 'bilinear'),
-                                   "Tmax4" = extract (Tmax.4, sp, method = 'bilinear'),
-                                   "Tmax5" = extract (Tmax.5, sp, method = 'bilinear'),
-                                   "Tmax6" = extract (Tmax.6, sp, method = 'bilinear'),
-                                   "Tmax7" = extract (Tmax.7, sp, method = 'bilinear'),
-                                   "Tmax8" = extract (Tmax.8, sp, method = 'bilinear'),
-                                   "Tmax9" = extract (Tmax.9, sp, method = 'bilinear'),
-                                   "Tmax10" = extract (Tmax.10, sp, method = 'bilinear'),
-                                   "Tmax11" = extract (Tmax.11, sp, method = 'bilinear'),
-                                   "Tmax12" = extract (Tmax.12, sp, method = 'bilinear'),
-                                   "Tmin1" = extract (Tmin.1, sp, method = 'bilinear'),
-                                   "Tmin2" = extract (Tmin.2, sp, method = 'bilinear'),
-                                   "Tmin3" = extract (Tmin.3, sp, method = 'bilinear'),
-                                   "Tmin4" = extract (Tmin.4, sp, method = 'bilinear'),
-                                   "Tmin5" = extract (Tmin.5, sp, method = 'bilinear'),
-                                   "Tmin6" = extract (Tmin.6, sp, method = 'bilinear'),
-                                   "Tmin7" = extract (Tmin.7, sp, method = 'bilinear'),
-                                   "Tmin8" = extract (Tmin.8, sp, method = 'bilinear'),
-                                   "Tmin9" = extract (Tmin.9, sp, method = 'bilinear'),
-                                   "Tmin10" = extract (Tmin.10, sp, method = 'bilinear'),
-                                   "Tmin11" = extract (Tmin.11, sp, method = 'bilinear'),
-                                   "Tmin12" = extract (Tmin.12, sp, method = 'bilinear')))
+                                   "Tavg1" = extract (Tavg.1, sp, method = 'bilinear'),
+                                   "Tavg2" = extract (Tavg.2, sp, method = 'bilinear'),
+                                   "Tavg3" = extract (Tavg.3, sp, method = 'bilinear'),
+                                   "Tavg4" = extract (Tavg.4, sp, method = 'bilinear'),
+                                   "Tavg5" = extract (Tavg.5, sp, method = 'bilinear'),
+                                   "Tavg6" = extract (Tavg.6, sp, method = 'bilinear'),
+                                   "Tavg7" = extract (Tavg.7, sp, method = 'bilinear'),
+                                   "Tavg8" = extract (Tavg.8, sp, method = 'bilinear'),
+                                   "Tavg9" = extract (Tavg.9, sp, method = 'bilinear'),
+                                   "Tavg10" = extract (Tavg.10, sp, method = 'bilinear'),
+                                   "Tavg11" = extract (Tavg.11, sp, method = 'bilinear'),
+                                   "Tavg12" = extract (Tavg.12, sp, method = 'bilinear')))
 
 #--Take average of precipitation and add it to the sites.cli file
-sites_cli$prec <- sites_cli2$Prec1 + sites_cli2$Prec2 + sites_cli2$Prec3 +
+sites$Prec.avg <- (sites_cli2$Prec1 + sites_cli2$Prec2 + sites_cli2$Prec3 +
   sites_cli2$Prec4 + sites_cli2$Prec5 + sites_cli2$Prec6 + sites_cli2$Prec7 +
   sites_cli2$Prec8 + sites_cli2$Prec9 + sites_cli2$Prec10 + sites_cli2$Prec11 +
-  sites_cli2$Prec12
-#--Take average of tmin and tmax; add it to the sites.cli file
-sites_cli$Tmin <- ((sites_cli2$Tmin1 + sites_cli2$Tmin2 + sites_cli2$Tmin3 +
-  sites_cli2$Tmin4 + sites_cli2$Tmin5 + sites_cli2$Tmin6 + sites_cli2$Tmin7 +
-  sites_cli2$Tmin8 + sites_cli2$Tmin9 + sites_cli2$Tmin10 + sites_cli2$Tmin11 +
-  sites_cli2$Tmin12)/10)/12
-sites_cli$Tmax <- ((sites_cli2$Tmax1 + sites_cli2$Tmax2 + sites_cli2$Tmax3 +
-  sites_cli2$Tmax4 + sites_cli2$Tmax5 + sites_cli2$Tmax6 + sites_cli2$Tmax7 +
-  sites_cli2$Tmax8 + sites_cli2$Tmax9 + sites_cli2$Tmax10 + sites_cli2$Tmax11 +
-  sites_cli2$Tmax12)/10)/12
+  sites_cli2$Prec12)/12
+#--Take average of tavg; add it to the sites.cli file
+sites$Temp.avg <- (sites_cli2$Tavg1 + sites_cli2$Tavg2 + sites_cli2$Tavg3 +
+  sites_cli2$Tavg4 + sites_cli2$Tavg5 + sites_cli2$Tavg6 + sites_cli2$Tavg7 +
+  sites_cli2$Tavg8 + sites_cli2$Tavg9 + sites_cli2$Tavg10 + sites_cli2$Tavg11 +
+  sites_cli2$Tavg12)/12
+
 
 #--write file
-write.csv(sites_cli,paste0(res.dir,'climate_data.csv'), row.names = F)
+write.csv(sites,paste0(dat.dir,'climate_data.csv'), row.names = F)
