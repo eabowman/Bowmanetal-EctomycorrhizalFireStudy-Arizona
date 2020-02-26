@@ -1,34 +1,13 @@
 ## Script created by Liz Bowman July 19, 2017
-## for analyzing soil differences between sites, ranges, and burn
+## for analyzing soil and climate data
 
 #========================================================================================#
-# Load data and libraries----
+# Load data ----
 #========================================================================================#
 
-#----------------------------------------------------------------------------------------#
-# Load libraries----
-#----------------------------------------------------------------------------------------#
-# install.packages('ggplot2'); install.packages('tidyr'); install.packages('vegan')
-# install.packages('dplyr'); install.packages('gridExtra')
-library(ggplot2);library (tidyr);library (vegan);library (dplyr); library(gridExtra)
-# install.packages('ggfortify'); installed.packages('plyr'); install.packages('nlme')
-library(ggfortify); library(plyr); library(nlme)
-
-#----------------------------------------------------------------------------------------#
-# set up paths to directories----
-#----------------------------------------------------------------------------------------#
-#--path to directory 
-dat.dir <- "~/Documents/PhD/2_EM_Fire_effect/data/"
-fig.dir <- '~/Documents/PhD/2_EM_Fire_effect/figures_output/'
-res.dir <- "~/Documents/PhD/2_EM_Fire_effect/results_output/"
-
-#----------------------------------------------------------------------------------------#
-# Data----
-#----------------------------------------------------------------------------------------#
-
-soil.data <- read.csv('data_output/soil_data.csv')
-stsp.matrix <- read.csv('data_output/97%_SitexSpecies_TipAb.csv')
-clim.data <- read.csv('data/climate_data.csv')
+soil.data <- read.csv(paste0(dat.dir,'soil_data.csv'))
+stsp.matrix <- read.csv(paste0(dat.dir,'97%_SitexSpecies_TipAb.csv'))
+clim.data <- read.csv(paste0(dat.dir,'climate_data.csv'))
 
 #========================================================================================#
 # Assess soil and climate between unburned sites in SCM and PM ranges----
@@ -91,11 +70,7 @@ summary(prec.model)
 temp.model <- lme(Temp.avg ~ burn_status, data = clim.data, random = ~ 1 | range)
 summary(temp.model)
 
-#<<T-test and Plot of precipitation between ranges >>-------------
-#--Range
-prec.range.t <- kruskal.test(Prec.avg ~ range, data = clim.data)
-prec.range.t
-
+#<< Plot of precipitation between ranges >>-------------
 # modify range names
 levels(clim.data$range) <- c('Pinaleno Mts','Santa Catalina Mts')
 levels(clim.data$burn_status) <- c('Burned', 'Unburned')
@@ -118,5 +93,5 @@ prec.range <- ggplot(clim.data, aes(x = burn_status,
 prec.range
 
 ggsave('Precipitation_Range.jpeg', plot = prec.range,
-       device = 'jpeg', path = 'figures_output/',
+       device = 'jpeg', path = fig.dir,
        width = 20, height = 15, units = 'cm')
