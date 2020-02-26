@@ -7,8 +7,8 @@
 tax.data <- read.csv(paste0(dat.dir,'OTUdata.csv'), as.is = T)
 
 #<< Results dataframe >> -------------------
-tax.results <- data.frame(tests = c('burn.range.class','burn.class','range.class',
-                                    'burn.range.genus','burn.genus','range.genus'),
+tax.results <- data.frame(tests = c('burn.range.class','burn.class',
+                                    'range.class','unburned.class'),
                           chi.stat = NA,
                           df = NA,
                           p.value = NA)
@@ -109,9 +109,12 @@ tax.data %>%
 class.tax.unburned.chi <- class.tax.unburned[-c(1,2)]
 tip.class <- chisq.test(class.tax.unburned.chi)
 tip.class
-tax.results[tax.results$tests == 'range.class', 'chi.stat'] <- tip.class$statistic[[1]]
-tax.results[tax.results$tests == 'range.class', 'df'] <- tip.class$parameter[[1]]
-tax.results[tax.results$tests == 'range.class', 'p.value'] <- tip.class$p.value[[1]]
+tax.results[tax.results$tests == 'unburned.class', 'chi.stat'] <- tip.class$statistic[[1]]
+tax.results[tax.results$tests == 'unburned.class', 'df'] <- tip.class$parameter[[1]]
+tax.results[tax.results$tests == 'unburned.class', 'p.value'] <- tip.class$p.value[[1]]
+
+write.csv(tax.results, paste0(res.dir, 'TaxonomicAnalysisResults_ChiSquare.csv'),
+          row.names = F)
 
 #========================================================================================#
 # Plots

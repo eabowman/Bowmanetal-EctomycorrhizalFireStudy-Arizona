@@ -30,7 +30,7 @@ US_1<-getData('GADM', country="USA", level=1)
 #plot(Arizona)
 
 # << make elevation map with sample site points >> ------------
-pdf('./figures_output/Fig1.pdf', height = 8, width = 10)
+pdf(paste0(fig.dir,'Fig1.pdf'), height = 8, width = 10)
 
 Alt<-getData("worldclim", var="alt", res=0.5, lon=-110, lat=33)
 Alt.sub<-crop(Alt, extent(Arizona))
