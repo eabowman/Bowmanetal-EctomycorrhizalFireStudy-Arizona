@@ -5,7 +5,7 @@ date: "2/24/2020"
 output: html_document
 ---
 
-The folders here contain R scripts and data files for the article "**" written by Elizabeth A. Bowman, Daniel R. Hayden, Emily Burke, and A.Elizabeth Arnold.
+The folders here contain R scripts and data files for the article "**" written by Elizabeth A. Bowman, Daniel R. Hayden, and A.Elizabeth Arnold.
 
 A. Elizabeth Arnold is the author for correspondence on this article. 
 Address: 1140 E. South Campus Drive
@@ -60,7 +60,9 @@ source(paste0(script.dir, "Load_packages.R"))
 source(paste0(script.dir, "ElevationMap.R"))
 ```
 
-# Species accumulation curves (Figure 2)
+# Species accumulation curves
+
+While this script was not used to create the graphs used in the manuscript, they are included here for transparency. The graphs of species accumulation curves used in the manuscript were created by AEA in EstimateS 9.1.0.
 
 ```{r species accumulation curves}
 source(paste0(script.dir, "SpeciesAccumulationCurves.R"))
@@ -77,7 +79,7 @@ source(paste0(script.dir, "Diversity.R"))
 Within the 'Bowman and Arnold - American Journal of Botany 2016 - Ordination analyses.R' script there is code to remove singletons, just uncomment them (remove # sign). The code as it is run has outliers removed, but you can include them by commenting out those lines (add # sign before code). All code is commented with explanations of what their function is.
 
 ```{r community}
-source(paste0(script.dir, "Ordination_analyses.R"))
+source(paste0(script.dir, "Ordination.R"))
 ```
 
 # Taxonomic analyses (Fig. 5)
@@ -90,4 +92,10 @@ source(paste0(script.dir, "Taxonomic_analyses.R"))
 
 ```{r indicator}
 source(paste0(script.dir, "Indicator_species_analyses.R"))
+```
+
+# Environmental analyses (soil and climate)
+
+```{r indicator}
+source(paste0(script.dir, "EnvironmentalAnalyses.R"))
 ```
