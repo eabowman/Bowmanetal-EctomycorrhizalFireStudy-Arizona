@@ -2,26 +2,13 @@
 ## for analyzing community differences between ranges and burn status of sites
 
 #========================================================================================#
-# Load data and libraries----
+# Load data ----
 #========================================================================================#
-
-#----------------------------------------------------------------------------------------#
-# Load libraries----
-#----------------------------------------------------------------------------------------#
-library(ggplot2); library(tidyr); library(vegan); library(dplyr); library(boot)
-
-#----------------------------------------------------------------------------------------#
-# set up paths to directories----
-#----------------------------------------------------------------------------------------#
-#--path to directory where the climate data downloaded from BIOCLIM site is stored
-dat.dir <- "~/Documents/PhD/2_EM_Fire_effect/data/"
-fig.dir <- '~/Documents/PhD/2_EM_Fire_effect/figures_output/'
-res.dir <- "~/Documents/PhD/2_EM_Fire_effect/results_output/"
 
 #----------------------------------------------------------------------------------------#
 # Load data and clean up: Tree level----
 #----------------------------------------------------------------------------------------#
-stsp.matrix <- read.csv('data_output/97%_SitexSpecies_TipAb.csv', as.is = T)
+stsp.matrix <- read.csv(paste0(dat.dir,'97%_SitexSpecies_TipAb.csv'), as.is = T)
 
 # << Create distinct tables for each burn history/range >> --
 FA.matrix <- stsp.matrix[stsp.matrix$Burn_status == 'burned',]
@@ -43,9 +30,6 @@ anosim.res <- data.frame(anosim.res)
 #--Table of PERMANOVA results
 permanova.res <- data.frame(c('jaccard','morisita'))
 colnames(permanova.res) <- "test"
-
-#--outlier from Santa Catalina Mts. (LB056)***
-#stsp.matrix <- stsp.matrix[!stsp.matrix$Tree == 'LB056',]
 
 #========================================================================================#
 # Jaccard based dissimilarity index: Overall----
