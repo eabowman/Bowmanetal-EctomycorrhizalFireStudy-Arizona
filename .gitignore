@@ -2,18 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-FishersAlphaCalculator.xls
-Host_id/
-PCR/
-Archive.DH/
-Archive/
-Bowman_fire_sampling_sheet.xlsx
-Fire_study_proposal.docx
-Lit.docx
-Notes.txt
-OTU_cluster_files/
-Sequences_Taxonomy/
-Site pictures/
-TBAS/
-results_output/
-figures_output/
+Manuscript/
+NonGithub/
