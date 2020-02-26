@@ -10,14 +10,18 @@
 # Tidyverse
 #install.packages(c('ggplot2','tidyr','dplyr'))
 # Stats
-#install.packages(c(vegan','boot'))
+#install.packages(c(vegan','boot','nlme'))
 # Map
 #install.packages(c('raster','rgdal','scales','maptools'))
+# Indicator species analysis
+#install.packages(c('indicspecies'))
 
 #--load packages
 # Tidyverse
 library(ggplot2); library(tidyr); library(dplyr)
 # Stats
-library(vegan); library(boot)
+library(vegan); library(boot); library(nlme)
 # Map
 library(raster); library(rgdal); library(scales); library(maptools)
+# Indicator species analsis
+library(indicspecies)
