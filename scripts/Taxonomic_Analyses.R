@@ -15,7 +15,7 @@ tax.results <- data.frame(tests = c('burn.range.class','burn.class',
 
 #<< Make data frame with root tip data: genus level >> ------------------------
 tax.data %>%
-  select(Sample_name, Range, Burn_status, Taxonomy_genus, Tip_count) %>%
+  dplyr::select(Sample_name, Range, Burn_status, Taxonomy_genus, Tip_count) %>%
   filter(!is.na(Taxonomy_genus),
          !Taxonomy_genus %in% c('Piloderma','Hygrophorus','Coltricia','Cantharellus',
                                'Oidiodendron','Clavulina','Cortinarius','Archaerhizomyces','Elaphomyces',
@@ -32,7 +32,7 @@ tax.data %>%
 #----------------------------------------------------------------------------------------#
 #<< Make data frame with root tip data: class level >> ------------------------
 tax.data %>%
-  select(Sample_name, Range, Burn_status, Taxonomy_class, Tip_count) %>%
+  dplyr::select(Sample_name, Range, Burn_status, Taxonomy_class, Tip_count) %>%
   filter(!is.na(Taxonomy_class),
          !Taxonomy_class %in% c('Saccharomycetes','Archaeorhizomycetes','Eurotiomycetes')) %>%
   group_by(Range, Burn_status, Taxonomy_class) %>%
@@ -54,7 +54,7 @@ tax.results[tax.results$tests == 'burn.range.class', 'p.value'] <- tip.class$p.v
 #----------------------------------------------------------------------------------------#
 #<< Make data frame with root tip data: class level >> ------------------------
 tax.data %>%
-  select(Sample_name, Range, Taxonomy_class, Tip_count) %>%
+  dplyr::select(Sample_name, Range, Taxonomy_class, Tip_count) %>%
   filter(!is.na(Taxonomy_class),
          !Taxonomy_class %in% c('Saccharomycetes','Archaeorhizomycetes','Eurotiomycetes')) %>%
   group_by(Range, Taxonomy_class) %>%
@@ -75,7 +75,7 @@ tax.results[tax.results$tests == 'range.class', 'p.value'] <- tip.class$p.value[
 #----------------------------------------------------------------------------------------#
 #<< Make data frame with root tip data: class level >> ------------------------
 tax.data %>%
-  select(Sample_name, Burn_status, Taxonomy_class, Tip_count) %>%
+  dplyr::select(Sample_name, Burn_status, Taxonomy_class, Tip_count) %>%
   filter(!is.na(Taxonomy_class),
          !Taxonomy_class %in% c('Saccharomycetes','Archaeorhizomycetes','Eurotiomycetes')) %>%
   group_by(Burn_status, Taxonomy_class) %>%
@@ -96,7 +96,7 @@ tax.results[tax.results$tests == 'burn.class', 'p.value'] <- tip.class$p.value[[
 #----------------------------------------------------------------------------------------#
 #<< Make data frame with root tip data: class level >> ------------------------
 tax.data %>%
-  select(Sample_name, Range, Burn_status, Taxonomy_class, Tip_count) %>%
+  dplyr::select(Sample_name, Range, Burn_status, Taxonomy_class, Tip_count) %>%
   filter(!is.na(Taxonomy_class),
          !Taxonomy_class %in% c('Saccharomycetes','Archaeorhizomycetes','Eurotiomycetes'),
          Burn_status == 'unburned') %>%
@@ -121,7 +121,7 @@ write.csv(tax.results, paste0(res.dir, 'TaxonomicAnalysisResults_ChiSquare.csv')
 #========================================================================================#
 #<< Make data frame with root tip data: class level >> ------------------------
 tax.data %>%
-  select(Sample_name, Range, Burn_status, Taxonomy_class, Tip_count) %>%
+  dplyr::select(Sample_name, Range, Burn_status, Taxonomy_class, Tip_count) %>%
   filter(!is.na(Taxonomy_class),!Taxonomy_class %in% c('Saccharomycetes','Archaeorhizomycetes')) %>%
   group_by(Range, Burn_status, Taxonomy_class) %>%
   summarize(total_tip = sum(Tip_count)) -> class.tax.plot
@@ -147,7 +147,7 @@ Tip.class <- ggplot(data = class.tax.plot,
   theme_classic() +
   xlab('Fire history') +
   facet_grid(. ~ Range) +
-  scale_fill_brewer(palette="Greys") +
+  scale_fill_manual(values = c('#7b3294','#c2a5cf','#f7f7f7','#a6dba0','#008837')) +
   theme(legend.position = 'right',
         axis.title.x = element_text(margin = margin(t = 30)),
         axis.title.y = element_text(margin = margin(r = 30)),
@@ -156,7 +156,9 @@ Tip.class <- ggplot(data = class.tax.plot,
         axis.title = element_text(size = 28),
         strip.text.x = element_text(size = 14),
         legend.text=element_text(size=16),
-        legend.title=element_blank())
+        legend.title=element_blank()) +
+  theme(strip.text.x = element_blank(),
+       strip.text.y = element_blank())
 
 Tip.class
 

@@ -62,13 +62,37 @@ ggsave('SoilPCA_AllData_Range.jpeg', plot = range.soil,
 clim.lm <- lm(Prec.avg ~ Temp.avg, data = clim.data)
 summary(clim.lm)
 
-#<<T-test and Plot of precipitation between ranges (random) and fire history >>-------------
+#<< linear mixed effects model (prec) ranges (random) and fire history >>-------------
 prec.model <- lme(Prec.avg ~ burn_status, data = clim.data, random = ~ 1 | range)
 summary(prec.model)
+plot(prec.model)
 
-1#<<T-test and Plot of temperature between ranges (random) and fire history >>-------------
+#<< linear mixed effects model (temp) ranges (random) and fire history >>-------------
 temp.model <- lme(Temp.avg ~ burn_status, data = clim.data, random = ~ 1 | range)
 summary(temp.model)
+
+#<< T-test as function of fire history w/in each range >>-------------
+#---Precipitation
+# SCM
+clim.scm <- clim.data[clim.data$range == 'santa.catalina',]
+ttest.scm <- t.test(Prec.avg ~ burn_status, data = clim.scm)
+ttest.scm
+
+# PM
+clim.pm <- clim.data[clim.data$range == 'pinaleno',]
+ttest.pm <- t.test(Prec.avg ~ burn_status, data = clim.pm)
+ttest.pm
+
+#---Temperature
+# SCM
+clim.scm <- clim.data[clim.data$range == 'santa.catalina',]
+ttest.scm <- t.test(Temp.avg ~ burn_status, data = clim.scm)
+ttest.scm
+
+# PM
+clim.pm <- clim.data[clim.data$range == 'pinaleno',]
+ttest.pm <- t.test(Temp.avg ~ burn_status, data = clim.pm)
+ttest.pm
 
 #<< Plot of precipitation between ranges >>-------------
 # modify range names
