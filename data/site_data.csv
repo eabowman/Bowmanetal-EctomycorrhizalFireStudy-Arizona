@@ -1,43 +1,43 @@
-tree_number,site,site_old,burn_status,range,lat,long,easting,northing,elevation,stem.density,stem.richness,em.stem.density,em.stem.richness,rise,aspect.degrees,exposure,sign.forest.cut,soil.type.floor.condition,forest.coverage (proportion),largest.dbh.cm,conspecific.distance.m,fire.scars,tree.species,dbh.cm,forest.status,understory.plants,Notes
-F1,sc3,,burned,santa.catalina,32.396191,-110.693853,594457.5,3540872.5,2183.6,,,,,0.520833333,NA,NW,No,Dry and burnt soil,0.45,,,Yes,P. ponderosa,256.9,pine-oak,"Pine Seedlings, Locust Plants, Grasses",Thick pine litter and very few large rocks
-F2,sc3,,burned,santa.catalina,32.396191,-110.693853,594457.5,3540872.5,2183.6,,,,,0.4,NA,NW,No,Dry,0.3,,,Yes,P. ponderosa,206,pine-oak,"Pine Seedlings, Grasses, ",Pine litter and very rocky
-F3,sc3,,burned,santa.catalina,32.396191,-110.693853,594457.5,3540872.5,2183.6,,,,,0.314285714,NA,NW,No,Dry and rocky,0.4,,,Yes,P. ponderosa,303,pine-oak,Small Shrubs and grasses (very few),Rocky sandy soil (myca) and pine litter
-F4,sc3,,burned,santa.catalina,32.396191,-110.693853,594457.5,3540872.5,2183.6,,,,,0.403846154,NA,NW,No,"Dry, rocky, and sandy",0.45,,,Yes,P. ponderosa,253,pine-oak,"Pine Seedling, Bracken fern, grasses",Thin litter large at the tree base
-F5,sc3,,burned,santa.catalina,32.396191,-110.693853,594457.5,3540872.5,2183.6,,,,,0.491803279,NA,NW,No,Dry and rocky,0.45,,,Yes,P. ponderosa,210,pine-oak,Grass and pine seedlings,Rocky and some pine litter
-F6,sc4,,burned,santa.catalina,32.395285,-110.703927,594457.5,3540872.5,2181.8,,,,,0.166666667,NA,SE,No,"Dry on top, moisture beneath",0.35,,,Yes,P. ponderosa,79,pine-oak,None,Leaf liter abundant
-F7,sc4,,burned,santa.catalina,32.395285,-110.703927,594457.5,3540872.5,2181.8,,,,,0.266666667,NA,SE,No,Rocky and dry ,0.3,,,Yes,P. ponderosa,141,pine-oak,Grass with mistletoe on tree,Rocks and leaf liter
-F8,sc4,,burned,santa.catalina,32.395285,-110.703927,594457.5,3540872.5,2181.8,,,,,0.4,NA,SE,No,Dry and semi-rocky,0.3,,,Yes,P. ponderosa,103,pine-oak,Grass,"Some mistletoe, leaf liter, bark liter"
-F9,sc4,,burned,santa.catalina,32.395285,-110.703927,594457.5,3540872.5,2181.8,,,,,0.333333333,NA,SE,No,Dry and big rocks,0.25,,,Yes,P. ponderosa,,pine-oak,"Several grass plants, weeds, oak","Large rocks, pine cones, bark, large branch"
-F10,sc4,,burned,santa.catalina,32.395285,-110.703927,594457.5,3540872.5,2181.8,,,,,0.366666667,NA,SE,No,Dry,0.3,,,Yes,P. ponderosa,197,pine-oak,Oak near by,"Pine cones, rocks, and leaf liter"
-LB019,sc1,Parking pullout South of Rose Canyon,unburned,santa.catalina,32.39001,-110.69557,,,2170,,,,,,,,,,,,,,,,pine-oak,,
-LB020,sc1,Parking pullout South of Rose Canyon,unburned,santa.catalina,32.39001,-110.69557,,,2170,,,,,,,,,,,,,,,,pine-oak,,
-LB021,sc1,Parking pullout South of Rose Canyon,unburned,santa.catalina,32.39001,-110.69557,,,2170,,,,,,,,,,,,,,,,pine-oak,,
-LB022,sc1,Parking pullout South of Rose Canyon,unburned,santa.catalina,32.39001,-110.69557,,,2170,,,,,,,,,,,,,,,,pine-oak,,
-LB023,sc1,Parking pullout South of Rose Canyon,unburned,santa.catalina,32.39001,-110.69557,,,2170,,,,,,,,,,,,,,,,pine-oak,,
-LB024,sc1,Parking pullout South of Rose Canyon,unburned,santa.catalina,32.39001,-110.69557,,,2170,,,,,,,,,,,,,,,,pine-oak,,
-LB055,sc2,Rose Canyon Rd.,unburned,santa.catalina,32.39421,-110.69052,,,2201,,,,,,,,,,,,,,,,pine-oak,,
-LB056,sc2,Rose Canyon Rd.,unburned,santa.catalina,32.39421,-110.69052,,,2201,,,,,,,,,,,,,,,,pine-oak,,
-LB057,sc2,Rose Canyon Rd.,unburned,santa.catalina,32.39421,-110.69052,,,2201,,,,,,,,,,,,,,,,pine-oak,,
-LB058,sc2,Rose Canyon Rd.,unburned,santa.catalina,32.39421,-110.69052,,,2201,,,,,,,,,,,,,,,,pine-oak,,
-LB059,sc2,Rose Canyon Rd.,unburned,santa.catalina,32.39421,-110.69052,,,2201,,,,,,,,,,,,,,,,pine-oak,,
-LB060,sc2,Rose Canyon Rd.,unburned,santa.catalina,32.39421,-110.69052,,,2201,,,,,,,,,,,,,,,,pine-oak,,
-F11,p3,,burned,pinaleno,32.73569,-109.96309,,,2134,5,3,4,2,0.852941176,5,N,No,"Moist, rocky",0.6,126,8.05,Yes,P. ponderosa,126,pine-Doug fir,NA,"blackjack, less than 100 years old"
-F12,p3,,burned,pinaleno,32.73569,-109.96309,,,2134,2,2,2,2,0.638888889,20,N,No,"Moist, rocky",0.85,142,4.34,Yes,P. ponderosa,142,pine-Doug fir,NA,
-F13,p3,,burned,pinaleno,32.73569,-109.96309,,,2134,2,2,1,1,0.555555556,19,N,No,"Moist, rocky",0.55,159,4.34,Yes,P. ponderosa,159,pine-Doug fir,NA,
-F14,p3,,burned,pinaleno,32.73569,-109.96309,,,2134,3,3,1,1,0.694444444,17,N,No,"Moist, rocky",0.66,186,3.47,Yes,P. ponderosa,186,pine-Doug fir,NA,
-F15,p3,,burned,pinaleno,32.73569,-109.96309,,,2134,1,1,1,1,0.576923077,13,N,No,"Moist, rocky",0.55,186,2.71,Yes,P. ponderosa,186,pine-Doug fir,NA,
-F16,p4,,burned,pinaleno,32.73434,-109.85724,,,2057,2,2,2,2,0.473684211,40,N,No,"Moist, rocky",0.3,179,6.03,Yes,P. ponderosa,179,pine-Doug fir,Quercus hypoleucoides,All trees sampled at this site > 10m from Douglas Fir
-F17,p4,,burned,pinaleno,32.73434,-109.85724,,,2057,1,1,1,1,0.290322581,193,S,No,"Moist, rocky",0.74,227,6.17,Yes,P. ponderosa,227,pine-Doug fir,Quercus hypoleucoides,All trees sampled at this site > 10m from Douglas Fir
-F18,p4,,burned,pinaleno,32.73434,-109.85724,,,2057,1,1,1,1,0.625,339,N,No,"Moist, rocky",0.6,167,3.71,Yes,P. ponderosa,167,pine-Doug fir,Quercus hypoleucoides,All trees sampled at this site > 10m from Douglas Fir
-F19,p4,,burned,pinaleno,32.73434,-109.85724,,,2057,1,1,1,1,0.75,39,N,No,"Moist, rocky",0.55,178.5,3.13,Yes,P. ponderosa,178.5,pine-Doug fir,Quercus hypoleucoides,All trees sampled at this site > 10m from Douglas Fir
-F20,p4,,burned,pinaleno,32.73434,-109.85724,,,2057,1,1,1,1,0.466666667,4,N,No,"Moist, rocky",0.4,180,5.43,Yes,P. ponderosa,180,pine-Doug fir,Quercus hypoleucoides,All trees sampled at this site > 10m from Douglas Fir
-NF11,p1,,unburned,pinaleno,32.64636,-109.82231,,,2085,3,2,3,2,0.033333333,40,N,No,"Dry, rocky, and sandy",0.65,150,0.88,No,P. ponderosa,150,pine,Quercus hypoleucoides,
-NF12,p1,,unburned,pinaleno,32.64636,-109.82231,,,2085,3,3,3,3,0.166666667,279,W,No,"Dry, rocky, and sandy",0.8,160,1.4,No,P. ponderosa,160,pine,Quercus hypoleucoides,
-NF13,p1,,unburned,pinaleno,32.64636,-109.82231,,,2085,2,2,2,2,0.6,271,W,No,"Dry, rocky, and sandy",0.8,168.5,5.48,No,P. ponderosa,168.5,pine,Quercus hypoleucoides,
-NF14,p1,,unburned,pinaleno,32.64636,-109.82231,,,2085,1,1,1,1,0.222222222,12,N,No,"Dry, rocky, and sandy",0.75,107,2.1,Yes,P. ponderosa,107,pine,Quercus hypoleucoides,minimal burn scar at base of tree
-NF15,p1,,unburned,pinaleno,32.64636,-109.82231,,,2085,3,2,3,2,0.545454545,25,N,No,"Dry, rocky, and sandy",0.75,164,4.01,No,P. ponderosa,164,pine,Quercus hypoleucoides,
-NF16,p2,,unburned,pinaleno,32.63644,-109.81993,,,2037,33,2,33,2,0.52,315,W,No,"Dry, rocky, and sandy",NA,155,8.73,Yes,P. ponderosa,155,pine-oak,Juniperus depeanna and Pseudotsuga menziesii present in low abundance,
-NF17,p2,,unburned,pinaleno,32.63644,-109.81993,,,2037,2,2,2,2,0.321428571,265,W,No,"Dry, rocky, and sandy",0.7,176,5.23,Yes,P. ponderosa,176,pine-oak,Juniperus depeanna and Pseudotsuga menziesii present in low abundance,minimal burn scar at base of tree
-NF18,p2,,unburned,pinaleno,32.63644,-109.81993,,,2037,1,1,1,1,0.692307692,285,W,No,"Dry, rocky, and sandy",0.4,187,4.82,No,P. ponderosa,187,pine-oak,Juniperus depeanna and Pseudotsuga menziesii present in low abundance,
-NF19,p2,,unburned,pinaleno,32.63644,-109.81993,,,2037,2,1,2,1,0.25,272,W,No,"Dry, rocky, and sandy",0.7,145,1.27,No,P. ponderosa,145,pine-oak,Juniperus depeanna and Pseudotsuga menziesii present in low abundance,
-NF20,p2,,unburned,pinaleno,32.63644,-109.81993,,,2037,1,1,1,1,0.535714286,286,W,No,"Dry, rocky, and sandy",0.3,141,3.3,Yes,P. ponderosa,141,pine-oak,Juniperus depeanna and Pseudotsuga menziesii present in low abundance,minimal burn scar at base of tree
+tree_number,site,site_old,burn_status,range,lat,long,elevation,stem.density,stem.richness,em.stem.density,em.stem.richness,rise,aspect.degrees,exposure,sign.forest.cut,soil.type.floor.condition,forest.coverage (proportion),largest.dbh.cm,conspecific.distance.m,fire.scars,tree.species,dbh.cm,forest.status,understory.plants,Notes
+F1,sc3,NA,burned,santa.catalina,32.396191,-110.693853,2183.6,NA,NA,NA,NA,0.520833333,NA,NW,No,Dry and burnt soil,0.45,NA,NA,Yes,P. ponderosa,256.9,pine-oak,"Pine Seedlings, Locust Plants, Grasses",Thick pine litter and very few large rocks
+F2,sc3,NA,burned,santa.catalina,32.396191,-110.693853,2183.6,NA,NA,NA,NA,0.4,NA,NW,No,Dry,0.3,NA,NA,Yes,P. ponderosa,206,pine-oak,"Pine Seedlings, Grasses, ",Pine litter and very rocky
+F3,sc3,NA,burned,santa.catalina,32.396191,-110.693853,2183.6,NA,NA,NA,NA,0.314285714,NA,NW,No,Dry and rocky,0.4,NA,NA,Yes,P. ponderosa,303,pine-oak,Small Shrubs and grasses (very few),Rocky sandy soil (myca) and pine litter
+F4,sc3,NA,burned,santa.catalina,32.396191,-110.693853,2183.6,NA,NA,NA,NA,0.403846154,NA,NW,No,"Dry, rocky, and sandy",0.45,NA,NA,Yes,P. ponderosa,253,pine-oak,"Pine Seedling, Bracken fern, grasses",Thin litter large at the tree base
+F5,sc3,NA,burned,santa.catalina,32.396191,-110.693853,2183.6,NA,NA,NA,NA,0.491803279,NA,NW,No,Dry and rocky,0.45,NA,NA,Yes,P. ponderosa,210,pine-oak,Grass and pine seedlings,Rocky and some pine litter
+F6,sc4,NA,burned,santa.catalina,32.395285,-110.703927,2181.8,NA,NA,NA,NA,0.166666667,NA,SE,No,"Dry on top, moisture beneath",0.35,NA,NA,Yes,P. ponderosa,79,pine-oak,None,Leaf liter abundant
+F7,sc4,NA,burned,santa.catalina,32.395285,-110.703927,2181.8,NA,NA,NA,NA,0.266666667,NA,SE,No,Rocky and dry ,0.3,NA,NA,Yes,P. ponderosa,141,pine-oak,Grass with mistletoe on tree,Rocks and leaf liter
+F8,sc4,NA,burned,santa.catalina,32.395285,-110.703927,2181.8,NA,NA,NA,NA,0.4,NA,SE,No,Dry and semi-rocky,0.3,NA,NA,Yes,P. ponderosa,103,pine-oak,Grass,"Some mistletoe, leaf liter, bark liter"
+F9,sc4,NA,burned,santa.catalina,32.395285,-110.703927,2181.8,NA,NA,NA,NA,0.333333333,NA,SE,No,Dry and big rocks,0.25,NA,NA,Yes,P. ponderosa,,pine-oak,"Several grass plants, weeds, oak","Large rocks, pine cones, bark, large branch"
+F10,sc4,NA,burned,santa.catalina,32.395285,-110.703927,2181.8,NA,NA,NA,NA,0.366666667,NA,SE,No,Dry,0.3,NA,NA,Yes,P. ponderosa,197,pine-oak,Oak near by,"Pine cones, rocks, and leaf liter"
+LB019,sc1,Parking pullout South of Rose Canyon,unburned,santa.catalina,32.39001,-110.69557,2170,NA,NA,NA,NA,0.416667,NA,NW,No,"Thick litter: needles, oak leaves, cones",NA,NA,NA,No,P. ponderosa,65.731,pine-oak,No herbaceous layer; numerous Q. hypoleucoides seedlings west of tree,
+LB020,sc1,Parking pullout South of Rose Canyon,unburned,santa.catalina,32.39001,-110.69557,2170,NA,NA,NA,NA,0.416667,NA,NW,No,"Thick litter: needles, oak leaves, cones",NA,NA,NA,No,P. ponderosa,55.8952,pine-oak,Asteraceae species abundant in area,
+LB021,sc1,Parking pullout South of Rose Canyon,unburned,santa.catalina,32.39001,-110.69557,2170,NA,NA,NA,NA,0.333333,NA,N,No,"Thick litter: needles, oak leaves, cones; lots of rocks",NA,NA,NA,No,P. ponderosa,56.9138,pine-oak,Poaceae species and Asteraceae sp.,
+LB022,sc1,Parking pullout South of Rose Canyon,unburned,santa.catalina,32.39001,-110.69557,2170,NA,NA,NA,NA,0.3125,NA,NE,No,Approximately 50% bare; light litter,NA,NA,NA,No,P. ponderosa,49.8473,pine-oak,Poaceae sp.,
+LB023,sc1,Parking pullout South of Rose Canyon,unburned,santa.catalina,32.39001,-110.69557,2170,NA,NA,NA,NA,0.333333,NA,NE,No,Approximately 40% bare ground; sparse litter,NA,NA,NA,No,P. ponderosa,38.3882,pine-oak,Poaceae sp.,
+LB024,sc1,Parking pullout South of Rose Canyon,unburned,santa.catalina,32.39001,-110.69557,2170,NA,NA,NA,NA,0.208333,NA,N,No,Approximately 20% bare ground; sparse litter,NA,NA,NA,No,P. ponderosa,41.1256,pine-oak,"Poaceae sp., sparse",
+LB055,sc2,Rose Canyon Rd.,unburned,santa.catalina,32.39421,-110.69052,2201,NA,NA,NA,NA,29.2453,NA,SW,No,"litter consists of needles, bark, wood, cones",NA,NA,NA,No,P. ponderosa,47.0144,pine-oak,Poaceae sp. (sparse); Quercus hypoleucoides seedlings and trees in area,
+LB056,sc2,Rose Canyon Rd.,unburned,santa.catalina,32.39421,-110.69052,2201,NA,NA,NA,NA,45.283,NA,SW,No,"litter consists of needles, bark, wood, cones",NA,NA,NA,No,P. ponderosa,62.6116,pine-oak,Poaceae sp.; Quercus hypoleucoides downhill,
+LB057,sc2,Rose Canyon Rd.,unburned,santa.catalina,32.39421,-110.69052,2201,NA,NA,NA,NA,47.1698,NA,W,No,"Thick litter consists of needles, bark, wood, cones; rocky",NA,NA,NA,No,P. ponderosa,46.8552,pine-oak,"None; Quercus hypoleucoides dowhill and south of tree; Pseudotsuga menzeisii east (uphill) of tree, mature",
+LB058,sc2,Rose Canyon Rd.,unburned,santa.catalina,32.39421,-110.69052,2201,NA,NA,NA,NA,26.4151,NA,SW,No,"litter consists of needles, bark, wood, cones",NA,NA,NA,No,P. ponderosa,47.3963,pine-oak,Quercus hypoleucoides downhill; lily sp.; Poaceae sp.; uphill herbaceous layer 60%,
+LB059,sc2,Rose Canyon Rd.,unburned,santa.catalina,32.39421,-110.69052,2201,NA,NA,NA,NA,39.6226,NA,NW,No,"Dense litter uphill; litter consists of needles, bark, wood, cones, and oak leaves",NA,NA,NA,No,P. ponderosa,47.2372,pine-oak,"Uphill abundant herbaceous layer; Poaceae sp.; Quercus hypoleucoides seedlings; Pseudotsuga menzeisii in area, mature",
+LB060,sc2,Rose Canyon Rd.,unburned,santa.catalina,32.39421,-110.69052,2201,NA,NA,NA,NA,30.1887,NA,NW,No,Dense litter uphill; thinner downhill,NA,NA,NA,No,P. ponderosa,65.4763,pine-oak,Poaceae sp.; breacken fern; Pseudotsuga menzeisii in area; numerous pine seedlings,
+F11,p3,NA,burned,pinaleno,32.73569,-109.96309,2134,5,3,4,2,0.852941176,5,N,No,"Moist, rocky",0.6,126,8.05,Yes,P. ponderosa,126,pine-Doug fir,NA,"blackjack, less than 100 years old"
+F12,p3,NA,burned,pinaleno,32.73569,-109.96309,2134,2,2,2,2,0.638888889,20,N,No,"Moist, rocky",0.85,142,4.34,Yes,P. ponderosa,142,pine-Doug fir,NA,
+F13,p3,NA,burned,pinaleno,32.73569,-109.96309,2134,2,2,1,1,0.555555556,19,N,No,"Moist, rocky",0.55,159,4.34,Yes,P. ponderosa,159,pine-Doug fir,NA,
+F14,p3,NA,burned,pinaleno,32.73569,-109.96309,2134,3,3,1,1,0.694444444,17,N,No,"Moist, rocky",0.66,186,3.47,Yes,P. ponderosa,186,pine-Doug fir,NA,
+F15,p3,NA,burned,pinaleno,32.73569,-109.96309,2134,1,1,1,1,0.576923077,13,N,No,"Moist, rocky",0.55,186,2.71,Yes,P. ponderosa,186,pine-Doug fir,NA,
+F16,p4,NA,burned,pinaleno,32.73434,-109.85724,2057,2,2,2,2,0.473684211,40,N,No,"Moist, rocky",0.3,179,6.03,Yes,P. ponderosa,179,pine-Doug fir,Quercus hypoleucoides,All trees sampled at this site > 10m from Douglas Fir
+F17,p4,NA,burned,pinaleno,32.73434,-109.85724,2057,1,1,1,1,0.290322581,193,S,No,"Moist, rocky",0.74,227,6.17,Yes,P. ponderosa,227,pine-Doug fir,Quercus hypoleucoides,All trees sampled at this site > 10m from Douglas Fir
+F18,p4,NA,burned,pinaleno,32.73434,-109.85724,2057,1,1,1,1,0.625,339,N,No,"Moist, rocky",0.6,167,3.71,Yes,P. ponderosa,167,pine-Doug fir,Quercus hypoleucoides,All trees sampled at this site > 10m from Douglas Fir
+F19,p4,NA,burned,pinaleno,32.73434,-109.85724,2057,1,1,1,1,0.75,39,N,No,"Moist, rocky",0.55,178.5,3.13,Yes,P. ponderosa,178.5,pine-Doug fir,Quercus hypoleucoides,All trees sampled at this site > 10m from Douglas Fir
+F20,p4,NA,burned,pinaleno,32.73434,-109.85724,2057,1,1,1,1,0.466666667,4,N,No,"Moist, rocky",0.4,180,5.43,Yes,P. ponderosa,180,pine-Doug fir,Quercus hypoleucoides,All trees sampled at this site > 10m from Douglas Fir
+NF11,p1,NA,unburned,pinaleno,32.64636,-109.82231,2085,3,2,3,2,0.033333333,40,N,No,"Dry, rocky, and sandy",0.65,150,0.88,No,P. ponderosa,150,pine,Quercus hypoleucoides,
+NF12,p1,NA,unburned,pinaleno,32.64636,-109.82231,2085,3,3,3,3,0.166666667,279,W,No,"Dry, rocky, and sandy",0.8,160,1.4,No,P. ponderosa,160,pine,Quercus hypoleucoides,
+NF13,p1,NA,unburned,pinaleno,32.64636,-109.82231,2085,2,2,2,2,0.6,271,W,No,"Dry, rocky, and sandy",0.8,168.5,5.48,No,P. ponderosa,168.5,pine,Quercus hypoleucoides,
+NF14,p1,NA,unburned,pinaleno,32.64636,-109.82231,2085,1,1,1,1,0.222222222,12,N,No,"Dry, rocky, and sandy",0.75,107,2.1,Yes,P. ponderosa,107,pine,Quercus hypoleucoides,minimal burn scar at base of tree
+NF15,p1,NA,unburned,pinaleno,32.64636,-109.82231,2085,3,2,3,2,0.545454545,25,N,No,"Dry, rocky, and sandy",0.75,164,4.01,No,P. ponderosa,164,pine,Quercus hypoleucoides,
+NF16,p2,NA,unburned,pinaleno,32.63644,-109.81993,2037,33,2,33,2,0.52,315,W,No,"Dry, rocky, and sandy",NA,155,8.73,Yes,P. ponderosa,155,pine-oak,Juniperus depeanna and Pseudotsuga menziesii present in low abundance,
+NF17,p2,NA,unburned,pinaleno,32.63644,-109.81993,2037,2,2,2,2,0.321428571,265,W,No,"Dry, rocky, and sandy",0.7,176,5.23,Yes,P. ponderosa,176,pine-oak,Juniperus depeanna and Pseudotsuga menziesii present in low abundance,minimal burn scar at base of tree
+NF18,p2,NA,unburned,pinaleno,32.63644,-109.81993,2037,1,1,1,1,0.692307692,285,W,No,"Dry, rocky, and sandy",0.4,187,4.82,No,P. ponderosa,187,pine-oak,Juniperus depeanna and Pseudotsuga menziesii present in low abundance,
+NF19,p2,NA,unburned,pinaleno,32.63644,-109.81993,2037,2,1,2,1,0.25,272,W,No,"Dry, rocky, and sandy",0.7,145,1.27,No,P. ponderosa,145,pine-oak,Juniperus depeanna and Pseudotsuga menziesii present in low abundance,
+NF20,p2,NA,unburned,pinaleno,32.63644,-109.81993,2037,1,1,1,1,0.535714286,286,W,No,"Dry, rocky, and sandy",0.3,141,3.3,Yes,P. ponderosa,141,pine-oak,Juniperus depeanna and Pseudotsuga menziesii present in low abundance,minimal burn scar at base of tree
