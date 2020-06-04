@@ -35,10 +35,6 @@ shannon.sr.by.tree <- sr.by.tree[!sr.by.tree$tree %in% c('LB021'),]
 shannon.model <- lm(shannon ~ fire.history * range, data = shannon.sr.by.tree)
 anova(shannon.model)
 
-#--T-test of overall
-t.test(shannon ~ fire.history, data = shannon.sr.by.tree,
-       alternative = 'greater')
-
 #--T-test of each range separately
 # Pinaleno Mts.
 pinaleno.shannon <- shannon.sr.by.tree[shannon.sr.by.tree$range == 'pinaleno',]
@@ -59,10 +55,6 @@ t.sc.shannon <- t.test(shannon ~ fire.history, data = santacat.shannon,
 # ANOVA analysing diversity as a function of fire history, range, and their interaction
 sr.model <- lm(spec.richness ~ fire.history * range, data = sr.by.tree)
 anova(sr.model)
-
-#--T-test of overall
-t.test(spec.richness ~ fire.history, data = sr.by.tree,
-       alternative = 'greater')
 
 #--T-test of each range separately
 # Pinaleno Mts.
@@ -100,7 +92,7 @@ sr.plot <- ggplot(sr.by.tree,
   theme(plot.margin=grid::unit(c(0,0,0,0), "mm"))
 
 sr.plot
-ggsave('Fig4A.jpeg', plot = sr.plot,
+ggsave('Fig3A.jpeg', plot = sr.plot,
        device = 'jpeg', path = fig.dir,
        width = 20, height = 15, units = 'cm')
 
@@ -130,6 +122,6 @@ shannon.plot <- ggplot(shannon.sr.by.tree,
 
 shannon.plot
 
-ggsave('Fig4B_Range.jpeg', plot = shannon.plot,
+ggsave('Fig3B_Range.jpeg', plot = shannon.plot,
        device = 'jpeg', path = fig.dir,
        width = 20, height = 15, units = 'cm')
