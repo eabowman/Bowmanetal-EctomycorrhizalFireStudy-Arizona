@@ -1,0 +1,52 @@
+---
+title: "Read_me_DataFolder"
+author: "Elizabeth Bowman"
+date: "6/2/2020"
+output: html_document
+---
+
+# Explanation of data files within data folder
+
+1. site_data.csv: site metadata for all sampled burned and unburned sites. Data collected within 3 x 3 m plot.
+"tree_number": assigned tree sample number
+"site": site designator
+"site_old": site designator for unburned sites in the Santa Catlina Mts. sampled in 2014 as part of Bowman & Arnold 2018 AJB manuscript.  
+"burn_status": burned or unburned
+"range": Santa Catalina Mts. or Pinaleño Mts.
+"lat": latitude (west)
+"long": longitude (north)
+"elevation": meters above sea level
+"stem.density": count of woody plants with stems > 1 cm in diameter
+"stem.richness": species richness of plants counted for stem density     
+"em.stem.density": count of woody plants with stems > 1 cm in diameter that have ectomycorrhizal fungi on roots. 
+"em.stem.richness": species richness of plants counted for em.stem.density
+"rise": slope rise (cm)
+"aspect.degrees": compass direction in degrees of slope
+"exposure": cardinal direction of slope
+"sign.forest.cut": are signs present the forest was logged?
+"soil.type.floor.condition": presence of litter layer, downed wood, rocky soil
+"forest.coverage..proportion.": proportion canopy cover
+"largest.dbh.cm": largest tree dbh within plot ()
+"conspecific.distance.m": closest Ponderosa pine tree to sampled tree
+"fire.scars": does sampled tree have fire scars?
+"tree.species": sampled tree species
+"dbh.cm": sampled tree dbh
+"forest.status": forest type
+"understory.plants": understory plant species present
+"Notes": site notes
+
+2. 97%_SitexSpecies_TipAb.csv: tree x species matrix
+"Tree": assigned tree sample number
+"Site": site designator
+"Range": Santa Catalina Mts. or Pinaleño Mts.
+"Burn_status": burned or unburned
+"forest": forest type
+"prec": mean annual precipitation (cm)
+"Temp.avg": mean annual temperature (°C)
+"pH.su"
+"no3.n.ppm": nitrate
+"po4.p.ppm": phosphate
+"so4.s.ppm": sulfate
+"otu1"..."otu99": em root tip count per otu
+
+
