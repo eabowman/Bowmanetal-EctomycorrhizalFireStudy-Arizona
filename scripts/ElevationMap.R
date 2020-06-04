@@ -26,8 +26,8 @@ US_1<-getData('GADM', country="USA", level=1)
 #US_4<-getData('GADM', country="USA", level=4)
 
 # get the Arizona state border map from the whole USA map
-#Arizona<-subset(US_1, NAME_1=="Arizona")
-#plot(Arizona)
+Arizona<-subset(US_1, NAME_1=="Arizona")
+plot(Arizona)
 
 # << make elevation map with sample site points >> ------------
 pdf(paste0(fig.dir,'Fig1.pdf'), height = 8, width = 10)
