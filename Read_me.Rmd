@@ -23,10 +23,10 @@ Email: eabowman@email.arizona.edu
 Explanation of folders:
 1. The data folder contains all data files used in the R script for analyses with
 explanations of columns.
-2. The figure folder is an output folder where figures generated in the R script will be
-output.
-3. The results folder is an output folder for results tables generated in the R script.
-4. The script folder contains all scripts organized by type of analysis.
+2. The script folder contains all scripts organized by type of analysis.
+3. Create a folder titled 'figures'. The figures folder is an output folder where figures
+generated in the R script will be output.
+4. Create a folder title 'results'. The results folder is an output folder for results tables generated in the R script.
 
 Each of these folders contains a 'Read me' file with further explanations.
 
@@ -42,7 +42,7 @@ appropriate folders. All analyses below—with the exception of the analyses lis
 dat.dir <- 'data/'
 fig.dir <- 'figures/'
 res.dir <- 'results/'
-script.dir <- 'script/'
+script.dir <- 'scripts/'
 ```
 
 # Load packages  
@@ -51,21 +51,13 @@ If you need to install packages, open 'Load_packages.R' and uncomment 'install.p
 before running. 
 
 ```{r libraries}
-source(paste0(script.dir, "Load_packages.R"))
+source(paste0(script.dir, "LoadLibraries.R"))
 ```
 
 # Elevation map (Figure 1)
 
 ```{r map}
 source(paste0(script.dir, "ElevationMap.R"))
-```
-
-# Species accumulation curves
-
-While this script was not used to create the graphs used in the manuscript, they are included here for transparency. The graphs of species accumulation curves used in the manuscript were created by AEA in EstimateS 9.1.0.
-
-```{r species accumulation curves}
-source(paste0(script.dir, "SpeciesAccumulationCurves.R"))
 ```
 
 # Diversity analyses (Figure 3)
@@ -98,4 +90,12 @@ source(paste0(script.dir, "Indicator_species_analyses.R"))
 
 ```{r indicator}
 source(paste0(script.dir, "EnvironmentalAnalyses.R"))
+```
+
+# Species accumulation curves
+
+While this script was not used to create the graphs used in the manuscript, they are included here for transparency. The graphs of species accumulation curves used in the manuscript were created by AEA in EstimateS 9.1.0.
+
+```{r species accumulation curves}
+source(paste0(script.dir, "SpeciesAccumulationCurves.R"))
 ```
