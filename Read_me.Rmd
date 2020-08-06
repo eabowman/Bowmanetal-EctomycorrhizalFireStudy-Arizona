@@ -68,7 +68,7 @@ source(paste0(script.dir, "Diversity.R"))
 
 # Community composition analyses 
 
-Within the 'Bowman and Arnold - American Journal of Botany 2016 - Ordination analyses.R' script there is code to remove singletons, just uncomment them (remove # sign). The code as it is run has outliers removed, but you can include them by commenting out those lines (add # sign before code). All code is commented with explanations of what their function is.
+Within the script there is code to remove singletons, just uncomment them (remove # sign). The code as it is run has outliers removed, but you can include them by commenting out those lines (add # sign before code). All code is commented with explanations of what their function is.
 
 ```{r community}
 source(paste0(script.dir, "Ordination.R"))

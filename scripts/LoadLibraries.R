@@ -7,14 +7,14 @@
 #========================================================================================#
 
 #--uncomment to install packages
-# Tidyverse
-#install.packages(c('ggplot2','tidyr','dplyr'))
-# Stats
-#install.packages(c(vegan','boot','nlme'))
-# Map
-#install.packages(c('raster','rgdal','scales','maptools'))
-# Indicator species analysis
-#install.packages(c('indicspecies'))
+# # Tidyverse
+# install.packages(c('ggplot2','tidyr','dplyr'))
+# # Stats
+# install.packages(c('vegan','boot','nlme'))
+# # Map
+# install.packages(c('raster','rgdal','scales','maptools'))
+# # Indicator species analysis
+# install.packages(c('indicspecies'))
 
 #--load packages
 # Tidyverse

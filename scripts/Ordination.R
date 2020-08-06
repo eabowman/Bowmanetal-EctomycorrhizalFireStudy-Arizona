@@ -197,9 +197,9 @@ jac.overall <- jac.overall[jac.overall$dissimilarity > 0, ]
 jac.overall$logit.dis <- logit(jac.overall$dissimilarity)
 
 #--wilcox test
-wilcox.test(dissimilarity ~ comp, data = jac.overall)
+wilcox.test(dissimilarity ~ comp.fire, data = jac.overall)
 
-ggplot(jac.overall, mapping = aes(x = comp,
+ggplot(jac.overall, mapping = aes(x = comp.fire,
                                   y = logit.dis)) +
   geom_boxplot() +
   xlab('Fire history') +
@@ -246,16 +246,16 @@ anosim.res[which(anosim.res$anosim.res =="jaccard.overall"), "df.betadisper.2"] 
 anosim.res[which(anosim.res$anosim.res =="jaccard.overall"), "p.betadisper"] <-
   jaccard.betadisper$`Pr(>F)`[1]
 
-#<< ANOSIM >>-----------------------------------------------------------------------------
-jaccard.adonis <- adonis(comm.dist.morisita ~ Burn_status * Range, data = morisita.matrix)
-jaccard.adonis
+#<< PERMANOVA >>-----------------------------------------------------------------------------
+morisita.adonis <- adonis(comm.dist.morisita ~ Burn_status * Range, data = morisita.matrix)
+morisita.adonis
 
 #--Burn f.model, r2, p-value
-anosim.res[which(anosim.res$anosim.res == "jaccard.overall"), "F.model.burn"] <-
+anosim.res[which(anosim.res$anosim.res == "morisita.overall"), "F.model.burn"] <-
   morisita.adonis.anosim$aov.tab$F.Model[1]
-anosim.res[which(anosim.res$anosim.res == "jaccard.overall"), "r2.burn"] <-
+anosim.res[which(anosim.res$anosim.res == "morisita.overall"), "r2.burn"] <-
   morisita.adonis.anosim$aov.tab$R2[1]
-anosim.res[which(anosim.res$anosim.res == "jaccard.overall"), "p.burn"] <-
+anosim.res[which(anosim.res$anosim.res == "morisita.overall"), "p.burn"] <-
   morisita.adonis.anosim$aov.tab$`Pr(>F)`[1]
 
 
