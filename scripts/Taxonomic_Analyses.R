@@ -24,6 +24,8 @@ tax.data %>%
   summarize(total_tip = sum(Tip_count)) %>%
   spread(key = Taxonomy_genus, value = total_tip, fill = 0) -> genus.tax
 
+tax.data['count'] <- 1
+
 #========================================================================================#
 # Chi-square: class level
 #========================================================================================#
@@ -32,11 +34,11 @@ tax.data %>%
 #----------------------------------------------------------------------------------------#
 #<< Make data frame with root tip data: class level >> ------------------------
 tax.data %>%
-  dplyr::select(Sample_name, Range, Burn_status, Taxonomy_class, Tip_count) %>%
+  dplyr::select(Sample_name, Range, Burn_status, Taxonomy_class, count) %>%
   filter(!is.na(Taxonomy_class),
          !Taxonomy_class %in% c('Saccharomycetes','Archaeorhizomycetes','Eurotiomycetes')) %>%
   group_by(Range, Burn_status, Taxonomy_class) %>%
-  summarize(total_tip = sum(Tip_count)) %>%
+  summarize(total_tip = sum(count)) %>%
   spread(key = Taxonomy_class, value = total_tip, fill = 0) %>%
   data.frame() -> class.tax.br
 
@@ -54,11 +56,11 @@ tax.results[tax.results$tests == 'burn.range.class', 'p.value'] <- tip.class$p.v
 #----------------------------------------------------------------------------------------#
 #<< Make data frame with root tip data: class level >> ------------------------
 tax.data %>%
-  dplyr::select(Sample_name, Range, Taxonomy_class, Tip_count) %>%
+  dplyr::select(Sample_name, Range, Taxonomy_class, count) %>%
   filter(!is.na(Taxonomy_class),
          !Taxonomy_class %in% c('Saccharomycetes','Archaeorhizomycetes','Eurotiomycetes')) %>%
   group_by(Range, Taxonomy_class) %>%
-  summarize(total_tip = sum(Tip_count)) %>%
+  summarize(total_tip = sum(count)) %>%
   spread(key = Taxonomy_class, value = total_tip, fill = 0) %>%
   data.frame() -> class.tax.r
 
@@ -75,11 +77,11 @@ tax.results[tax.results$tests == 'range.class', 'p.value'] <- tip.class$p.value[
 #----------------------------------------------------------------------------------------#
 #<< Make data frame with root tip data: class level >> ------------------------
 tax.data %>%
-  dplyr::select(Sample_name, Burn_status, Taxonomy_class, Tip_count) %>%
+  dplyr::select(Sample_name, Burn_status, Taxonomy_class, count) %>%
   filter(!is.na(Taxonomy_class),
          !Taxonomy_class %in% c('Saccharomycetes','Archaeorhizomycetes','Eurotiomycetes')) %>%
   group_by(Burn_status, Taxonomy_class) %>%
-  summarize(total_tip = sum(Tip_count)) %>%
+  summarize(total_tip = sum(count)) %>%
   spread(key = Taxonomy_class, value = total_tip, fill = 0) %>%
   data.frame() -> class.tax.b
 
@@ -96,12 +98,12 @@ tax.results[tax.results$tests == 'burn.class', 'p.value'] <- tip.class$p.value[[
 #----------------------------------------------------------------------------------------#
 #<< Make data frame with root tip data: class level >> ------------------------
 tax.data %>%
-  dplyr::select(Sample_name, Range, Burn_status, Taxonomy_class, Tip_count) %>%
+  dplyr::select(Sample_name, Range, Burn_status, Taxonomy_class, count) %>%
   filter(!is.na(Taxonomy_class),
          !Taxonomy_class %in% c('Saccharomycetes','Archaeorhizomycetes','Eurotiomycetes'),
          Burn_status == 'unburned') %>%
   group_by(Range, Burn_status, Taxonomy_class) %>%
-  summarize(total_tip = sum(Tip_count)) %>%
+  summarize(total_tip = sum(count)) %>%
   spread(key = Taxonomy_class, value = total_tip, fill = 0) %>%
   data.frame() -> class.tax.unburned
 
@@ -121,10 +123,10 @@ write.csv(tax.results, paste0(res.dir, 'TaxonomicAnalysisResults_ChiSquare.csv')
 #========================================================================================#
 #<< Make data frame with root tip data: class level >> ------------------------
 tax.data %>%
-  dplyr::select(Sample_name, Range, Burn_status, Taxonomy_class, Tip_count) %>%
+  dplyr::select(Sample_name, Range, Burn_status, Taxonomy_class, count) %>%
   filter(!is.na(Taxonomy_class),!Taxonomy_class %in% c('Saccharomycetes','Archaeorhizomycetes')) %>%
   group_by(Range, Burn_status, Taxonomy_class) %>%
-  summarize(total_tip = sum(Tip_count)) -> class.tax.plot
+  summarize(total_tip = sum(count)) -> class.tax.plot
 
 #Change levels of Burn_status and Range columns
 class.tax.plot$Burn_status <- factor(class.tax.plot$Burn_status,

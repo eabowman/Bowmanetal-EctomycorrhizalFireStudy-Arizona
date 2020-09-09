@@ -23,5 +23,5 @@ library(ggplot2); library(tidyr); library(dplyr)
 library(vegan); library(boot); library(nlme)
 # Map
 library(raster); library(rgdal); library(scales); library(maptools)
-# Indicator species analsis
+# Indicator species analysis
 library(indicspecies)
