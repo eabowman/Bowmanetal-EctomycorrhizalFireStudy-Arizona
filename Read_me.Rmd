@@ -5,7 +5,7 @@ date: "2/24/2020"
 output: html_document
 ---
 
-The folders here contain R scripts and data files for the article "**" written by Elizabeth A. Bowman, Daniel R. Hayden, and A.Elizabeth Arnold.
+The folders here contain R scripts and data files for the article "Fire history and local factors shape ectomycorrhizal fungal communities associated with Pinus ponderosa in mountains of the Madrean Sky Island Archipelago" written by Elizabeth A. Bowman, Daniel R. Hayden, and A.Elizabeth Arnold.
 
 A. Elizabeth Arnold is the author for correspondence on this article. 
 Address: 1140 E. South Campus Drive
@@ -15,8 +15,9 @@ The University of Arizona
 Tucson, AZ 85721 USA. 
 Email: arnold@ag.arizona.edu
 
-Elizabeth A. Bowman wrote all scripts for data analysis.
+Elizabeth A. Bowman wrote all R scripts for data analysis.
 Email: eabowman@email.arizona.edu
+A portion of the analyses were conducted in JMP. See manuscript for more information.
 
 ------------------------------------------------------------------------------------------
 
@@ -32,8 +33,9 @@ Each of these folders contains a 'Read me' file with further explanations.
 
 ------------------------------------------------------------------------------------------
 
-The following code will run each analysis and output figures and result tables to their
-appropriate folders. All analyses below—with the exception of the analyses listed under 'Analyses using OTU-informed morphotypes' are run using sequenced root tip data (see manuscript for explanation of sequenced root tips versus OTU-informed morphotypes)
+The following code will run each analysis and output figures and result tables to their appropriate folders. All analyses below are run using sequenced root tip data (see manuscript for explanation of sequenced root tips). 
+
+You will need to create a figures and results folder before proceeding.
 
 # Load file paths
 
