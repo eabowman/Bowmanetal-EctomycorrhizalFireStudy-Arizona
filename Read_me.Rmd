@@ -5,7 +5,7 @@ date: "2/24/2020"
 output: html_document
 ---
 
-The folders here contain R scripts and data files for the article "Fire history and local factors shape ectomycorrhizal fungal communities associated with Pinus ponderosa in mountains of the Madrean Sky Island Archipelago" written by Elizabeth A. Bowman, Daniel R. Hayden, and A.Elizabeth Arnold.
+The folders here contain R scripts and data files for the article "Fire and local factors shape ectomycorrhizal fungal communities associated with Pinus ponderosa in mountains of the Madrean Sky Island Archipelago" written by Elizabeth A. Bowman, Daniel R. Hayden, and A.Elizabeth Arnold. The manuscript has been published in the Fungal Ecology journal
 
 A. Elizabeth Arnold is the author for correspondence on this article. 
 Address: 1140 E. South Campus Drive
@@ -35,7 +35,7 @@ Each of these folders contains a 'Read me' file with further explanations.
 
 The following code will run each analysis and output figures and result tables to their appropriate folders. All analyses below are run using sequenced root tip data (see manuscript for explanation of sequenced root tips). 
 
-You will need to create a figures and results folder before proceeding.
+You will need to create a figures and results folder before proceeding (see above).
 
 # Load file paths
 
@@ -70,7 +70,9 @@ source(paste0(script.dir, "Diversity.R"))
 
 # Community composition analyses 
 
-Within the script there is code to remove singletons, just uncomment them (remove # sign). The code as it is run has outliers removed, but you can include them by commenting out those lines (add # sign before code). All code is commented with explanations of what their function is.
+Within the script there is code to remove singletons, just uncomment them (remove # sign). The code as it is run has outliers removed, but you can include them by commenting out those lines (add # sign before code). All code is commented with explanations of what their function is. Figure 4 was created in past 3.24, but the code to create the figures in R is included here for transparency.
+
+The script contains code for NMDS ordinations, PERMANOVA or ANOSIM depending on the data, and comparisons of community similarity.
 
 ```{r community}
 source(paste0(script.dir, "Ordination.R"))
