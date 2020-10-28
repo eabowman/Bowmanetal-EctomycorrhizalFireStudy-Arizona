@@ -83,7 +83,7 @@ anosim.res[which(anosim.res$anosim.res == "jaccard.overall"), "p.burn"] <-
 
 #--Base R plot
 #--format and output NMDS plots to figure folder
-jpeg(filename = 'figures_output/NMDS_overall_Jaccard.jpeg',
+jpeg(filename = 'figures/NMDS_overall_Jaccard.jpeg',
      width = 700, height = 600,
      quality = 100)
 par(mfrow = c(1,1), "mar"=c(6, 5, 5, 3))
@@ -124,7 +124,7 @@ ordihull(jaccard.otu, groups = paste0(color.vec$fire.group, color.vec$range.grou
 dev.off()
 
 #--Legend
-jpeg(filename = 'figures_output/Legend.jpeg',
+jpeg(filename = 'figures/Legend.jpeg',
      width = 700, height = 600,
      quality = 100)
 plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
@@ -139,7 +139,7 @@ legend('topleft',
 dev.off()
 
 #<< Pairwise >>-----------------------------------------------------------------------------
-jac.overall <- read.csv('data_output/JaccardOverall_firehistory.csv', as.is = T)
+jac.overall <- read.csv('data/JaccardOverall_firehistory.csv', as.is = T)
 
 # rownames(stsp.matrix) <- stsp.matrix$Tree
 # #--remove outliers
@@ -261,7 +261,7 @@ anosim.res[which(anosim.res$anosim.res == "morisita.overall"), "p.burn"] <-
 
 #--Base R plot
 #--format and output NMDS plots to figure folder
-jpeg(filename = 'figures_output/NMDS_overall_MorisitaHorn.jpeg',
+jpeg(filename = 'figures/NMDS_overall_MorisitaHorn.jpeg',
      width = 700, height = 600,
      quality = 100)
 par(mfrow = c(1,1), "mar"=c(6, 5, 5, 3))
@@ -312,7 +312,7 @@ ordihull(morisita.otu, groups = paste0(color.vec$fire.group, color.vec$range.gro
 dev.off()
 
 #<< Pairwise >>-----------------------------------------------------------------------------
-horn.overall <- read.csv('data_output/MorisitaHornOverall_firehistory.csv', as.is = T)
+horn.overall <- read.csv('data/MorisitaHornOverall_firehistory.csv', as.is = T)
 # rownames(stsp.matrix) <- stsp.matrix$Tree
 # #--remove outliers
 # morisita.matrix <- stsp.matrix[!stsp.matrix$Tree %in% c('NF19','NF16'),]
@@ -364,9 +364,9 @@ horn.overall <- horn.overall[horn.overall$dissimilarity > 0, ]
 horn.overall <- horn.overall[horn.overall$dissimilarity < 0.9997,]
 
 #--wilcox test
-t.test(logit.dis ~ comp, data = horn.overall)
+t.test(logit.dis ~ comp.fire, data = horn.overall)
 
-ggplot(horn.overall, mapping = aes(x = comp,
+ggplot(horn.overall, mapping = aes(x = comp.fire,
                                   y = logit.dis)) +
   geom_boxplot() +
   xlab('Fire history') +
@@ -405,7 +405,7 @@ anosim.res[which(anosim.res$anosim.res =="jaccard.p"), "stress.nmds"] <-
 
 #--Base R plot
 #--format and output NMDS plots to figure folder
-jpeg(filename = 'figures_output/NMDS_pinaleno_Jaccard.jpeg',
+jpeg(filename = 'figures/NMDS_pinaleno_Jaccard.jpeg',
      width = 700, height = 600,
      quality = 100)
 par(mfrow = c(1,1), "mar"=c(6, 5, 5, 3))
@@ -561,7 +561,7 @@ anosim.res[which(anosim.res$anosim.res =="morisita.p"), "stress.nmds"] <-
   morisita.otu$stress
 
 #--format and output NMDS plots to figure folder
-jpeg(filename = 'figures_output/NMDS_pinaleno_MorisitaHorn.jpeg',
+jpeg(filename = 'figures/NMDS_pinaleno_MorisitaHorn.jpeg',
      width = 700, height = 600,
      quality = 100)
 par(mfrow = c(1,1), "mar"=c(6, 5, 5, 3))
@@ -714,7 +714,7 @@ anosim.res[which(anosim.res$anosim.res =="jaccard.scm"), "stress.nmds"] <-
   jaccard.otu$stress
 
 #--format and output NMDS plots to figure folder
-jpeg(filename = 'figures_output/NMDS_SC_Jaccard.jpeg',
+jpeg(filename = 'figures/NMDS_SC_Jaccard.jpeg',
      width = 700, height = 600,
      quality = 100)
 par(mfrow = c(1,1), "mar"=c(6, 5, 5, 3))
@@ -867,7 +867,7 @@ anosim.res[which(anosim.res$anosim.res =="morisita.scm"), "stress.nmds"] <-
   morisita.otu$stress
 
 #--format and output NMDS plots to figure folder
-jpeg(filename = 'figures_output/NMDS_SC_MorisitaHorn.jpeg',
+jpeg(filename = 'figures/NMDS_SC_MorisitaHorn.jpeg',
      width = 700, height = 600,
      quality = 100)
 par(mfrow = c(1,1), "mar"=c(6, 5, 5, 3))
