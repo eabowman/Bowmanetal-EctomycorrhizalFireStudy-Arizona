@@ -109,3 +109,4 @@ summary(indsp.range.em, indvalcomp = TRUE)
 summary(indsp.range.em, alpha = 1)
 #--shows all spp. even those with highest indval that do not show up in other summaries
 indsp.range.em$sign 
+
